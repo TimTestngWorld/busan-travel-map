@@ -1,71 +1,36 @@
 {
-  "version": "Beta 2.5",
+  "version": "Beta 2.7",
+  "photo_strategy": "Google Places REST via Supabase Edge Function; Google API key is server-side only",
   "points": 81,
   "features": [
-    "Simplified first screen with desktop side panel collapsed by default",
-    "Secondary tools moved into More menu",
-    "First-run tutorial + reusable help button",
-    "Map blank-click closes POI detail card",
-    "HOT layer label replaces Chinese Humanitarian wording",
-    "Currency exchange tool with live OSM bureau_de_change overlay",
-    "Curated 2026 exchange-office list with Naver lookup",
-    "GitHub photo folder paths for all POIs including custom G14"
+    "Two live Google Places photos per POI when available",
+    "Supabase Edge Function proxy",
+    "Google API key read only from Supabase Secret",
+    "Frontend stores only Supabase public config",
+    "Google Place ID local cache to reduce repeat Text Search",
+    "No photo name / photo URI persistence",
+    "Photo author attribution and Google Maps source link",
+    "Fullscreen photo viewer with author attribution",
+    "G07 backend test"
   ],
   "checks": {
     "81_points": true,
-    "view_visible_81": true,
-    "view5_visible_14": true,
-    "dev_joke_removed": true,
-    "hot_label_no_humanitarian": true,
-    "hot_label": true,
-    "map_click_closes_info": true,
-    "onboarding": true,
-    "tutorial_first_open": true,
-    "simple_side": true,
-    "more_menu": true,
-    "exchange_button": true,
-    "exchange_osm_overpass": true,
-    "verified_exchange_count": true,
-    "naver_exchange_search": true,
-    "g14_photo_paths": true,
-    "existing_photo_paths": true,
-    "itinerary_sync": true,
-    "legacy_store_key": true,
-    "humanitarian_tile_preserved": true,
-    "no_bat": true
-  },
-  "html_balance": {
-    "div": {
-      "open": 269,
-      "close": 269,
-      "ok": true
-    },
-    "section": {
-      "open": 11,
-      "close": 11,
-      "ok": true
-    },
-    "button": {
-      "open": 85,
-      "close": 85,
-      "ok": true
-    },
-    "script": {
-      "open": 3,
-      "close": 3,
-      "ok": true
-    },
-    "style": {
-      "open": 1,
-      "close": 1,
-      "ok": true
-    },
-    "svg": {
-      "open": 5,
-      "close": 5,
-      "ok": true
-    }
+    "old_google_key_input_removed": true,
+    "old_maps_javascript_loader_removed": true,
+    "supabase_config_file": true,
+    "edge_function_file": true,
+    "google_text_search_new": true,
+    "google_place_details_new": true,
+    "google_place_photos_new": true,
+    "google_place_id_cache": true,
+    "no_photo_uri_cache": true,
+    "author_attribution": true,
+    "google_maps_source": true,
+    "g07_backend_test": true,
+    "legacy_trip_store_preserved": true,
+    "supabase_auth": false,
+    "pwa": false
   },
   "javascript_syntax": "PASS",
-  "javascript_error": ""
+  "typescript_note": "Static tsc only reports missing Deno global outside the Supabase runtime; no additional TypeScript syntax errors detected."
 }
