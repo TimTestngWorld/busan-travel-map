@@ -1,0 +1,71 @@
+{
+  "version": "Beta 2.5",
+  "points": 81,
+  "features": [
+    "Simplified first screen with desktop side panel collapsed by default",
+    "Secondary tools moved into More menu",
+    "First-run tutorial + reusable help button",
+    "Map blank-click closes POI detail card",
+    "HOT layer label replaces Chinese Humanitarian wording",
+    "Currency exchange tool with live OSM bureau_de_change overlay",
+    "Curated 2026 exchange-office list with Naver lookup",
+    "GitHub photo folder paths for all POIs including custom G14"
+  ],
+  "checks": {
+    "81_points": true,
+    "view_visible_81": true,
+    "view5_visible_14": true,
+    "dev_joke_removed": true,
+    "hot_label_no_humanitarian": true,
+    "hot_label": true,
+    "map_click_closes_info": true,
+    "onboarding": true,
+    "tutorial_first_open": true,
+    "simple_side": true,
+    "more_menu": true,
+    "exchange_button": true,
+    "exchange_osm_overpass": true,
+    "verified_exchange_count": true,
+    "naver_exchange_search": true,
+    "g14_photo_paths": true,
+    "existing_photo_paths": true,
+    "itinerary_sync": true,
+    "legacy_store_key": true,
+    "humanitarian_tile_preserved": true,
+    "no_bat": true
+  },
+  "html_balance": {
+    "div": {
+      "open": 269,
+      "close": 269,
+      "ok": true
+    },
+    "section": {
+      "open": 11,
+      "close": 11,
+      "ok": true
+    },
+    "button": {
+      "open": 85,
+      "close": 85,
+      "ok": true
+    },
+    "script": {
+      "open": 3,
+      "close": 3,
+      "ok": true
+    },
+    "style": {
+      "open": 1,
+      "close": 1,
+      "ok": true
+    },
+    "svg": {
+      "open": 5,
+      "close": 5,
+      "ok": true
+    }
+  },
+  "javascript_syntax": "PASS",
+  "javascript_error": ""
+}
