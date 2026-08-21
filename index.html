@@ -1,0 +1,2311 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=8,user-scalable=yes">
+<title>旅遊地圖 Beta 2.8｜公版核心・Local First</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#eee9df;--panel:#fffdf9;--ink:#293137;--dark:#263238;--accent:#f2b34a;--naver:#03c75a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",Arial,sans-serif;color:var(--ink)}
+body{overflow:hidden}
+button,input,select{font-family:inherit}
+#app{height:100%;display:grid;grid-template-rows:auto 1fr}
+
+.toolbar{min-height:60px;background:var(--dark);color:white;display:flex;align-items:center;gap:7px;padding:8px 10px;z-index:1000;box-shadow:0 2px 8px #0003;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:900}
+.toolbar select,.toolbar button{border:0;border-radius:9px;padding:9px 10px;background:white;color:#263238;font-weight:800;cursor:pointer}
+.toolbar select{max-width:310px}
+.toolbar .primary{background:var(--accent);color:#222}
+.toolbar .airport{background:#dcedf8;color:#214c65}
+.toolbar .locate{background:#dceee3;color:#245b3a}
+.toolbar .travel{background:#f7dfec;color:#713b59}
+#status{margin-left:auto;color:#cae6d1;font-size:11px;font-weight:900}
+
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 365px;gap:7px;padding:7px}
+.viewer{position:relative;min-width:0;min-height:0;overflow:hidden;background:#dce3e5;border:1px solid #bbb3a8;border-radius:11px}
+#map{position:absolute;inset:0;z-index:1}
+#overlay{position:absolute;inset:0;width:100%;height:100%;z-index:500;pointer-events:none;overflow:visible}
+#overlay .badge,#overlay .dot{pointer-events:auto;cursor:pointer}
+.map-title{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:600;background:#fffffff2;border:1px solid #aaa;border-radius:10px;padding:7px 12px;font-size:14px;font-weight:900;pointer-events:none;text-align:center;max-width:76%}
+.map-title small{display:block;font-size:10px;font-weight:600;color:#666;margin-top:2px}
+.hint{position:absolute;left:9px;bottom:9px;z-index:600;background:#fffffff2;border:1px solid #aaa;border-radius:7px;padding:5px 7px;font-size:9px;pointer-events:none;max-width:73%}
+
+.side{min-height:0;display:grid;grid-template-rows:auto 1fr;background:var(--panel);border:1px solid #d2ccc1;border-radius:11px;overflow:hidden}
+.filters{padding:9px;border-bottom:1px solid #ddd;background:#fff}
+.filters h3{font-size:13px;margin:0 0 7px}
+.search{width:100%;border:1px solid #bbb;border-radius:8px;padding:9px 10px;font-size:12px;margin-bottom:7px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.check-chip input{display:none}
+.check-chip span{display:inline-flex;align-items:center;gap:3px;border:1px solid #c8c4bb;border-radius:999px;padding:6px 8px;font-size:10px;font-weight:800;background:#fff;cursor:pointer}
+.check-chip input:checked+span{background:#263238;color:white;border-color:#263238}
+.check-chip small{font-size:9px;opacity:.75}
+.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.filter-grid select{width:100%;border:1px solid #bbb;border-radius:7px;padding:7px 6px;font-size:10px;background:white}
+.filter-row{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.toggle-label{font-size:10px;font-weight:800;display:flex;gap:5px;align-items:center}
+.small-btn{border:1px solid #bbb;background:white;border-radius:7px;padding:6px 8px;font-size:10px;font-weight:800;cursor:pointer}
+
+.result-head{display:flex;justify-content:space-between;align-items:center;padding:8px 9px;border-bottom:1px solid #ddd;background:#faf8f2;font-size:11px;font-weight:900}
+#results{min-height:0;overflow:auto;padding:5px}
+.result-item{width:100%;border:1px solid #e0ddd6;background:#fff;border-radius:8px;padding:7px;margin-bottom:5px;text-align:left;cursor:pointer;display:grid;grid-template-columns:46px 1fr auto;gap:5px;align-items:start}
+.result-item:hover{background:#f3f6f4}
+.result-id{font-size:11px;font-weight:900}
+.result-name{font-size:11px;font-weight:800;line-height:1.3}
+.result-meta{font-size:9px;color:#777;margin-top:3px;line-height:1.4}
+.result-tags{font-size:10px;text-align:right;white-space:nowrap}
+.dist{color:#2d7a55;font-weight:900}
+
+#info{position:absolute;right:9px;bottom:9px;z-index:720;width:min(430px,calc(100% - 18px));max-height:72%;overflow:auto;background:#fffffff9;border:1px solid #999;border-radius:11px;padding:10px;box-shadow:0 4px 18px #0004;display:none}
+#info .close{float:right;border:0;background:#eee;border-radius:50%;width:26px;height:26px;cursor:pointer}
+#info h3{margin:0 32px 7px 0;font-size:16px}
+#info p{margin:4px 0;font-size:11px;line-height:1.55}
+.info-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.link-btn{display:inline-block;text-decoration:none;border:0;border-radius:8px;padding:8px 9px;background:#2f6f9c;color:white;font-size:11px;font-weight:900;cursor:pointer}
+.link-btn.secondary{background:#54646f}
+.link-btn.naver{background:var(--naver)}
+.link-btn.copy{background:#866b42}
+.state-panel{border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:8px 0;margin:8px 0}
+.state-buttons{display:flex;gap:5px;flex-wrap:wrap}
+.state-btn{border:1px solid #bbb;border-radius:999px;background:white;padding:6px 8px;font-size:10px;font-weight:900;cursor:pointer}
+.state-btn.active{background:#263238;color:#fff;border-color:#263238}
+.day-line{display:flex;gap:6px;align-items:center;margin-top:7px}
+.day-line select{border:1px solid #bbb;border-radius:7px;padding:6px;font-size:10px}
+.nearby-box{margin-top:10px;border-top:1px solid #ddd;padding-top:8px}
+.nearby-box h4{margin:0 0 5px;font-size:11px}
+.nearby-item{width:100%;border:0;border-radius:7px;background:#f2f4f2;padding:6px;margin:3px 0;text-align:left;font-size:10px;cursor:pointer}
+.url-note{word-break:break-all;color:#58697a;font-size:9px!important}
+
+#filterBtn,#resultsBtn{display:none}
+#sheetBackdrop{display:none}
+.mobile-sheet{display:none}
+#travelBar{display:none}
+
+body.travel-mode .side{display:none}
+body.travel-mode .main{grid-template-columns:1fr}
+body.travel-mode .toolbar .hide-travel{display:none}
+body.travel-mode .map-title{top:7px}
+body.travel-mode .hint{display:none}
+
+
+
+
+
+
+
+/* ===== Beta 2.8 Google Places real photos via Supabase ===== */
+.gphoto-shell{margin:0 0 9px}
+.gphoto-loading{min-height:86px;border:1px dashed #c5c0b7;border-radius:10px;background:#f7f5f0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:10px;color:#666}
+.gphoto-loading button{border:0;border-radius:8px;background:#263238;color:#fff;padding:8px 10px;font-size:9px;font-weight:900;cursor:pointer;margin-top:6px}
+.gphoto-grid{display:grid;grid-template-columns:1.45fr 1fr;gap:5px;height:205px}
+.gphoto-grid.one{grid-template-columns:1fr}
+.gphoto-item{position:relative;border-radius:11px;overflow:hidden;background:#ece9e2;border:1px solid #d9d4ca;cursor:zoom-in}
+.gphoto-item img{width:100%;height:100%;object-fit:cover;display:block}
+.gphoto-credit{position:absolute;left:5px;right:5px;bottom:5px;background:#0009;color:#fff;border-radius:6px;padding:3px 5px;font-size:7.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gphoto-credit a{color:#fff;text-decoration:underline}
+.gphoto-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:8px;color:#777}
+.gphoto-footer .gmaps{font-weight:900;color:#4285f4}
+.gphoto-footer a{color:#456b80;font-weight:800}
+.gphoto-error{font-size:9px;line-height:1.5;color:#777;border-left:3px solid #d7a552;background:#fff7e7;padding:7px;border-radius:7px}
+.gphoto-full{display:none;position:fixed;inset:0;z-index:5000;background:#000e;align-items:center;justify-content:center;padding:8px}
+.gphoto-full.show{display:flex}
+.gphoto-full img{max-width:96vw;max-height:92vh;object-fit:contain;border-radius:8px}
+.gphoto-full button{position:absolute;right:14px;top:14px;width:38px;height:38px;border:0;border-radius:50%;background:#fff;color:#222;font-size:20px;cursor:pointer}
+.gphoto-full-credit{position:absolute;left:16px;right:16px;bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;color:#fff;font-size:9px;pointer-events:auto}
+.gphoto-full-credit a{color:#fff;text-decoration:underline;display:inline-flex;align-items:center;gap:4px;background:#0009;padding:4px 6px;border-radius:999px}
+.gphoto-full-credit img{width:20px;height:20px;max-width:none;max-height:none;border-radius:50%;object-fit:cover}
+.photo-settings{display:none;position:fixed;inset:0;z-index:4800;background:#0008;padding:8px;align-items:center;justify-content:center}
+.photo-settings.show{display:flex}
+.photo-settings-card{width:min(650px,96vw);max-height:92vh;overflow:auto;background:#fffdf9;border-radius:15px;box-shadow:0 10px 35px #0007;padding:14px}
+.photo-settings-card h2{margin:0 0 5px;font-size:17px}
+.photo-settings-card p,.photo-settings-card li{font-size:9.5px;line-height:1.6}
+.photo-settings-card input{width:100%;box-sizing:border-box;border:1px solid #aaa;border-radius:8px;padding:9px;font-size:10px}
+.photo-settings-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.photo-settings-actions button{border:0;border-radius:8px;padding:8px 9px;font-size:9px;font-weight:900;cursor:pointer}
+.photo-save{background:#263238;color:#fff}
+.photo-test{background:#dceee3;color:#245b3a}
+.photo-clear{background:#f3dedc;color:#8a3e38}
+.photo-close{background:#ece9e3;color:#333}
+.photo-status{font-size:9px;margin-top:7px;padding:7px;border-radius:7px;background:#f4f2ed;color:#555}
+@media(max-width:700px){
+ .gphoto-grid{height:175px;grid-template-columns:1.35fr 1fr}
+ .gphoto-credit{font-size:7px}
+}
+
+/* ===== Beta 2.5 simplified shell ===== */
+.toolbar{position:relative}
+#panelBtn{background:#f2efe8;color:#263238}
+#exchangeBtn{background:#e4f1ea;color:#235e43}
+#moreBtn{background:#f2efe8;color:#263238}
+body.side-closed .main{grid-template-columns:1fr}
+body.side-closed .side{display:none}
+.more-menu{display:none;position:absolute;right:10px;top:calc(100% - 3px);z-index:2100;width:190px;background:#fffdf9;border:1px solid #aaa;border-radius:11px;box-shadow:0 7px 24px #0005;padding:6px}
+.more-menu.show{display:grid;gap:5px}
+.more-menu button{width:100%;text-align:left;border:0;border-radius:8px;padding:9px;background:#f3f1eb;font-size:10px;font-weight:900;cursor:pointer}
+#travelModeBtn,#layerBtn,#fitBtn,#exportBtn{display:none!important}
+.help-fab{position:absolute;right:10px;bottom:10px;z-index:690;width:34px;height:34px;border:1px solid #aaa;border-radius:50%;background:#fffdf5;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 2px 8px #0002}
+.onboard{display:none;position:fixed;inset:0;z-index:4000;background:#0008;padding:10px;align-items:center;justify-content:center}
+.onboard.show{display:flex}
+.onboard-card{width:min(720px,96vw);max-height:92vh;overflow:auto;background:#fffdf9;border-radius:16px;box-shadow:0 10px 38px #0007;padding:16px}
+.onboard-card h2{margin:0 0 5px;font-size:19px}
+.onboard-card .sub{font-size:10px;color:#666;line-height:1.6;margin-bottom:11px}
+.onboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.onboard-step{border:1px solid #ddd7ce;border-radius:11px;padding:10px;background:#fff}
+.onboard-step b{font-size:12px}
+.onboard-step p{font-size:10px;line-height:1.55;margin:5px 0 0}
+.onboard-actions{display:flex;gap:7px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-top:12px}
+.onboard-actions label{font-size:9px;margin-right:auto}
+.onboard-actions button{border:0;border-radius:8px;padding:9px 11px;font-size:10px;font-weight:900;cursor:pointer}
+.onboard-start{background:#263238;color:#fff}
+.exchange-hub{display:none;position:fixed;inset:0;z-index:2600;background:#0007;padding:10px;align-items:center;justify-content:center}
+.exchange-hub.show{display:flex}
+.exchange-card{width:min(900px,96vw);max-height:92vh;background:#fffdf9;border-radius:15px;box-shadow:0 8px 30px #0006;display:grid;grid-template-rows:auto auto 1fr;overflow:hidden}
+.exchange-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;background:#263238;color:#fff;padding:10px}
+.exchange-head strong{font-size:15px}
+.exchange-head small{font-size:8px;color:#cfe5d7}
+.exchange-head button{border:0;border-radius:8px;padding:7px 8px;font-size:9px;font-weight:900;cursor:pointer}
+.exchange-head .close-ex{margin-left:auto}
+.exchange-tools{display:flex;gap:6px;flex-wrap:wrap;padding:8px;border-bottom:1px solid #ddd;background:#faf8f2}
+.exchange-tools button,.exchange-tools a{border:1px solid #bbb;border-radius:8px;background:#fff;padding:7px 8px;font-size:9px;font-weight:900;text-decoration:none;color:#263238;cursor:pointer}
+.exchange-body{overflow:auto;padding:8px}
+.exchange-note{font-size:9px;line-height:1.55;border-left:4px solid #6d9b7d;background:#edf7f0;border-radius:8px;padding:7px;margin-bottom:7px}
+.exchange-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.exchange-item{border:1px solid #ded9d0;border-radius:10px;background:#fff;padding:8px}
+.exchange-item h4{margin:0 0 4px;font-size:11px}
+.exchange-item p{margin:3px 0;font-size:9px;line-height:1.45}
+.exchange-item .actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.exchange-item .actions button,.exchange-item .actions a{border:0;border-radius:6px;background:#e8edf0;padding:6px 7px;font-size:8.5px;font-weight:900;text-decoration:none;color:#263238;cursor:pointer}
+.exchange-item .actions .naver{background:#03c75a;color:white}
+.exchange-marker{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1d8d67;border:2px solid white;box-shadow:0 1px 5px #0005;font-size:16px}
+@media(max-width:900px){
+ #panelBtn{display:none}
+ .more-menu{position:fixed;right:6px;top:108px;width:175px}
+ .onboard-grid{grid-template-columns:1fr}
+ .exchange-list{grid-template-columns:1fr}
+ .exchange-hub{padding:4px}
+ .exchange-card{width:100%;max-height:96vh}
+ .help-fab{bottom:54px}
+}
+
+/* ===== Beta 2.4 real terminal maps ===== */
+.real-map-wrap{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:9px 0}
+.real-map-card{border:1px solid #d6d1c8;border-radius:11px;background:#fff;padding:8px}
+.real-map-card h4{margin:0 0 6px;font-size:11px}
+.real-map-card img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #e3dfd7;border-radius:8px;background:#fafafa}
+.real-map-caption{font-size:8.5px;color:#666;line-height:1.5;margin-top:6px}
+.real-map-caption a{color:#356987;font-weight:800}
+@media(max-width:900px){.real-map-wrap{grid-template-columns:1fr}.real-map-card img{max-height:none}}
+
+/* ===== Beta 2.3 Taiwan traveler / lodging tools ===== */
+.tw-exp{border:1px solid #e8c8d5;border-radius:10px;background:#fff7fb;padding:9px;margin:8px 0}
+.tw-exp h4{margin:0 0 5px;font-size:11px;color:#8b4766}
+.tw-exp p,.tw-exp li{font-size:9.5px;line-height:1.62}
+.tw-exp ul{margin:5px 0;padding-left:18px}
+.tw-source{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.tw-source a{font-size:8px;font-weight:900;text-decoration:none;border-radius:999px;background:#f2dce7;color:#733d57;padding:4px 6px}
+.tw-source .official{background:#dceee3;color:#245b3a}
+.tw-source .blog{background:#f8e8c9;color:#6e501a}
+.tw-source .community{background:#e5e1f7;color:#55447e}
+.inline-diagram{margin:8px 0;border:1px solid #d9d4ca;background:#fbfaf6;border-radius:11px;padding:8px;overflow:auto}
+.inline-diagram svg{display:block;width:100%;height:auto;min-width:560px}
+.route-card{border:1px solid #d8d4cc;border-radius:11px;background:#fff;padding:10px;margin-bottom:8px}
+.route-card h3{margin:0 0 6px;font-size:12px}
+.route-best{border-left:5px solid #4c956c}
+.route-alt{border-left:5px solid #4c84a8}
+.route-warn{border-left:5px solid #d69a3a}
+.route-method{display:grid;grid-template-columns:82px 1fr;gap:6px;padding:5px 0;border-bottom:1px dashed #e2ded7;font-size:9.5px;line-height:1.55}
+.route-method:last-child{border-bottom:0}
+.route-method b{font-size:9.5px}
+.route-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.route-actions button,.route-actions a{border:0;border-radius:7px;padding:7px 8px;font-size:9px;font-weight:900;text-decoration:none;cursor:pointer;background:#e6edf1;color:#263238}
+.route-actions .naver{background:#03c75a;color:#fff}
+.route-actions .purple{background:#ebe3f7;color:#5c407b}
+.lodging-inputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px}
+.lodging-inputs label{font-size:8px;color:#666}
+.lodging-inputs input{width:100%;border:1px solid #bbb;border-radius:7px;padding:7px;font-size:9px}
+.lodging-inputs .wide{grid-column:1/-1}
+.small-status{font-size:8px;color:#777;margin-top:5px}
+.photo-plan{border:1px dashed #aab8c0;border-radius:9px;background:#f4f8fa;padding:8px;font-size:9px;line-height:1.6;margin:8px 0}
+.photo-plan code{font-size:8px}
+@media(max-width:900px){
+ .lodging-inputs{grid-template-columns:1fr}
+ .lodging-inputs .wide{grid-column:auto}
+ .inline-diagram svg{min-width:520px}
+ .route-method{grid-template-columns:68px 1fr}
+}
+
+/* ===== Gimhae Airport Hub ===== */
+.airport-hub{display:none;position:fixed;inset:0;z-index:2250;background:#0007;padding:10px}
+.airport-hub.show{display:flex;align-items:center;justify-content:center}
+.airport-card{width:min(1180px,97vw);height:min(860px,96vh);background:#fffdf9;border-radius:16px;box-shadow:0 10px 38px #0007;display:grid;grid-template-rows:auto auto 1fr;overflow:hidden}
+.airport-head{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:10px 12px;background:#20333d;color:#fff}
+.airport-head strong{font-size:16px}
+.airport-head small{font-size:9px;color:#cfe3ec}
+.airport-head button,.airport-head a{border:0;border-radius:8px;padding:8px 9px;font-size:10px;font-weight:900;text-decoration:none;cursor:pointer}
+.airport-head .airport-nav{background:#03c75a;color:#fff}
+.airport-head .airport-official{background:#d9edf7;color:#224b62}
+.airport-head .airport-close{margin-left:auto;background:#fff;color:#263238}
+.airport-tabs{display:flex;gap:4px;overflow-x:auto;padding:7px;background:#f0ece3;border-bottom:1px solid #d2cdc3;scrollbar-width:thin}
+.airport-tab{flex:0 0 auto;border:1px solid #c9c4ba;border-radius:999px;background:#fff;padding:7px 9px;font-size:10px;font-weight:900;cursor:pointer}
+.airport-tab.active{background:#263238;color:#fff;border-color:#263238}
+.airport-body{min-height:0;overflow:auto;padding:10px 12px}
+.airport-pane{display:none}
+.airport-pane.active{display:block}
+.airport-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.airport-box{border:1px solid #ddd6cb;border-radius:11px;background:#fff;padding:10px}
+.airport-box h3{margin:0 0 6px;font-size:13px}
+.airport-box h4{margin:8px 0 4px;font-size:11px}
+.airport-box p,.airport-box li{font-size:10px;line-height:1.6}
+.airport-box ul,.airport-box ol{padding-left:18px;margin:5px 0}
+.airport-note{border-left:4px solid #e1a33c;background:#fff5df;border-radius:7px;padding:7px 8px;font-size:9px;line-height:1.55;margin:7px 0}
+.airport-good{border-left-color:#5d9c73;background:#edf8f0}
+.airport-warn{border-left-color:#d25b5b;background:#fff0ef}
+.airport-source{font-size:8px;color:#777;line-height:1.45;margin-top:7px}
+.airport-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.airport-actions a,.airport-actions button{border:0;border-radius:7px;padding:7px 8px;background:#e8edf0;color:#263238;text-decoration:none;font-size:9px;font-weight:900;cursor:pointer}
+.airport-actions .green{background:#dceee3;color:#245b3a}
+.airport-actions .blue{background:#dcedf8;color:#214c65}
+.airport-actions .gold{background:#fae8bd;color:#6b4c12}
+.floor-map{display:grid;gap:7px}
+.floor-row{display:grid;grid-template-columns:55px 1fr;border:1px solid #d7d2c8;border-radius:10px;overflow:hidden;background:#fff}
+.floor-label{display:flex;align-items:center;justify-content:center;font-weight:900;background:#263238;color:#fff;font-size:13px}
+.floor-content{padding:8px;font-size:10px;line-height:1.65}
+.floor-content b{display:inline-block;margin-right:4px}
+.airport-step{display:grid;grid-template-columns:28px 1fr;gap:7px;margin:7px 0}
+.airport-step .num{width:27px;height:27px;border-radius:50%;background:#263238;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900}
+.airport-step .txt{font-size:10px;line-height:1.55}
+.airport-table{width:100%;border-collapse:collapse;font-size:9px;margin-top:6px}
+.airport-table th,.airport-table td{border:1px solid #ddd;padding:5px;text-align:left;vertical-align:top}
+.airport-table th{background:#f4f1ea}
+.food-card{display:grid;grid-template-columns:80px 1fr;gap:7px;border-bottom:1px solid #eee;padding:6px 0}
+.food-card:last-child{border-bottom:0}
+.food-tag{font-size:9px;font-weight:900;border-radius:999px;background:#f2e5c7;padding:4px 6px;text-align:center;height:max-content}
+.food-info{font-size:10px;line-height:1.55}
+.checklist label{display:flex;gap:6px;align-items:flex-start;font-size:10px;line-height:1.5;margin:5px 0}
+.checklist input{margin-top:2px}
+.contact-list{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.contact-item{border:1px solid #e0ddd6;border-radius:8px;padding:7px;font-size:9px;background:#fff}
+.muted{color:#777}
+.badge-official{display:inline-block;background:#dceee3;color:#245b3a;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:900}
+.badge-recent{display:inline-block;background:#fae8bd;color:#6b4c12;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:900}
+@media(max-width:900px){
+ .airport-hub{padding:4px}
+ .airport-card{width:100%;height:97vh;border-radius:12px}
+ .airport-head{padding:7px}
+ .airport-head strong{width:100%;font-size:13px}
+ .airport-head small{font-size:8px}
+ .airport-head button,.airport-head a{font-size:9px;padding:7px}
+ .airport-head .airport-close{margin-left:0}
+ .airport-tabs{padding:5px}
+ .airport-tab{font-size:9px;padding:6px 7px}
+ .airport-body{padding:7px}
+ .airport-grid{grid-template-columns:1fr}
+ .airport-box{padding:8px}
+ .contact-list{grid-template-columns:1fr}
+}
+
+.itinerary-modal{display:none;position:fixed;inset:0;z-index:2200;background:#0006;padding:12px}
+.itinerary-modal.show{display:flex;align-items:center;justify-content:center}
+.itinerary-card{width:min(1100px,96vw);height:min(820px,94vh);background:#fffdf9;border-radius:16px;box-shadow:0 8px 36px #0006;display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+.itinerary-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px;background:#263238;color:#fff}
+.itinerary-head strong{font-size:15px}
+.itinerary-head button,.itinerary-head select{border:0;border-radius:8px;padding:8px 9px;font-weight:900}
+.itinerary-head .close-itin{margin-left:auto}
+.itinerary-main{min-height:0;display:grid;grid-template-columns:190px 1fr}
+.day-list{overflow:auto;border-right:1px solid #ddd;padding:7px;background:#f7f3ea}
+.day-tab{width:100%;border:1px solid #ddd;background:#fff;border-radius:8px;padding:9px 8px;margin-bottom:5px;text-align:left;font-size:11px;font-weight:900;cursor:pointer}
+.day-tab.active{background:#263238;color:#fff}
+.day-tab small{display:block;font-size:9px;opacity:.75;margin-top:2px}
+.day-content{min-width:0;min-height:0;display:grid;grid-template-rows:auto 1fr}
+.day-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:9px;border-bottom:1px solid #ddd;background:#fff}
+.day-tools button{border:1px solid #bbb;background:#fff;border-radius:7px;padding:7px 8px;font-size:10px;font-weight:900;cursor:pointer}
+.day-tools .add{background:#dceee3;border-color:#a8cbb7}
+.day-tools .mapday{background:#dcedf8;border-color:#a6c8de}
+.day-tools .today{background:#f7dfec;border-color:#dcb5ca}
+.itinerary-items{overflow:auto;padding:8px}
+.itin-item{display:grid;grid-template-columns:42px 58px minmax(0,1fr) auto;gap:7px;align-items:start;border:1px solid #dedad2;background:#fff;border-radius:9px;padding:8px;margin-bottom:6px}
+.itin-order{font-weight:900;color:#555;text-align:center}
+.itin-time{font-weight:900;color:#3c6b88;font-size:11px}
+.itin-name{font-size:11px;font-weight:900}
+.itin-note{font-size:9px;color:#666;line-height:1.5;margin-top:3px}
+.itin-actions{display:flex;flex-direction:column;gap:3px}
+.itin-actions button{border:0;border-radius:6px;padding:5px;font-size:9px;font-weight:900;cursor:pointer}
+.itin-editor{display:none;position:fixed;inset:0;z-index:2400;background:#0006;align-items:center;justify-content:center;padding:12px}
+.itin-editor.show{display:flex}
+.editor-card{width:min(560px,96vw);max-height:92vh;overflow:auto;background:#fffdf9;border-radius:14px;padding:13px;box-shadow:0 6px 28px #0006}
+.editor-card h3{margin:0 0 9px;font-size:15px}
+.editor-card label{display:block;font-size:10px;font-weight:900;margin:8px 0 3px}
+.editor-card select,.editor-card input,.editor-card textarea{width:100%;border:1px solid #bbb;border-radius:8px;padding:8px;font-size:11px}
+.editor-card textarea{min-height:72px;resize:vertical}
+.editor-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:10px}
+.editor-actions button{border:0;border-radius:8px;padding:8px 10px;font-weight:900}
+.poi-gallery{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.poi-gallery img{width:100%;height:120px;object-fit:cover;border-radius:9px;border:1px solid #ddd;background:#eee}
+.photo-placeholder{height:120px;border:1px dashed #bbb;border-radius:9px;background:#f2f1ed;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-size:10px;color:#777}
+.photo-note{font-size:9px;color:#777;margin:-2px 0 7px}
+.today-badge{background:#ee7eae;color:white;padding:2px 5px;border-radius:999px;font-size:8px;margin-left:4px}
+@media(max-width:900px){
+ .itinerary-modal{padding:5px}
+ .itinerary-card{width:100%;height:96vh;border-radius:12px}
+ .itinerary-main{grid-template-columns:105px 1fr}
+ .day-list{padding:4px}
+ .day-tab{padding:7px 5px;font-size:9px}
+ .day-tab small{font-size:8px}
+ .day-tools{padding:6px;gap:4px}
+ .day-tools button{font-size:9px;padding:6px}
+ .itin-item{grid-template-columns:30px 48px minmax(0,1fr);gap:4px}
+ .itin-actions{grid-column:1/-1;flex-direction:row;justify-content:flex-end}
+ .poi-gallery img,.photo-placeholder{height:100px}
+}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:3000;background:#263238;color:white;padding:9px 12px;border-radius:9px;font-size:11px;font-weight:800;box-shadow:0 3px 14px #0004;display:none;max-width:88%;text-align:center}
+.leaflet-control-attribution{font-size:9px!important}
+
+@media(max-width:900px){
+ .toolbar{padding:7px;gap:5px}
+ .brand{width:100%;font-size:13px}
+ .toolbar select{flex:1;max-width:none;min-width:0;font-size:11px;padding:8px 7px}
+ .toolbar button{font-size:10px;padding:8px 8px}
+ .toolbar .desktop-extra{display:none}
+ #filterBtn,#resultsBtn{display:inline-block}
+ #status{width:100%;margin-left:0;font-size:9px}
+ .main{grid-template-columns:1fr;padding:4px}
+ .side{display:none}
+ .viewer{border-radius:7px}
+ .map-title{top:7px;font-size:10px;max-width:72%;padding:5px 8px}
+ .map-title small{font-size:8px}
+ .hint{font-size:8px;max-width:82%;padding:4px 6px}
+
+ #sheetBackdrop.show{display:block;position:fixed;inset:0;background:#0005;z-index:1400}
+ .mobile-sheet.show{display:block;position:fixed;left:7px;right:7px;bottom:7px;max-height:80%;z-index:1500;background:#fffdf9;border:1px solid #999;border-radius:13px;box-shadow:0 6px 28px #0005;overflow:auto}
+ .sheet-head{position:sticky;top:0;z-index:2;background:#fffdf9;border-bottom:1px solid #ddd;padding:9px;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:12px}
+ .sheet-close{border:0;border-radius:7px;padding:7px 9px;font-weight:900}
+ .sheet-body{padding:9px}
+ #mobileResults{padding:6px}
+
+ body.travel-mode #travelBar{display:grid;position:fixed;left:6px;right:6px;bottom:6px;z-index:1300;grid-template-columns:repeat(5,1fr);gap:4px;background:#263238ee;padding:6px;border-radius:12px;box-shadow:0 4px 16px #0005}
+ #travelBar button{border:0;border-radius:8px;background:white;padding:8px 3px;font-size:9px;font-weight:900}
+ body.travel-mode .viewer{margin-bottom:54px}
+}
+
+/* ===== Beta 2.8 Local First / custom places ===== */
+.custom-places{display:none;position:fixed;inset:0;z-index:4850;background:#0008;padding:8px;align-items:center;justify-content:center}
+.custom-places.show{display:flex}
+.custom-card{width:min(920px,96vw);max-height:94vh;overflow:auto;background:#fffdf9;border-radius:15px;box-shadow:0 10px 35px #0007;padding:14px}
+.custom-card h2{margin:0 0 5px;font-size:17px}.custom-card p{font-size:9.5px;line-height:1.6;color:#666}
+.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.custom-grid .full{grid-column:1/-1}
+.custom-card label{display:block;font-size:9px;font-weight:900;margin:5px 0 3px}
+.custom-card input,.custom-card select,.custom-card textarea{width:100%;border:1px solid #aaa;border-radius:8px;padding:8px;font-size:10px;background:#fff}
+.custom-card textarea{min-height:70px;resize:vertical}
+.custom-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.custom-actions button{border:0;border-radius:8px;padding:8px 10px;font-size:9px;font-weight:900;cursor:pointer}
+.custom-primary{background:#263238;color:#fff}.custom-secondary{background:#e8edf0}.custom-danger{background:#f3dedc;color:#8a3e38}
+.custom-list{margin-top:12px;border-top:1px solid #ddd;padding-top:8px}.custom-list-item{display:grid;grid-template-columns:70px 1fr auto;gap:7px;align-items:start;border:1px solid #ddd;border-radius:9px;padding:7px;margin:5px 0;background:#fff}
+.custom-list-item b{font-size:10px}.custom-list-item small{font-size:8.5px;color:#666;line-height:1.5}.custom-list-item .row-actions{display:flex;gap:4px;flex-wrap:wrap}.custom-list-item button{border:0;border-radius:6px;padding:5px 6px;font-size:8px;font-weight:900;cursor:pointer}
+.localfirst-badge{display:inline-block;background:#e1efe6;color:#245b3a;border-radius:999px;padding:3px 7px;font-size:8px;font-weight:900;margin-left:4px}
+@media(max-width:700px){.custom-grid{grid-template-columns:1fr}.custom-list-item{grid-template-columns:55px 1fr}.custom-list-item .row-actions{grid-column:1/-1}}
+
+</style>
+</head>
+<body>
+<div id="app">
+ <div class="toolbar">
+  <div class="brand" id="brandTitle">旅行地圖 Beta 2.8</div>
+  <select id="viewSelect"></select>
+  <button id="panelBtn">☰ 景點面板</button>
+  <button id="filterBtn">篩選</button>
+  <button id="resultsBtn">結果</button>
+  <button id="locateBtn" class="locate">📍我的位置</button>
+  <button id="airportBtn" class="airport">✈ 機場</button>
+  <button id="travelModeBtn" class="travel">旅行模式</button>
+  <button id="exchangeBtn">💱 換錢所</button>
+  <button id="itineraryBtn" style="background:#e9def8;color:#553b78">📅 我的行程</button>
+  <button id="moreBtn">⋯ 更多</button>
+  <button id="layerBtn" class="desktop-extra hide-travel">底圖：HOT</button>
+  <button id="fitBtn" class="desktop-extra hide-travel">顯示結果</button>
+  <button id="exportBtn" class="primary desktop-extra hide-travel">匯出 PNG</button>
+  <span id="status">載入中…</span>
+  <div class="more-menu" id="moreMenu">
+   <button id="moreTravel">🧳 旅行模式</button>
+   <button id="moreLayer">🗺️ 底圖：HOT</button>
+   <button id="moreFit">🎯 顯示目前結果</button>
+   <button id="moreExport">🖼️ 匯出 PNG</button>
+   <button id="moreCustomPlaces">➕ 我的景點</button>
+   <button id="morePhotos">📷 實景照片設定</button>
+   <button id="moreTutorial">❓ 使用教學</button>
+  </div>
+ </div>
+
+ <div class="main">
+  <div class="viewer" id="viewer">
+    <div id="map"></div>
+    <svg id="overlay"></svg>
+    <div class="map-title" id="mapTitle">載入旅遊資料包…<small>請稍候</small></div>
+    <div class="hint">1～8 快速切區｜類別／狀態／Day／距離／URL／搜尋可交叉｜點景點可導航、排 Day、看附近順遊</div>
+    <button class="help-fab" id="helpFab" title="使用教學">?</button>
+    <div id="info">
+      <button class="close" id="closeInfo">×</button>
+      <h3 id="infoTitle"></h3>
+      <div id="infoBody"></div>
+      <div class="state-panel" id="statePanel"></div>
+      <div class="info-actions" id="infoActions"></div>
+      <div class="nearby-box" id="nearbyBox"></div>
+    </div>
+  </div>
+
+  <aside class="side">
+    <div class="filters">
+      <h3>交叉篩選</h3>
+      <input id="searchBox" class="search" placeholder="搜尋名稱、韓文、地址、備註、URL…">
+      <div class="chips" id="categoryChipsDesktop"></div>
+      <div class="filter-grid">
+        <select id="statusFilter">
+          <option value="">全部狀態</option>
+          <option value="unset">未設定</option>
+          <option value="wish">★ 想去</option>
+          <option value="visited">✓ 已去</option>
+          <option value="skip">× 暫時不去</option>
+        </select>
+        <select id="dayFilter"></select>
+        <select id="radiusFilter">
+          <option value="">不限距離</option>
+          <option value="0.5">500 m 內</option>
+          <option value="1">1 km 內</option>
+          <option value="3">3 km 內</option>
+          <option value="5">5 km 內</option>
+        </select>
+        <select id="sortSelect">
+          <option value="default">原分區順序</option>
+          <option value="distance">距離最近</option>
+          <option value="id">依 ID</option>
+        </select>
+      </div>
+      <div class="filter-row">
+        <label class="toggle-label"><input type="checkbox" id="urlOnly"> 僅有 URL（61）</label>
+        <button class="small-btn" id="clearFilters">清除篩選</button>
+      </div>
+      <div class="filter-row">
+        <button class="small-btn" id="backupBtn">備份旅程狀態</button>
+        <button class="small-btn" id="restoreBtn">匯入旅程狀態</button>
+        <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+      </div>
+    </div>
+    <div style="min-height:0;display:grid;grid-template-rows:auto 1fr">
+      <div class="result-head"><span id="resultCount">載入中…</span><button class="small-btn" id="fitResultsSide">顯示全部結果</button></div>
+      <div id="results"></div>
+    </div>
+  </aside>
+ </div>
+</div>
+
+<div id="travelBar">
+ <button id="travelArea">區域</button>
+ <button id="travelNearby">附近</button>
+ <button id="travelCategory">類別</button>
+ <button id="travelSearch">搜尋</button>
+ <button id="travelResults">結果</button>
+</div>
+
+<div id="sheetBackdrop"></div>
+<div class="mobile-sheet" id="filterSheet">
+ <div class="sheet-head"><span>交叉篩選</span><button class="sheet-close" data-close>完成</button></div>
+ <div class="sheet-body">
+   <input id="mobileSearchBox" class="search" placeholder="搜尋名稱、地址、備註、URL…">
+   <div class="chips" id="categoryChipsMobile"></div>
+   <div class="filter-grid">
+     <select id="mobileStatusFilter">
+       <option value="">全部狀態</option><option value="unset">未設定</option><option value="wish">★ 想去</option><option value="visited">✓ 已去</option><option value="skip">× 暫時不去</option>
+     </select>
+     <select id="mobileDayFilter"></select>
+     <select id="mobileRadiusFilter">
+       <option value="">不限距離</option><option value="0.5">500 m 內</option><option value="1">1 km 內</option><option value="3">3 km 內</option><option value="5">5 km 內</option>
+     </select>
+     <select id="mobileSortSelect">
+       <option value="default">原分區順序</option><option value="distance">距離最近</option><option value="id">依 ID</option>
+     </select>
+   </div>
+   <div class="filter-row">
+     <label class="toggle-label"><input type="checkbox" id="mobileUrlOnly"> 僅有 URL（61）</label>
+     <button class="small-btn" id="mobileClear">清除篩選</button>
+   </div>
+   <div class="filter-row">
+     <button class="small-btn" id="mobileLocate">📍我的位置</button>
+     <button class="small-btn" id="mobileLayerBtn">切換底圖</button>
+     <button class="small-btn" id="mobileFitBtn">顯示結果</button>
+     <button class="small-btn" id="mobileExportBtn">匯出 PNG</button>
+   </div>
+ </div>
+</div>
+
+<div class="mobile-sheet" id="resultsSheet">
+ <div class="sheet-head"><span id="mobileResultTitle">景點結果</span><button class="sheet-close" data-close>關閉</button></div>
+ <div id="mobileResults"></div>
+</div>
+
+
+
+
+<div class="gphoto-full" id="gphotoFull">
+ <button id="gphotoFullClose">×</button>
+ <img id="gphotoFullImg" alt="景點實景照片">
+ <div class="gphoto-full-credit" id="gphotoFullCredit"></div>
+</div>
+
+<div class="photo-settings" id="photoSettings">
+ <div class="photo-settings-card">
+  <h2>📷 實景照片｜Google Places × Supabase</h2>
+  <p>Beta 2.8 延續由 <b>Supabase Edge Function</b> 代替瀏覽器呼叫 Google Places。Google API Key 不再存進瀏覽器或 GitHub。</p>
+  <ul>
+   <li>GitHub Pages 只保存 Supabase Project URL / Publishable Key；它們不是 Google 密鑰。</li>
+   <li>Google Places API Key 放在 Supabase Secret：<code>GOOGLE_MAPS_API_KEY</code>。</li>
+   <li>照片 URI 只即時取得，不寫入 GitHub / localStorage。</li>
+   <li>Google Place ID 仍可留在 localStorage，避免每次都重新 Text Search。</li>
+  </ul>
+  <div class="photo-settings-actions">
+   <button class="photo-test" id="testGooglePlacesBackend">測試照片後端</button>
+   <button class="photo-clear" id="clearGooglePlaceCache">清除 Place ID 快取</button>
+   <button class="photo-close" id="closePhotoSettings">關閉</button>
+  </div>
+  <div class="photo-status" id="photoSettingsStatus">正在檢查設定…</div>
+  <p style="color:#777">部署前請先填 <code>app-config.js</code>，並在 Supabase 部署 <code>place-photos</code> Edge Function。後續接 Auth 時，這支 Function 可再改成只允許登入者呼叫。</p>
+ </div>
+</div>
+
+
+<div class="custom-places" id="customPlacesModal">
+ <div class="custom-card">
+  <h2>➕ 我的景點 <span class="localfirst-badge">只存在這台裝置</span></h2>
+  <p>這裡新增的景點不會寫回 GitHub，也不會上傳 Supabase。Beta 2.8 會保存在 IndexedDB，並保留 localStorage 相容備份。未來 Beta 2.10 的 Travel Map Manager 才負責大量更新公版資料。</p>
+  <input type="hidden" id="customEditId">
+  <div class="custom-grid">
+   <div><label>顯示名稱 *</label><input id="customDisplay" placeholder="例如：朋友推薦的烤肉店"></div>
+   <div><label>NAVER／原文名稱</label><input id="customName" placeholder="例如：석화연"></div>
+   <div><label>分類</label><input id="customCategory" list="customCategoryList" placeholder="餐廳／咖啡廳／旅遊景點…"><datalist id="customCategoryList"></datalist></div>
+   <div><label>區域</label><select id="customRegionCode"></select></div>
+   <div class="full"><label>地址</label><input id="customAddress" placeholder="韓文地址或你看得懂的地址"></div>
+   <div><label>緯度 *</label><input id="customLat" inputmode="decimal" placeholder="35.123456"></div>
+   <div><label>經度 *</label><input id="customLon" inputmode="decimal" placeholder="129.123456"></div>
+   <div class="full"><label>參考 URL</label><input id="customUrl" placeholder="Naver / Threads / Instagram / 網頁"></div>
+   <div class="full"><label>景點備註</label><textarea id="customMemo" placeholder="例如：想點什麼、營業時間、朋友推薦原因…"></textarea></div>
+  </div>
+  <div class="custom-actions">
+   <button class="custom-secondary" id="customUseMapCenter">📍 使用目前地圖中心</button>
+   <button class="custom-primary" id="customSave">儲存景點</button>
+   <button class="custom-secondary" id="customReset">清空表單</button>
+   <button class="custom-secondary" id="customClose">關閉</button>
+  </div>
+  <div class="custom-list" id="customPlacesList"></div>
+ </div>
+</div>
+
+<div class="onboard" id="onboarding">
+ <div class="onboard-card">
+  <h2>🗺️ 旅行地圖，先看 30 秒就會用</h2>
+  <div class="sub">首頁刻意改成簡潔模式：先看地圖，需要的工具再打開。所有設定都可以之後再改。</div>
+  <div class="onboard-grid">
+   <div class="onboard-step"><b>① 先選區域</b><p>最上方下拉選單切換 1～8 區域；地圖會直接 Zoom 到那一區。桌機想看完整景點清單，再按「☰ 景點面板」。</p></div>
+   <div class="onboard-step"><b>② 點景點看詳情</b><p>點 G14、H03 這種標籤就開資訊卡。想關掉，不一定要按 ×：<b>直接點地圖空白處也會關閉</b>。</p></div>
+   <div class="onboard-step"><b>③ 排自己的 Day 行程</b><p>景點卡會載入 Google Places 實景照片，也可直接加入 Day；「📅 我的行程」可排時間、備註、交通、順序並看單日地圖；「⋯ 更多 → 我的景點」可新增只存在這台裝置的景點。</p></div>
+   <div class="onboard-step"><b>④ 旅行工具</b><p>「💱 換錢所」顯示 OSM 已登錄的換匯點與 2026 可查證的重點換錢所；「⋯ 更多」收納底圖、PNG、旅行模式等次要功能。</p></div>
+  </div>
+  <div class="onboard-actions">
+   <label><input type="checkbox" id="dontShowTutorial" checked> 這台裝置下次不要自動顯示</label>
+   <button id="tutorialOpenPanel">打開景點面板</button>
+   <button class="onboard-start" id="tutorialStart">開始使用</button>
+  </div>
+ </div>
+</div>
+
+<div class="exchange-hub" id="exchangeHub">
+ <div class="exchange-card">
+  <div class="exchange-head">
+   <strong>💱 釜山換錢所</strong>
+   <small id="exchangeStatus">準備載入地圖標記…</small>
+   <button id="exchangeToggleMarkers">隱藏地圖標記</button>
+   <button class="close-ex" id="closeExchangeHub">關閉清單</button>
+  </div>
+  <div class="exchange-tools">
+   <button id="refreshExchange">重新讀取 OSM 換錢所</button>
+   <a href="https://map.naver.com/p/search/%ED%99%98%EC%A0%84%EC%86%8C" target="_blank" rel="noopener">Naver 搜尋「환전소」</a>
+  </div>
+  <div class="exchange-body">
+   <div class="exchange-note">地圖標記會讀取 OpenStreetMap 中目前已登錄為 <b>bureau_de_change</b> 的換錢所；下方另列 2026 可查證、旅行動線較實用的店家。<b>這不代表能保證涵蓋釜山每一家換錢所</b>，因為店家開關與地圖登錄都會變動。</div>
+   <div class="exchange-list" id="exchangeList"></div>
+  </div>
+ </div>
+</div>
+
+<div class="airport-hub" id="airportHub">
+ <div class="airport-card">
+  <div class="airport-head">
+   <strong>✈ 金海國際機場 PUS｜旅行資訊中心</strong>
+   <small>以國際線旅客為主｜資料檢查 2026-08-21｜營業時間、櫃檯及交通班次可能異動</small>
+   <button class="airport-nav" id="airportNaverNav">🧭 Naver 導航到機場</button>
+   <button class="airport-official" id="airportCenterMap">📍 地圖置中</button>
+   <a class="airport-official" href="https://www.airport.co.kr/gimhae/index.do" target="_blank" rel="noopener">KAC 官方</a>
+   <button class="airport-close" id="closeAirportHub">關閉</button>
+  </div>
+
+  <div class="airport-tabs" id="airportTabs">
+   <button class="airport-tab active" data-airtab="quick">快速總覽</button>
+   <button class="airport-tab" data-airtab="floors">樓層位置圖</button>
+   <button class="airport-tab" data-airtab="arrival">下機後</button>
+   <button class="airport-tab" data-airtab="departure">搭機前</button>
+   <button class="airport-tab" data-airtab="transport">交通方式</button>
+   <button class="airport-tab" data-airtab="food">美食・免稅</button>
+   <button class="airport-tab" data-airtab="baggage">行李・服務</button>
+   <button class="airport-tab" data-airtab="taxses">退稅・SES</button>
+   <button class="airport-tab" data-airtab="security">安檢・託運</button>
+   <button class="airport-tab" data-airtab="contacts">聯絡・官方</button>
+   <button class="airport-tab" data-airtab="lodging">住宿交通</button>
+  </div>
+
+  <div class="airport-body">
+   <section class="airport-pane active" data-airpane="quick">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>🧭 一眼先看懂</h3>
+      <p><b>國際線 1F：</b>入境／抵達、巴士與計程車、銀行／換匯、旅遊資訊、漫遊服務。</p>
+      <p><b>國際線 2F：</b>出境／報到、藥局、海關／退稅、安檢／出境審查、免稅店、SES 相關服務。</p>
+      <p><b>國際線 3F：</b>餐廳／咖啡、行李寄放・配送（ZimCarry）、部分漫遊與休息設施。</p>
+      <div class="airport-note airport-good">如果是「回台灣當天」：先處理需要海關確認的退稅商品，再託運行李；完成安檢與出境後再逛免稅店。</div>
+      <div class="airport-actions">
+       <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frFacCon/facilityMapList.do?MENU_ID=220&acd=A1102&listGbn=2" target="_blank" rel="noopener">官方設施地圖</a>
+       <a class="blue" href="https://www.airport.co.kr/gimhae/" target="_blank" rel="noopener">即時航班／機場首頁</a>
+      </div>
+     </div>
+     <div class="airport-box">
+      <h3>✅ APP 內整合的機場工具</h3>
+      <ul>
+       <li>即時航班入口與官方設施地圖。</li><li>Free Wi‑Fi、手機充電、藥局、換匯／旅遊資訊。</li>
+       <li>行李寄放、遺失物、海關／出入境聯絡方式。</li><li>國際線抵達與離境兩套 checklist。</li>
+       <li>Light Rail／巴士／計程車／航廈循環接駁。</li><li>機場內餐飲候選與免稅店資訊。</li>
+      </ul>
+     </div>
+     <div class="airport-box">
+      <h3>📶 旅途中最常臨時需要</h3>
+      <p><b>Wi‑Fi：</b><code>Public WiFi FREE</code>，KAC 表示候機區可使用。</p>
+      <p><b>充電：</b>國際線 1F 旅遊資訊附近，以及 2F／3F 多處候機區有免費充電點。</p>
+      <p><b>藥局：</b>國際線 2F。</p><p><b>旅遊資訊：</b>國際線 1F 有釜山／慶南等旅遊資訊窗口。</p>
+      <div class="airport-source"><span class="badge-official">官方</span> KAC 金海機場設施／聯絡資訊。</div>
+     </div>
+     
+     <div class="airport-box">
+      <h3>🇹🇼 台灣旅客實戰摘要</h3>
+      <div class="tw-exp">
+       <h4>機場不大，但「有退稅／託運／SES」不要壓線</h4>
+       <p>台灣 Dcard 2025 旅客分享：金海機場本身不大，但如果退稅單多，仍建議提早約 2.5 小時；另一篇台灣旅客實際提早 3 小時到，早上退稅機已出現排隊。</p>
+       <p>本站因此把「2.5～3 小時」當成有退稅或大量行李時的保守值，而不是機場硬性規定。</p>
+       <div class="tw-source">
+        <a class="community" href="https://www.dcard.tw/f/travel/p/258722421" target="_blank" rel="noopener">Dcard｜釜山6天5夜</a>
+        <a class="community" href="https://www.dcard.tw/f/travel/p/253687240" target="_blank" rel="noopener">Dcard｜退稅實測</a>
+       </div>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>⏱️ 保守時間建議</h3>
+      <p>國際線建議自行抓 <b>起飛前約 2.5～3 小時</b> 抵達；旺季、連假、需要退稅／SES／大型行李時再加時間。這是本站的保守建議，不是機場硬性規定。</p>
+      <p>報到／託運截止時間依航空公司不同，務必以航空公司通知為準。</p>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="floors">
+    <div class="airport-box">
+     <h3>🏢 國際線快速樓層示意 <span class="badge-official">依官方設施資訊整理</span></h3>
+     <div class="airport-note">這是本站為手機閱讀做的「非比例示意」，用來快速知道去哪一層；精確櫃位請點 KAC 官方設施地圖。</div>
+     <div class="real-map-wrap">
+      <div class="real-map-card">
+       <h4>🗺️ 國際線 1F｜實際航廈平面圖</h4>
+       <img src="https://media.triple.guide/triple-cms/c_limit%2Cf_auto%2Ch_1024%2Cw_1024/03092ece-f96e-4290-88c7-6975a9170eb3.jpeg"
+            alt="金海國際機場國際線1樓實際平面圖" loading="lazy" referrerpolicy="no-referrer"
+            onerror="this.style.display='none';this.nextElementSibling.innerHTML='圖片來源暫時無法載入，請點 KAC 中文官方設施地圖查看最新版本。';">
+       <div class="real-map-caption">實際國際線 1F 平面配置；Triple 該圖註明圖源為 KAC 金海機場。可辨認 Gate、銀行／換匯與中央抵達大廳。<br><a href="https://www.airport.co.kr/gimhaechn/cms/frFacCon/facilityMapList.do?MENU_ID=200&acd=A1102&listGbn=2" target="_blank" rel="noopener">→ KAC 中文官方設施地圖（最新）</a></div>
+      </div>
+      <div class="real-map-card">
+       <h4>🗺️ 國際線 2F／3F｜長榮航空中文／英文實際配置圖</h4>
+       <img src="https://www.evaair.com/en-us/images/PUS_0407_tcm35-96528.png"
+            alt="長榮航空金海國際機場2樓3樓配置圖" loading="lazy" referrerpolicy="no-referrer"
+            onerror="this.style.display='none';this.nextElementSibling.innerHTML='長榮航空圖片暫時無法載入，請改用 KAC 中文官方設施地圖。';">
+       <div class="real-map-caption">長榮航空公開的 2F／3F 配置，可看 Gate 2–5、安檢／出境動線、Sky Hub Lounge 與 Air Busan Lounge 等相對位置；這張主要聚焦候機／Lounge 區域。<br><a href="https://www.evaair.com/en-us/fly-prepare/at-the-airport/lounges/partner-lounges/northeast-asia/" target="_blank" rel="noopener">→ 長榮航空原始頁面</a></div>
+      </div>
+     </div>
+
+     <div class="inline-diagram">
+      <svg viewBox="0 0 900 330" role="img" aria-label="金海機場國際線中文樓層示意">
+       <rect x="10" y="10" width="880" height="310" rx="20" fill="#f8f6f0" stroke="#bcb7ad"/>
+       <text x="30" y="42" font-size="24" font-weight="800" fill="#263238">金海國際機場｜國際線中文快速示意（非比例）</text>
+       <rect x="35" y="70" width="830" height="62" rx="12" fill="#e9d9bd"/><text x="55" y="108" font-size="24" font-weight="800">3F</text>
+       <text x="125" y="98" font-size="18">🍜 餐廳／咖啡　🧳 ZimCarry 行李寄放・配送　🛋️ 休息／貴賓設施</text>
+       <rect x="35" y="145" width="830" height="70" rx="12" fill="#d9e8f0"/><text x="55" y="188" font-size="24" font-weight="800">2F</text>
+       <text x="125" y="174" font-size="18">🛫 報到・託運 → 💰退稅／海關 → 🔐安檢 → 🛂出境／SES → 🛍️免稅</text>
+       <text x="125" y="202" font-size="15" fill="#555">線上免稅提貨：出境後 Gate 12–13 方向｜退稅領現金：Gate 4 附近依現場指示</text>
+       <rect x="35" y="228" width="830" height="68" rx="12" fill="#dcebdd"/><text x="55" y="270" font-size="24" font-weight="800">1F</text>
+       <text x="125" y="256" font-size="18">🛬 入境 → 🧳 行李提領 → 🛃海關 → ℹ️旅遊資訊／換匯／漫遊</text>
+       <text x="125" y="282" font-size="16">🚈 輕軌　🚌 公車／機場巴士　🚕 計程車</text>
+      </svg>
+     </div>
+
+     <div class="floor-map">
+      <div class="floor-row"><div class="floor-label">3F</div><div class="floor-content"><b>🍜 餐飲／咖啡</b>　<b>🧳 ZimCarry 行李寄放・配送</b>　<b>📱 部分漫遊服務</b>　<b>🛋️ 部分休息／貴賓設施</b></div></div>
+      <div class="floor-row"><div class="floor-label">2F</div><div class="floor-content"><b>🛫 出發／報到</b>　<b>💊 藥局</b>　<b>💰 退稅／海關</b>　<b>🔐 安檢</b>　<b>🛂 出境審查／SES</b>　<b>🛍️ 出境免稅</b>　<b>🔌 充電</b></div></div>
+      <div class="floor-row"><div class="floor-label">1F</div><div class="floor-content"><b>🛬 抵達／入境</b>　<b>🧳 行李提領</b>　<b>🛃 海關</b>　<b>🏦 銀行／換匯</b>　<b>📱 漫遊</b>　<b>ℹ️ 旅遊資訊</b>　<b>🚌 巴士／🚕 計程車出口</b></div></div>
+     </div>
+     <div class="airport-actions"><a class="blue" href="https://www.airport.co.kr/gimhae/cms/frFacCon/facilityMapList.do?MENU_ID=220&acd=A1102&listGbn=2" target="_blank" rel="noopener">開啟 KAC 官方機場位置圖</a></div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="arrival">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>🛬 下機後建議流程</h3>
+      <div class="airport-step"><div class="num">1</div><div class="txt"><b>入境審查</b><br>可使用 SES 的旅客依現場自動通關指示；不符合資格就走一般人工審查。</div></div>
+      <div class="airport-step"><div class="num">2</div><div class="txt"><b>領行李</b><br>確認轉盤、行李數量與外觀；有損壞或遺失先不要離開行李區，找航空公司／地勤。</div></div>
+      <div class="airport-step"><div class="num">3</div><div class="txt"><b>海關／檢疫</b><br>需要申報的物品依規定申報；農畜產品等務必遵守韓國檢疫規定。</div></div>
+      <div class="airport-step"><div class="num">4</div><div class="txt"><b>網路／現金／交通</b><br>確認 eSIM／漫遊可用、需要的現金／交通方式，再離開機場。</div></div>
+      <div class="airport-step"><div class="num">5</div><div class="txt"><b>前往市區</b><br>Light Rail、巴士或計程車。若搭大眾運輸，可先看「交通方式」頁。</div></div>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 SES：有人 3 分鐘辦完，也有人沒辦 SES 排入境近 1 小時</h4>
+      <p>台灣 Dcard 金海機場實測：作者在 2F 出入國・外國人事務所申辦，現場沒人時約 3 分鐘；另一篇 2026 初訪釜山分享則提到同行家人沒有 SES，人工入境排隊接近 1 小時，而 SES 通道很空。</p>
+      <p><b>結論：</b>把它當「有機會大幅省時間」的工具，但申辦處有平日／午休限制，不要把旅行計畫建立在一定能當場辦成。</p>
+      <div class="tw-source">
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/257436555" target="_blank" rel="noopener">Dcard｜金海 SES 實測</a>
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/260524603" target="_blank" rel="noopener">Dcard｜2026 入境排隊經驗</a>
+      </div>
+     </div>
+<div class="airport-box checklist">
+      <h3>☑️ 下機後 Checklist</h3>
+      <label><input type="checkbox">手機網路／漫遊可以上網</label><label><input type="checkbox">行李全部拿到、外觀無異常</label>
+      <label><input type="checkbox">交通卡／付款方式準備好</label><label><input type="checkbox">住宿地址韓文版已存</label>
+      <label><input type="checkbox">確認前往住宿的交通方式</label><label><input type="checkbox">如果很早／很晚抵達，確認末班車或改搭計程車</label>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="departure">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>🛫 搭機前建議流程</h3>
+      <div class="airport-step"><div class="num">1</div><div class="txt"><b>先看航班與航空公司櫃檯</b><br>確認航班、報到／託運截止時間與登機證。</div></div>
+      <div class="airport-step"><div class="num">2</div><div class="txt"><b>退稅／海關（如需要）</b><br>若退稅商品可能要現場查驗，先處理再把商品放進託運行李。</div></div>
+      <div class="airport-step"><div class="num">3</div><div class="txt"><b>報到與行李託運</b><br>航空公司政策不同；行動電源、電子煙、一次性打火機等不要放進託運行李。</div></div>
+      <div class="airport-step"><div class="num">4</div><div class="txt"><b>安檢 → 出境審查／SES</b><br>液體／膠狀物及禁帶品先整理；護照與登機證拿好。</div></div>
+      <div class="airport-step"><div class="num">5</div><div class="txt"><b>免稅／餐飲／登機口</b><br>確認 Gate 與 boarding time，再決定是否逛免稅或吃東西。</div></div>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 退稅不要留到最後 20 分鐘</h4>
+      <p>2026 台灣部落客實測提到，機台操作不熟時容易卡住；另一篇 Dcard 旅客早上 8:30 左右就看到退稅機排隊。若你的收據很多，提早到機場是真的有價值。</p>
+      <div class="tw-source">
+       <a class="blog" href="https://jujucute88.pixnet.net/blog/posts/8234885213" target="_blank" rel="noopener">痞客邦｜2026 金海回程實測</a>
+       <a class="community" href="https://www.dcard.tw/f/travel/p/253687240" target="_blank" rel="noopener">Dcard｜退稅排隊分享</a>
+      </div>
+     </div>
+<div class="airport-box checklist">
+      <h3>☑️ 離境 Checklist</h3>
+      <label><input type="checkbox">護照／登機證</label><label><input type="checkbox">退稅商品是否需要海關查驗</label>
+      <label><input type="checkbox">行動電源／電子煙留在隨身行李</label><label><input type="checkbox">確認 Gate 與登機截止時間</label>
+      <label><input type="checkbox">最後採買／伴手禮已完成</label><label><input type="checkbox">回台灣需申報／檢疫物品已確認</label>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="transport">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>🚈 輕軌／地鐵</h3>
+      <p><b>機場站（Busan-Gimhae Light Rail）</b>是公共運輸主幹。</p>
+      <ul><li>往西面／海雲台方向：輕軌 → <b>沙上站</b>轉釜山地鐵 2 號線。</li><li>往 3 號線沿線：輕軌 → <b>大渚站</b>轉 3 號線。</li></ul>
+      <div class="airport-source"><span class="badge-official">官方</span> KAC 公共交通資訊。</div>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 2025 台灣部落客：機場巴士恢復後，拖行李比轉乘省力</h4>
+      <p>台灣部落客 Tina 在 2025 恢復營運後實搭／整理金海機場豪華巴士；但 2026 年 1 月路線又調整，因此本站以釜山市最新官方路線為主、部落客心得只拿來補「好不好用」。</p>
+      <div class="tw-source">
+       <a class="blog" href="https://tinachiang0824.pixnet.net/blog/posts/9578041960" target="_blank" rel="noopener">痞客邦｜Tina 機場巴士</a>
+       <a class="official" href="https://www.busan.go.kr/depart/khairportlm" target="_blank" rel="noopener">釜山市｜2026 最新路線</a>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>🚌 巴士</h3>
+      <p>KAC 列有市區巴士、座席巴士、村巴及機場巴士；路線可能調整，本站不把時刻寫死。</p>
+      <p>官方資料可見 307、1009、江西 11／13 等路線；另有西面／釜田方向機場巴士資訊。</p>
+      <div class="airport-actions"><a class="blue" href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?CONTENTS_NO=2&MENU_ID=110" target="_blank" rel="noopener">查即時官方交通</a></div>
+     </div>
+     <div class="airport-box">
+      <h3>🚕 計程車參考</h3>
+      <table class="airport-table">
+       <tr><th>目的地</th><th>官方估時</th><th>一般車資參考</th></tr>
+       <tr><td>西面</td><td>約 45 分</td><td>約 ₩18,000</td></tr><tr><td>南浦洞／札嘎其</td><td>約 60 分</td><td>約 ₩20,000</td></tr>
+       <tr><td>海雲台</td><td>約 70 分</td><td>約 ₩25,000</td></tr><tr><td>廣安里</td><td>約 70 分</td><td>約 ₩25,000</td></tr>
+      </table>
+      <div class="airport-note">實際時間／費用會受交通、夜間與跨區加價影響。</div>
+     </div>
+     <div class="airport-box">
+      <h3>🔁 航廈／停車場免費循環巴士</h3>
+      <p>KAC 公布：P3 長期／貨運停車場、國際線、國內線之間有免費循環接駁。</p>
+      <p><b>營運：</b>約 05:00～22:48，約每 12 分鐘一班（請以當日官方公告為準）。</p>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="food">
+    <div class="airport-grid">
+     
+     <div class="airport-box">
+      <h3>🇹🇼 免稅店「先算一下，不要看到免稅就衝」</h3>
+      <div class="tw-exp">
+       <h4>台灣旅客常見體感：現場品項少、美元標價，未必比市區／線上划算</h4>
+       <ul>
+        <li><b>看清標價：</b>台灣 2026 部落客 Rita 實際記錄，金海機場免稅商品以美元標示；她把剩餘韓元拿去 CU 消化，覺得 CU 雖略貴於市區，但比盲買免稅伴手禮實用。</li>
+        <li><b>線上免稅優先：</b>Dcard 台灣旅客多次分享，樂天／新羅／新世界先線上下單，機場只負責取貨通常更省時間，也較容易比價。</li>
+        <li><b>紅眼班機：</b>樂天官方目前寫 2F Gate 12–13 前取貨，標準時段 06:00–22:00，但櫃檯會配合「當日最後一班航班」營運，實際依航班調整；因此不是固定 24 小時。</li>
+       </ul>
+       <div class="tw-source">
+        <a class="blog" href="https://rita1001.blogspot.com/2026/04/2026seikoolive-younghbaf.html" target="_blank" rel="noopener">台灣部落格｜2026 USD／CU 實測</a>
+        <a class="community" href="https://www.dcard.tw/f/korea_travel/p/258546577" target="_blank" rel="noopener">Dcard｜2025 線上免稅取貨</a>
+        <a class="community" href="https://www.dcard.tw/f/korea_travel/p/257406719" target="_blank" rel="noopener">Dcard｜三大線上免稅店</a>
+        <a class="official" href="https://eng.lottedfs.com/" target="_blank" rel="noopener">樂天免稅官方</a>
+       </div>
+      </div>
+
+      <div class="inline-diagram">
+       <svg viewBox="0 0 920 210" role="img" aria-label="金海機場線上免稅提貨中文示意">
+        <rect x="8" y="8" width="904" height="194" rx="18" fill="#faf8f3" stroke="#c7c2b7"/>
+        <text x="26" y="40" font-size="22" font-weight="800">線上免稅提貨｜台灣旅客實戰版</text>
+        <rect x="28" y="70" width="150" height="70" rx="12" fill="#d9e8f0"/><text x="52" y="105" font-size="17" font-weight="700">安檢／出境完成</text>
+        <text x="87" y="130" font-size="13">進管制區</text>
+        <path d="M180 105 L260 105" stroke="#6d7780" stroke-width="4"/><polygon points="260,105 246,97 246,113" fill="#6d7780"/>
+        <rect x="275" y="70" width="150" height="70" rx="12" fill="#f3e0e8"/><text x="303" y="105" font-size="17" font-weight="700">往左側前進</text>
+        <text x="303" y="130" font-size="13">找 12–13 Gate</text>
+        <path d="M425 105 L505 105" stroke="#6d7780" stroke-width="4"/><polygon points="505,105 491,97 491,113" fill="#6d7780"/>
+        <rect x="520" y="70" width="170" height="70" rx="12" fill="#e6e0f3"/><text x="548" y="102" font-size="17" font-weight="700">免稅品引渡所</text>
+        <text x="540" y="128" font-size="13">樂天／新羅／新世界</text>
+        <path d="M690 105 L760 105" stroke="#6d7780" stroke-width="4"/><polygon points="760,105 746,97 746,113" fill="#6d7780"/>
+        <rect x="775" y="70" width="115" height="70" rx="12" fill="#dcebdd"/><text x="791" y="100" font-size="16" font-weight="700">刷護照／取號</text>
+        <text x="795" y="126" font-size="13">清點後領貨</text>
+        <text x="28" y="177" font-size="13" fill="#555">※ 2025 Dcard 實測：12–13A 一帶；官方樂天目前標示 2F Gate 12–13 前。現場 Gate 編號／動線仍以當日指示為準。</text>
+       </svg>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>🍜 機場美食怎麼選 <span class="badge-recent">2026近期整理</span></h3>
+      <div class="food-card"><div class="food-tag">想吃正餐</div><div class="food-info"><b>名家之庭／孝子牛骨湯／Food Court</b><br>偏韓式正餐、湯飯／拌飯／套餐類，適合最後一餐。</div></div>
+      <div class="food-card"><div class="food-tag">快速吃</div><div class="food-info"><b>Lotteria／Dunkin</b><br>趕時間或想帶著走比較方便。</div></div>
+      <div class="food-card"><div class="food-tag">咖啡麵包</div><div class="food-info"><b>EDIYA Coffee／ADELA 7／Yogerpresso</b><br>適合提早到機場後休息。</div></div>
+      <div class="airport-note">店家與營業時間變動速度比機場設施快；本站只當「候選清單」，請以當日 KAC 設施地圖／現場為準。</div>
+     </div>
+     <div class="airport-box">
+      <h3>🛍️ 免稅店 <span class="badge-official">官方</span></h3>
+      <p><b>出境 2F 管制區：</b>KAC 列有 <b>慶福宮免稅店</b>及<b>樂天免稅店</b>，以酒類、菸品、食品、香水、化妝品、飾品等為主。</p>
+      <p><b>入境 1F：</b>KAC 亦列有慶福宮入境免稅店。</p>
+      <div class="airport-actions"><a class="gold" href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=350" target="_blank" rel="noopener">KAC 機場實用設施／免稅資訊</a></div>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 CU：很適合花掉最後韓元，但不要期待像市區大型超商</h4>
+      <p>2026 台灣部落客回程實測：CU 人多、店面不大、品項不算多；另一位台灣旅客則覺得雖比市區 CU 稍貴，仍比機場美元定價商品更容易掌握價格。香蕉牛奶、飲料、小零食最實用。</p>
+      <div class="tw-source">
+       <a class="blog" href="https://jujucute88.pixnet.net/blog/posts/8234885213" target="_blank" rel="noopener">2026 回程實測</a>
+       <a class="blog" href="https://rita1001.blogspot.com/2026/04/2026seikoolive-younghbaf.html" target="_blank" rel="noopener">2026 花完韓元實測</a>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>🛋️ Lounge／休息</h3><p>國際線有航空公司／Sky Hub 等 Lounge；資格、營業時間與可否刷卡進入會變動，出發前查當日資訊。</p>
+      <p>若只是充電、上網，KAC 另有免費 Wi‑Fi 與多處充電點。</p>
+     </div>
+     <div class="airport-box">
+      <h3>💡 最後採買策略</h3><ul><li>市區買不到的伴手禮：先在市區完成，機場當補漏。</li><li>想買酒／菸／部分美妝：進管制區後再比免稅。</li><li>若有托運重量限制，先確認行李重量再採買。</li></ul>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="baggage">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>🧳 行李寄放／配送</h3><p><b>ZimCarry：</b>KAC 聯絡資訊列於<b>國際線 3F</b>，電話 <b>1544-8215</b>；提供行李相關服務。</p>
+      <p>近期旅遊整理亦將其列為寄放／配送服務。營業時間請當日確認。</p><div class="airport-source"><span class="badge-official">官方位置／電話</span> KAC 機場設施聯絡資訊。</div>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 行李寄放：把「位置／營業時間」當日再確認</h4>
+      <p>台灣旅客過往就常使用金海機場人工寄放；目前官方已列 ZimCarry 在國際線 3F。因服務商、價格、營業時間曾變更，本站不把舊文章價格寫死，只保留「3F ZimCarry＋官方電話」這個較穩定資訊。</p>
+      <div class="tw-source">
+       <a class="blog" href="https://tinachiang0824.pixnet.net/blog/posts/9576563664-%E9%87%9C%E5%B1%B1%7C%E9%87%91%E6%B5%B7%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD-%E5%9C%8B%E9%9A%9B%E7%B7%9A%E5%85%A5" target="_blank" rel="noopener">台灣部落格｜航廈設施</a>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>📦 託運前先確認</h3><ul><li>航空公司行李重量／件數。</li><li>退稅商品是否需要先給海關查驗。</li><li>行動電源、電子煙、一次性打火機不要放託運行李。</li><li>護照、現金、藥物、電子產品等重要物品盡量隨身。</li></ul>
+     </div>
+     <div class="airport-box">
+      <h3>🔎 遺失物</h3><p><b>KAC Lost & Found：</b>+82-51-974-3776</p><p><b>金海海關遺失物（國際線 1F）：</b>+82-51-899-7245</p>
+      <div class="airport-note">如果是在飛機上遺失，通常先找航空公司／地勤；在機場公共區域則找機場遺失物。</div>
+     </div>
+     <div class="airport-box"><h3>📮 其他</h3><p>KAC 聯絡資料列有<b>國際線 1F 郵務服務</b>，另有漫遊、旅遊資訊、銀行等服務。</p></div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="taxses">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>💰 退稅 <span class="badge-recent">2026近期實地整理</span></h3>
+      <p>近期 2026 機場指南整理：國際線 <b>2F Gate 4 附近</b>有 Tax Refund 自助機，旁邊有海關相關櫃台，另有退稅服務櫃台。</p>
+      <div class="airport-note airport-warn"><b>重點：</b>若商品可能需要海關實物查驗，先完成相關程序，再把商品放進託運行李。</div>
+      <p class="muted">退稅營業時間與機器／櫃台配置可能調整，請以當日機場指示為準。</p>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 SES 實戰：辦理本身可能很快，真正差別在入境排隊</h4>
+      <p>Dcard 金海實測有人約 1～3 分鐘完成；2026 首訪釜山旅客則分享，同行未辦 SES 的家人人工入境排了接近 1 小時。這是個案，不代表每班都如此，但很能說明 SES 的旅行價值。</p>
+      <div class="tw-source">
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/257436555" target="_blank" rel="noopener">金海機場 SES 申辦</a>
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/257259383" target="_blank" rel="noopener">金海 2F 位置實拍</a>
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/260524603" target="_blank" rel="noopener">2026 入境排隊心得</a>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>🛂 SES 自動通關 <span class="badge-official">法務部</span></h3>
+      <p>韓國 Smart Entry Service（SES）可在金海機場使用；是否需要事前註冊依旅客身分／年齡／互惠資格而定。</p>
+      <p><b>金海 SES 註冊中心：</b>國際線 2F 出國事務課，出境大廳西側（左側）末端、濟州航空櫃檯附近。</p>
+      <p><b>官方中心指南：</b>平日約 09:00～18:00；午休 12:00～13:00；電話 051-979-1300。出發前仍建議再確認。</p>
+      <div class="airport-actions"><a class="green" href="https://www.immigration.go.kr/immigration_eng/1859/subview.do" target="_blank" rel="noopener">SES 官方資格／使用方式</a><a class="blue" href="https://www.hikorea.go.kr/common/pdf/center3-1.pdf" target="_blank" rel="noopener">金海 SES 中心官方位置 PDF</a></div>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="security">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>🔐 手提行李／安檢</h3><p>KAC 列出的客艙禁帶類別包含：槍械／電擊器、尖銳物、工具、鈍器／運動用品、易燃物、國際線液體／噴霧／膠狀物及危險／有毒物質等。</p>
+      <p>液體與特殊物品規定可能依航線／物品不同，出發前用官方工具查最安全。</p>
+      <div class="airport-actions"><a class="blue" href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=940" target="_blank" rel="noopener">KAC 禁帶物官方頁</a><a class="blue" href="https://www.avsec365.or.kr/" target="_blank" rel="noopener">航空保安 365</a></div>
+     </div>
+     
+     <div class="tw-exp">
+      <h4>🇹🇼 行動電源：台灣旅客回報現場真的會看 Wh 標示</h4>
+      <p>近期 Dcard 釜山旅客分享，金海機場對行動電源 Wh 標示會仔細確認。最穩妥作法仍是：容量標示清楚、放隨身行李、依航空公司最新規則個別包裝／防短路。</p>
+      <div class="tw-source">
+       <a class="community" href="https://www.dcard.tw/f/travel/p/258722421" target="_blank" rel="noopener">Dcard｜2025 釜山自由行</a>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>🧳 託運行李禁忌</h3><p>KAC 明確列出下列物品不要放進託運：</p>
+      <ul><li><b>行動電源</b></li><li><b>一次性打火機</b></li><li><b>電子煙</b></li><li>爆裂物、煙火、火炬／火炬打火機、易燃氣體／液體、危險／有毒物質等</li></ul>
+      <div class="airport-note airport-warn">航空公司可能還有更嚴格限制；最終以航空公司＋航空保安規定為準。</div>
+     </div>
+     <div class="airport-box"><h3>📱 快速通關／Mobile Boarding</h3><p>KAC 有提供國際線快速報到／行動登機證流程說明，部分航空公司／航線可使用專用快速通道；是否適用請向航空公司確認。</p></div>
+     <div class="airport-box"><h3>⚠️ 搭機前最容易忘</h3><ul><li>行動電源不要託運。</li><li>退稅查驗商品不要太早託運。</li><li>安檢後還有出境審查，不要壓線。</li><li>登機口可能變更，最後再看一次 FIDS／登機證。</li></ul></div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="contacts">
+    <div class="airport-grid">
+     <div class="airport-box">
+      <h3>☎️ 常用聯絡</h3>
+      <div class="contact-list">
+       <div class="contact-item"><b>KAC 機場客服</b><br>1661-2626<br><span class="muted">06:00～23:00</span></div>
+       <div class="contact-item"><b>出入境（國際線）</b><br>入境 1F／出境 2F<br>官方電話以 KAC 最新頁為準</div>
+       <div class="contact-item"><b>金海海關</b><br>入境 1F／出境 2F</div>
+       <div class="contact-item"><b>機場警察</b><br>國際線 +82-51-974-2432</div>
+       <div class="contact-item"><b>ZimCarry</b><br>國際線 3F<br>1544-8215</div>
+       <div class="contact-item"><b>KAC Lost & Found</b><br>+82-51-974-3776</div>
+      </div>
+     </div>
+     
+     <div class="airport-box">
+      <h3>🇹🇼 台灣繁中實戰來源索引</h3>
+      <p>本站刻意把「官方規則」與「台灣旅客實際體感」分開：官方決定能不能做，社群回答好不好找、會不會排隊、值不值得買。</p>
+      <div class="tw-source">
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/258546577" target="_blank" rel="noopener">Dcard｜免稅提貨</a>
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/257406719" target="_blank" rel="noopener">Dcard｜三大線上免稅</a>
+       <a class="community" href="https://www.dcard.tw/f/korea_travel/p/257436555" target="_blank" rel="noopener">Dcard｜SES</a>
+       <a class="community" href="https://www.dcard.tw/f/travel/p/258722421" target="_blank" rel="noopener">Dcard｜退稅／機場心得</a>
+       <a class="blog" href="https://rita1001.blogspot.com/2026/04/2026seikoolive-younghbaf.html" target="_blank" rel="noopener">Rita｜2026 免稅／CU</a>
+       <a class="blog" href="https://jujucute88.pixnet.net/blog/posts/8234885213" target="_blank" rel="noopener">香香｜2026 回程</a>
+       <a class="blog" href="https://tinachiang0824.pixnet.net/blog/posts/9578041960" target="_blank" rel="noopener">Tina｜機場巴士</a>
+      </div>
+     </div>
+<div class="airport-box">
+      <h3>🔗 官方入口</h3>
+      <div class="airport-actions">
+       <a class="blue" href="https://www.airport.co.kr/gimhae/" target="_blank" rel="noopener">金海機場首頁／航班</a>
+       <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frFacCon/facilityMapList.do?MENU_ID=220&acd=A1102&listGbn=2" target="_blank" rel="noopener">機場設施地圖</a>
+       <a class="blue" href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?CONTENTS_NO=2&MENU_ID=110" target="_blank" rel="noopener">公共交通</a>
+       <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=310" target="_blank" rel="noopener">機場聯絡資訊</a>
+       <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=940" target="_blank" rel="noopener">禁帶物</a>
+       <a class="green" href="https://www.immigration.go.kr/immigration_eng/1859/subview.do" target="_blank" rel="noopener">SES</a>
+      </div>
+      <div class="airport-source">本站把官方連結集中在這裡；店家、交通班次、退稅櫃台等較容易變動的資訊，出發當日可以從這頁快速再確認。</div>
+     </div>
+    </div>
+   </section>
+
+   <section class="airport-pane" data-airpane="lodging">
+    <div class="airport-grid">
+     <div class="route-card route-best">
+      <h3>🏨 你的住宿｜H11 Marianne Hotel（마리안느호텔）</h3>
+      <p style="font-size:9.5px;line-height:1.6">地址：부산 해운대구 해운대해변로 310（HAR 座標 35.1614645, 129.1646476）</p>
+
+      <div class="inline-diagram">
+       <svg viewBox="0 0 940 230" role="img" aria-label="金海機場到Marianne Hotel交通示意">
+        <rect x="8" y="8" width="924" height="214" rx="18" fill="#faf8f3" stroke="#c7c2b7"/>
+        <text x="25" y="38" font-size="22" font-weight="800">最省搬行李：공항리무진1 → 海雲台海水浴場 → Marianne Hotel</text>
+        <rect x="25" y="70" width="175" height="78" rx="13" fill="#dcebdd"/><text x="48" y="102" font-size="18" font-weight="700">✈ 金海國際機場</text><text x="62" y="130" font-size="14">1F 購票／搭車</text>
+        <path d="M200 110 L325 110" stroke="#5f7280" stroke-width="5"/><polygon points="325,110 308,101 308,119" fill="#5f7280"/>
+        <rect x="340" y="70" width="190" height="78" rx="13" fill="#f3e3bf"/><text x="362" y="102" font-size="18" font-weight="700">🚌 공항리무진1</text><text x="370" y="130" font-size="14">成人 ₩9,500</text>
+        <path d="M530 110 L655 110" stroke="#5f7280" stroke-width="5"/><polygon points="655,110 638,101 638,119" fill="#5f7280"/>
+        <rect x="670" y="70" width="120" height="78" rx="13" fill="#d9e8f0"/><text x="684" y="101" font-size="15" font-weight="700">海雲台海水浴場</text><text x="700" y="128" font-size="14">09116</text>
+        <path d="M790 110 L840 110" stroke="#5f7280" stroke-width="5"/><polygon points="840,110 823,101 823,119" fill="#5f7280"/>
+        <rect x="850" y="70" width="70" height="78" rx="13" fill="#f0d9e2"/><text x="862" y="102" font-size="15" font-weight="700">H11</text><text x="854" y="128" font-size="12">Marianne</text>
+        <text x="25" y="188" font-size="13" fill="#555">2026 路線已把舊「海雲台海水浴場入口 09112」調整為「海雲台海水浴場 09116」。近期住客也回報機場巴士站就在飯店前方／附近。</text>
+       </svg>
+      </div>
+
+      <div class="route-method"><b>首選｜機場巴士</b><div><b>공항리무진1</b>（海雲台・機張線）→ 海雲台海水浴場（09116）下車 → 步行至飯店。成人 ₩9,500；可 Bustago 預約或機場 1F Gate 4 售票機；若有餘位可交通卡上車。每人最多 2 件、合計低於 30kg 的行李。</div></div>
+      <div class="route-method"><b>便宜｜307</b><div>金海機場 → 海雲台海水浴場，近期路線工具約 1 小時 40～50 分、約 ₩2,000 左右。優點便宜、缺點時間長且一般公車帶大行李不如機場巴士舒服。</div></div>
+      <div class="route-method"><b>穩定｜輕軌＋2號線</b><div>機場站搭 Busan-Gimhae Light Rail → 沙上站轉地鐵 2 號線 → 海雲台站，再步行至飯店。近期路線工具估約 58 分鐘（含轉乘）。</div></div>
+      <div class="route-method"><b>深夜／多人</b><div>計程車最省力；近期路線工具估約 24 分，約 ₩28,000～34,000，實際依路況／夜間加成。</div></div>
+      <div class="route-actions">
+       <button class="naver" onclick="openFixedNaverRoute('airport','hotel')">Naver｜機場 → Marianne</button>
+       <button class="naver" onclick="openFixedNaverRoute('hotel','airport')">Naver｜Marianne → 機場</button>
+       <a href="https://www.busan.go.kr/depart/khairportlm" target="_blank" rel="noopener">釜山市最新機場巴士</a>
+      </div>
+      <div class="tw-exp">
+       <h4>🇹🇼＋近期住客體感</h4>
+       <p>台灣部落客在豪華巴士恢復營運後認為，海雲台住宿拖大行李時不用一直轉車很方便；2026 Marianne 住客評論也直接寫「airport limousine just in front of the hotel」。</p>
+       <div class="tw-source">
+        <a class="blog" href="https://tinachiang0824.pixnet.net/blog/posts/9578041960" target="_blank" rel="noopener">台灣部落格｜機場巴士</a>
+        <a class="community" href="https://www.trip.com/hotels/busan-hotel-detail-1569516/haeundae-marianne-hotel/review.html" target="_blank" rel="noopener">2026 飯店住客評論</a>
+       </div>
+      </div>
+     </div>
+
+     <div class="route-card route-best">
+      <h3>🏠 黃老師's海景民宿｜HyoiStay the Gwangan</h3>
+      <p style="font-size:9.5px;line-height:1.6"><b>NAVER／住宿地址：</b>부산광역시 수영구 광남로94번길 16<br><b>座標：</b>35.1499463, 129.1153057<br><b>最近地鐵：</b>金蓮山站，住宿平台資料約 0.4 km／步行約 5～10 分鐘。</p>
+
+      <div class="inline-diagram">
+       <svg viewBox="0 0 980 255" role="img" aria-label="金海機場到黃老師海景民宿交通示意">
+        <rect x="8" y="8" width="964" height="239" rx="18" fill="#faf8f3" stroke="#c7c2b7"/>
+        <text x="25" y="40" font-size="22" font-weight="800">金海機場 → 黃老師's海景民宿｜兩種實用走法</text>
+        <text x="28" y="78" font-size="15" font-weight="800" fill="#7b5a1e">拖大行李：機場巴士 + 短程接駁</text>
+        <rect x="25" y="92" width="140" height="55" rx="11" fill="#dcebdd"/><text x="45" y="124" font-size="16" font-weight="700">✈ 金海機場</text>
+        <path d="M165 120 L255 120" stroke="#5f7280" stroke-width="4"/><polygon points="255,120 241,112 241,128" fill="#5f7280"/>
+        <rect x="270" y="92" width="165" height="55" rx="11" fill="#f3e3bf"/><text x="291" y="116" font-size="16" font-weight="700">🚌 공항리무진1</text><text x="315" y="138" font-size="12">₩9,500</text>
+        <path d="M435 120 L530 120" stroke="#5f7280" stroke-width="4"/><polygon points="530,120 516,112 516,128" fill="#5f7280"/>
+        <rect x="545" y="92" width="190" height="55" rx="11" fill="#d9e8f0"/><text x="568" y="115" font-size="14" font-weight="700">더비치푸르지오써밋</text><text x="595" y="137" font-size="12">南川洞附近站</text>
+        <path d="M735 120 L815 120" stroke="#5f7280" stroke-width="4"/><polygon points="815,120 801,112 801,128" fill="#5f7280"/>
+        <rect x="830" y="92" width="120" height="55" rx="11" fill="#f0d9e2"/><text x="843" y="116" font-size="14" font-weight="700">🚕／步行接駁</text><text x="848" y="138" font-size="12">→ 民宿</text>
+        <text x="28" y="181" font-size="15" font-weight="800" fill="#356987">穩定省錢：輕軌 + 地鐵 2 號線</text>
+        <text x="28" y="210" font-size="14">機場站 → Busan-Gimhae Light Rail → 沙上站 → 轉 Line 2 → 金蓮山站 → 步行約 0.4 km → 民宿</text>
+        <text x="28" y="234" font-size="12" fill="#666">※ 公항리무진1 沒有停在民宿門口；官方路線在南川一帶停「더비치푸르지오써밋」，再接短程計程車最省搬行李。</text>
+       </svg>
+      </div>
+
+      <div class="route-method"><b>行李多</b><div>國際線 1F 搭 <b>공항리무진1</b>（海雲台・機張線）→ <b>더비치푸르지오써밋</b> 下車，再用 Naver Map 叫短程計程車前往民宿。官方 2026 路線確認此站為機場往海雲台方向的前段停靠站。</div></div>
+      <div class="route-method"><b>省錢穩定</b><div>機場站搭輕軌 → <b>沙上站</b> → 轉地鐵 2 號線 → <b>金蓮山站</b> → 步行約 0.4 km。這條不受機場巴士班距影響，而且民宿離金蓮山站很近。</div></div>
+      <div class="route-method"><b>回機場</b><div>若搭機場巴士，先從民宿前往 <b>상수도남부사업소／더비치푸르지오써밋</b> 一帶的「往金海機場」站；若怕找站，直接金蓮山站 → Line 2 → 沙上 → 輕軌回機場最不容易走錯。</div></div>
+      <div class="route-actions">
+       <button class="naver" onclick="openFixedNaverRoute('airport','friend')">Naver｜機場 → 黃老師民宿</button>
+       <button class="naver" onclick="openFixedNaverRoute('friend','airport')">Naver｜黃老師民宿 → 機場</button>
+       <a class="purple" href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%88%98%EC%98%81%EA%B5%AC%20%EA%B4%91%EB%82%A8%EB%A1%9C94%EB%B2%88%EA%B8%B8%2016?c=19.00,0,0,0,dh" target="_blank" rel="noopener">Naver｜住宿地址</a>
+       <a href="https://www.busan.go.kr/depart/khairportlm" target="_blank" rel="noopener">2026 機場巴士官方</a>
+      </div>
+      <div class="small-status">已正式寫入景點清單：<b>G14｜黃老師's海景民宿</b>（住宿類別）。</div>
+     </div>
+
+     <div class="route-card route-alt">
+      <h3>🚌 2026 機場巴士重點</h3>
+      <div class="route-method"><b>海雲台線</b><div>공항리무진1｜成人 ₩9,500。2026-01-05 起依需求重新分流「機張／萇山」班次；機場端最晚班會依分支不同，請當日用 Naver／Kakao 搜 <b>공항리무진1</b>。</div></div>
+      <div class="route-method"><b>購票</b><div>Bustago App QR；或金海機場 1F Gate 4 現場售票機；餘位可交通卡。<b>不收現金</b>。</div></div>
+      <div class="route-method"><b>行李</b><div>每人最多 2 件、合計低於 30kg；大件行李放車底行李艙。</div></div>
+      <div class="route-method"><b>海雲台站點</b><div>2026 改線後，舊 09112 已調整到 <b>海雲台海水浴場 09116</b>，避免照到舊部落格站牌。</div></div>
+     </div>
+
+     <div class="route-card">
+      <h3>🖼️ 景點預覽圖：GitHub 版會怎麼放</h3>
+      <div class="photo-plan">
+       每個景點資料已有 NAVER Place ID（<code>sid</code>），HTML 會依序讀：
+       <br><code>images/&lt;sid&gt;/01.webp</code>
+       <br><code>images/&lt;sid&gt;/02.webp</code>
+       <br><br>圖片採 <b>lazy-load</b>：只有你點開景點時才載入，不會一開網站就把 160 張全下載。
+       <br>目前 HAR <b>沒有 Place 圖片 URL</b>，所以這版仍保留「預覽圖待同步」。正式 GitHub 圖片同步器會另外產生／快取圖片，不把 Base64 塞進 index.html。
+      </div>
+     </div>
+    </div>
+   </section>
+  </div>
+ </div>
+</div>
+
+<div class="itinerary-modal" id="itineraryModal">
+ <div class="itinerary-card">
+  <div class="itinerary-head">
+   <strong>📅 我的行程</strong>
+   <span id="itinerarySummary" style="font-size:10px;color:#cfe8d6"></span>
+   <button id="setTodayBtn">設定今天</button>
+   <button class="close-itin" id="closeItinerary">關閉</button>
+  </div>
+  <div class="itinerary-main">
+   <div class="day-list" id="dayList"></div>
+   <div class="day-content">
+    <div class="day-tools">
+     <strong id="dayTitle">Day 1</strong>
+     <button class="add" id="addItinPlace">＋ 新增景點</button>
+     <button class="mapday" id="showDayMap">🗺️ 查看 Day 地圖</button>
+     <button class="today" id="makeToday">設為今天</button>
+     <button id="sortByTime">依時間排序</button>
+    </div>
+    <div class="itinerary-items" id="itineraryItems"></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="itin-editor" id="itinEditor">
+ <div class="editor-card">
+  <h3 id="editorTitle">新增景點</h3>
+  <label>景點</label>
+  <select id="editorPlace"></select>
+  <label>預計時間（可空白）</label>
+  <input id="editorTime" type="time">
+  <label>一般備註</label>
+  <textarea id="editorNote" placeholder="例如：要買奶油派六入、記得點某道菜、幫朋友帶伴手禮…"></textarea>
+  <label>交通備註</label>
+  <textarea id="editorTransport" placeholder="例如：搭地鐵 2 號線、轉 1003 公車、步行 8 分鐘…"></textarea>
+  <div class="editor-actions">
+   <button id="editorCancel">取消</button>
+   <button id="editorSave" style="background:#263238;color:white">儲存</button>
+  </div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-image@0.4.0/leaflet-image.js"></script>
+<script src="app-config.js"></script>
+<script>
+(async()=>{
+async function loadTravelJSON(path){
+ const res=await fetch(path,{cache:"no-store"});
+ if(!res.ok)throw new Error(`${path} HTTP ${res.status}`);
+ return await res.json();
+}
+let CITY,BASE_RECORDS;
+try{
+ [CITY,BASE_RECORDS]=await Promise.all([loadTravelJSON("data/city.json"),loadTravelJSON("data/poi-data.json")]);
+}catch(e){
+ console.error(e);
+ document.body.innerHTML=`<div style="padding:30px;font-family:sans-serif"><h2>旅遊資料包載入失敗</h2><p>${String(e?.message||e)}</p><p>請確認 GitHub 根目錄存在 <code>data/city.json</code> 與 <code>data/poi-data.json</code>，並透過 GitHub Pages / HTTP 開啟，不要直接雙擊 index.html。</p></div>`;
+ return;
+}
+let VIEWS=Object.fromEntries((CITY.views||[]).map(v=>[String(v.key),{...v,count:0}]));
+const AIRPORT=CITY.airport||{enabled:false,lat:0,lon:0,name:"機場",shortName:"機場"};
+const DAY_COUNT=Number(CITY.dayCount||14);
+const STORE_KEY=String(CITY.storageKey||`travelmap_${CITY.id||"city"}_trip_state_v4`);
+const APPNAME=String(CITY.appName||`travel-map.${CITY.id||"city"}`);
+const LEGACY_STORE_KEYS=Array.isArray(CITY.legacyStoreKeys)?CITY.legacyStoreKeys:[];
+const IDB_NAME="travel-map-local-v1",IDB_STORE="tripStates";
+
+function emptySaved(){return {poi:{},ui:{},itinerary:{},customPlaces:[]}}
+function normalizeSaved(o){o=o&&typeof o==="object"?o:{};return {poi:o.poi||{},ui:o.ui||{},itinerary:o.itinerary||{},customPlaces:Array.isArray(o.customPlaces)?o.customPlaces:[]}}
+function openLocalDB(){return new Promise((resolve,reject)=>{try{const req=indexedDB.open(IDB_NAME,1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)}catch(e){reject(e)}})}
+let localDB=null;try{localDB=await openLocalDB()}catch(e){console.warn("IndexedDB unavailable, using localStorage fallback",e)}
+function idbGet(key){return new Promise(resolve=>{if(!localDB)return resolve(null);try{const tx=localDB.transaction(IDB_STORE,"readonly"),r=tx.objectStore(IDB_STORE).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>resolve(null)}catch(e){resolve(null)}})}
+function idbSet(key,value){return new Promise(resolve=>{if(!localDB)return resolve(false);try{const tx=localDB.transaction(IDB_STORE,"readwrite");tx.objectStore(IDB_STORE).put(value,key);tx.oncomplete=()=>resolve(true);tx.onerror=()=>resolve(false)}catch(e){resolve(false)}})}
+async function loadSaved(){
+ const fromDb=await idbGet(STORE_KEY);if(fromDb)return normalizeSaved(fromDb);
+ const keys=[STORE_KEY,...LEGACY_STORE_KEYS];
+ for(const k of keys){try{const raw=localStorage.getItem(k);if(raw){const o=normalizeSaved(JSON.parse(raw));await idbSet(STORE_KEY,o);return o}}catch(e){}}
+ return emptySaved();
+}
+let saved=await loadSaved();
+let ALL_RECORDS=[],byId={};
+function rebuildRecords(){
+ const seen=new Set(BASE_RECORDS.map(p=>p.id));
+ const custom=(saved.customPlaces||[]).filter(p=>p&&p.id&&!seen.has(p.id)&&seen.add(p.id));
+ ALL_RECORDS=[...BASE_RECORDS,...custom];
+ byId=Object.fromEntries(ALL_RECORDS.map(p=>[p.id,p]));
+ for(const v of Object.values(VIEWS))v.count=v.all?ALL_RECORDS.length:ALL_RECORDS.filter(p=>(v.codes||[]).includes(p.code)).length;
+}
+rebuildRecords();
+let state={
+ view:saved.ui?.view||"1",
+ categories:new Set(),
+ search:"",
+ urlOnly:false,
+ statusFilter:"",
+ dayFilter:"",
+ radius:"",
+ sort:"default",
+ layer:"hot",
+ filtered:[...ALL_RECORDS],
+ visibleLabels:0,
+ loadedHot:false,
+ loadedStd:false,
+ currentLocation:null,
+ travelMode:!!saved.ui?.travelMode,
+ sideOpen:saved.ui?.sideOpen??false
+};
+
+function persist(){
+ saved.ui={...(saved.ui||{}),view:state.view,travelMode:state.travelMode,sideOpen:state.sideOpen};
+ const snapshot=normalizeSaved(JSON.parse(JSON.stringify(saved)));
+ try{localStorage.setItem(STORE_KEY,JSON.stringify(snapshot))}catch(e){}
+ idbSet(STORE_KEY,snapshot);
+}
+function poiState(id){return saved.poi[id]||{status:"",day:""}}
+function setPoiState(id,patch){
+ saved.poi[id]={...poiState(id),...patch};
+ if(!saved.poi[id].status && !saved.poi[id].day)delete saved.poi[id];
+ persist();applyFilters(false);if(document.getElementById("info").style.display==="block")showInfo(id)
+}
+
+const overlay=document.getElementById("overlay");
+const status=document.getElementById("status");
+const mapTitle=document.getElementById("mapTitle");
+const resultCount=document.getElementById("resultCount");
+const results=document.getElementById("results");
+const mobileResults=document.getElementById("mobileResults");
+const viewSelect=document.getElementById("viewSelect");
+function dayFilterOptions(){return `<option value="">全部行程日</option><option value="unassigned">未排行程</option>`+Array.from({length:DAY_COUNT},(_,i)=>`<option value="${i+1}">Day ${i+1}</option>`).join("")}
+function itineraryDayOptions(){return Array.from({length:DAY_COUNT},(_,i)=>`<option value="${i+1}">Day ${i+1}</option>`).join("")}
+function renderCategoryChips(){
+ const counts={};for(const p of ALL_RECORDS)counts[p.category]=(counts[p.category]||0)+1;
+ const html=Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).map(([cat,n])=>`<label class="check-chip"><input type="checkbox" class="cat-check" value="${escapeAttr(cat)}" ${state.categories.has(cat)?"checked":""}><span>${escapeHTML(cat)} <small>${n}</small></span></label>`).join("");
+ document.getElementById("categoryChipsDesktop").innerHTML=html;document.getElementById("categoryChipsMobile").innerHTML=html;
+}
+function refreshViewSelect(){
+ rebuildRecords();
+ viewSelect.innerHTML=Object.values(VIEWS).sort((a,b)=>Number(a.key)-Number(b.key)).map(v=>`<option value="${escapeAttr(v.key)}">${escapeHTML(v.label)}（${v.count}）</option>`).join("");
+ if(!VIEWS[state.view])state.view=Object.keys(VIEWS)[0]||"1";viewSelect.value=state.view;
+}
+function applyCityShell(){
+ document.title=`${CITY.displayTitle||CITY.name||"旅遊地圖"} Beta ${CITY.version||"2.8"}｜${CITY.subtitle||"Local First"}`;
+ document.getElementById("brandTitle").textContent=`${CITY.displayTitle||CITY.name||"旅遊地圖"} Beta ${CITY.version||"2.8"}`;
+ document.getElementById("airportBtn").textContent=`✈ ${AIRPORT.shortName||AIRPORT.name||"機場"}`;
+ if(AIRPORT.enabled===false)document.getElementById("airportBtn").style.display="none";
+ document.getElementById("dayFilter").innerHTML=dayFilterOptions();document.getElementById("mobileDayFilter").innerHTML=dayFilterOptions();
+ renderCategoryChips();refreshViewSelect();
+}
+applyCityShell();
+viewSelect.value=state.view;
+
+const map=L.map("map",{zoomControl:true,preferCanvas:true,zoomSnap:.25,zoomDelta:.5}).setView(CITY.map?.center||[35.1671,129.1189],Number(CITY.map?.zoom||12));
+const hot=L.tileLayer("https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png",{subdomains:["a","b","c"],maxZoom:20,crossOrigin:true,attribution:'© OpenStreetMap contributors · HOT style / OSM France'});
+const standard=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,crossOrigin:true,attribution:'© OpenStreetMap contributors'});
+hot.on("tileload",()=>{state.loadedHot=true;updateStatus()});
+standard.on("tileload",()=>{state.loadedStd=true;updateStatus()});
+hot.addTo(map);
+document.body.classList.toggle("side-closed",!state.sideOpen);
+
+const airportIcon=L.divIcon({className:"",html:'<div style="font-size:23px;filter:drop-shadow(0 1px 1px #fff)">✈️</div>',iconSize:[28,28],iconAnchor:[14,14]});
+const airportMarker=AIRPORT.enabled===false?null:L.marker([AIRPORT.lat,AIRPORT.lon],{icon:airportIcon,zIndexOffset:1500}).addTo(map).bindTooltip(`${AIRPORT.name||"機場"}｜點我查看機場攻略`,{direction:"top",offset:[0,-10]});
+let myMarker=null;
+
+const density=Object.fromEntries((CITY.regions||[]).map((r,i)=>[r.code,Number(r.density??i)]));
+const prefs=Object.fromEntries((CITY.regions||[]).map(r=>[r.code,r.labelAngles||[0,45,-45,90,-90,180]]));
+
+function svgEl(tag,attrs={},text=""){const e=document.createElementNS("http://www.w3.org/2000/svg",tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text)e.textContent=text;return e}
+function overlap(a,b,m=0){return !(a.x2+m<b.x1||a.x1-m>b.x2||a.y2+m<b.y1||a.y1-m>b.y2)}
+function dims(id){return {w:Math.max(40,16+id.length*9.4),h:23}}
+function escapeHTML(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function escapeAttr(s){return escapeHTML(s)}
+function norm(s){return String(s||"").toLocaleLowerCase()}
+function haversine(lat1,lon1,lat2,lon2){
+ const R=6371,rad=Math.PI/180,dLat=(lat2-lat1)*rad,dLon=(lon2-lon1)*rad;
+ const a=Math.sin(dLat/2)**2+Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
+ return 2*R*Math.asin(Math.sqrt(a));
+}
+function fmtDist(km){return km<1?Math.round(km*1000)+" m":km.toFixed(km<10?1:0)+" km"}
+function statusGlyph(s){return s==="visited"?"✓":s==="wish"?"★":s==="skip"?"×":""}
+function statusLabel(s){return s==="visited"?"已去":s==="wish"?"想去":s==="skip"?"暫時不去":"未設定"}
+function dayLabel(d){return d?`Day ${d}`:"未排"}
+function selectedViewCodes(){const v=VIEWS[state.view]||{};return new Set(v.all?ALL_RECORDS.map(p=>p.code):(v.codes||[]))}
+
+function urlMeta(url){
+ if(!url)return {icon:"",label:"",host:""};
+ let host="";
+ try{host=new URL(url).hostname.replace(/^www\./,"")}catch(e){return {icon:"🔗",label:"收藏連結",host:""}}
+ const h=host.toLowerCase();
+ if(h.includes("instagram.com"))return {icon:"📸",label:"Instagram",host};
+ if(h.includes("threads.net")||h.includes("threads.com"))return {icon:"🧵",label:"Threads",host};
+ if(h.includes("youtube.com")||h.includes("youtu.be"))return {icon:"▶️",label:"YouTube",host};
+ if(h.includes("facebook.com")||h.includes("fb.com"))return {icon:"📘",label:"Facebook",host};
+ if(h.includes("blog.naver.com"))return {icon:"🟢",label:"Naver Blog",host};
+ if(h.includes("naver.com"))return {icon:"🟢",label:"Naver",host};
+ if(h.includes("pixnet.net"))return {icon:"📝",label:"痞客邦",host};
+ return {icon:"🌐",label:"網頁",host};
+}
+
+function computeFiltered(){
+ const codes=selectedViewCodes(),q=norm(state.search).trim();
+ let arr=ALL_RECORDS.filter(p=>{
+   if(!codes.has(p.code))return false;
+   if(state.categories.size&&!state.categories.has(p.category))return false;
+   if(state.urlOnly&&!p.url)return false;
+   const ps=poiState(p.id);
+   if(state.statusFilter){
+     if(state.statusFilter==="unset" && ps.status)return false;
+     if(state.statusFilter!=="unset" && ps.status!==state.statusFilter)return false;
+   }
+   if(state.dayFilter){
+     if(state.dayFilter==="unassigned" && ps.day)return false;
+     if(state.dayFilter!=="unassigned" && String(ps.day)!==String(state.dayFilter))return false;
+   }
+   if(q){
+     const hay=norm([p.id,p.display,p.name,p.category,p.address,p.memo,p.url,p.region].join(" "));
+     if(!hay.includes(q))return false;
+   }
+   if(state.radius){
+     if(!state.currentLocation)return false;
+     const d=haversine(state.currentLocation.lat,state.currentLocation.lon,p.lat,p.lon);
+     if(d>Number(state.radius))return false;
+   }
+   return true;
+ });
+ if(state.sort==="distance"&&state.currentLocation){
+   arr.sort((a,b)=>haversine(state.currentLocation.lat,state.currentLocation.lon,a.lat,a.lon)-haversine(state.currentLocation.lat,state.currentLocation.lon,b.lat,b.lon));
+ }else if(state.sort==="id"){arr.sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}))}
+ state.filtered=arr;return arr;
+}
+
+function getBounds(points,includeAirport=false){
+ const ll=points.map(p=>[p.lat,p.lon]);if(includeAirport)ll.push([AIRPORT.lat,AIRPORT.lon]);return ll.length?L.latLngBounds(ll):null
+}
+function fitToPoints(points,opts={}){
+ if(!points.length)return;
+ const b=getBounds(points,opts.includeAirport||false);if(!b)return;
+ map.fitBounds(b,{padding:[38,38],animate:false,maxZoom:opts.maxZoom||16});
+}
+function applyView(shouldFit=true){
+ computeFiltered();const v=VIEWS[state.view];
+ if(shouldFit){const base=v.all?ALL_RECORDS:ALL_RECORDS.filter(p=>(v.codes||[]).includes(p.code));fitToPoints(base,{includeAirport:!!v.includeAirport,maxZoom:15})}
+ mapTitle.innerHTML=`${v.label}<small>${state.filtered.length} 個符合條件／區域共 ${v.count} 個</small>`;
+ renderResults();renderOverlay();updateStatus();persist()
+}
+function applyFilters(shouldFit=false){
+ computeFiltered();const v=VIEWS[state.view];
+ mapTitle.innerHTML=`${v.label}<small>${state.filtered.length} 個符合條件／區域共 ${v.count} 個</small>`;
+ renderResults();renderOverlay();if(shouldFit&&state.filtered.length)fitToPoints(state.filtered,{maxZoom:16});updateStatus()
+}
+
+function renderResults(){
+ const html=state.filtered.map(p=>{
+   const ps=poiState(p.id),u=urlMeta(p.url);
+   const d=state.currentLocation?haversine(state.currentLocation.lat,state.currentLocation.lon,p.lat,p.lon):null;
+   const tags=[statusGlyph(ps.status),ps.day?`D${ps.day}`:"",p.url?u.icon:""].filter(Boolean).join(" ");
+   return `<button class="result-item" data-id="${p.id}">
+    <div class="result-id" style="color:${p.color}">${p.id}</div>
+    <div><div class="result-name">${escapeHTML(p.display)}</div>
+      <div class="result-meta">${escapeHTML(p.category)}｜${escapeHTML(p.region)}${d!==null?`｜<span class="dist">${fmtDist(d)}</span>`:""}</div></div>
+    <div class="result-tags">${tags}</div>
+   </button>`;
+ }).join("");
+ const empty='<div style="padding:20px;text-align:center;color:#777;font-size:11px">目前沒有符合條件的收藏點</div>';
+ results.innerHTML=html||empty;mobileResults.innerHTML=html||empty;
+ resultCount.textContent=`${state.filtered.length} 個結果｜區域 ${VIEWS[state.view].count}｜全部 ${ALL_RECORDS.length}`;
+ document.getElementById("mobileResultTitle").textContent=`景點結果｜${state.filtered.length} 個`;
+ document.querySelectorAll(".result-item").forEach(btn=>btn.onclick=()=>{
+   const p=byId[btn.dataset.id];map.setView([p.lat,p.lon],Math.max(map.getZoom(),15));showInfo(p.id);closeSheets()
+ });
+}
+
+function nearbyHTML(p){
+ let arr=ALL_RECORDS.filter(x=>x.id!==p.id).map(x=>({...x,_d:haversine(p.lat,p.lon,x.lat,x.lon)})).sort((a,b)=>a._d-b._d);
+ let near=arr.filter(x=>x._d<=1).slice(0,6),title="1 km 內";
+ if(near.length<3){near=arr.filter(x=>x._d<=3).slice(0,6);title="附近 3 km 內"}
+ if(!near.length)return "";
+ return `<h4>🚶 附近順遊｜${title}</h4>`+near.map(x=>`<button class="nearby-item" onclick="focusAndInfo('${x.id}')"><b>${x.id}</b> ${escapeHTML(x.display)}｜${escapeHTML(x.category)}｜<b>${fmtDist(x._d)}</b></button>`).join("");
+}
+window.focusAndInfo=function(id){const p=byId[id];if(!p)return;map.setView([p.lat,p.lon],Math.max(map.getZoom(),15));showInfo(id)};
+
+function renderStatePanel(p){
+ const ps=poiState(p.id);
+ document.getElementById("statePanel").innerHTML=`
+  <div style="font-size:11px;font-weight:900;margin-bottom:5px">旅行狀態</div>
+  <div class="state-buttons">
+   <button class="state-btn ${ps.status==="wish"?"active":""}" onclick="setStatus('${p.id}','wish')">★ 想去</button>
+   <button class="state-btn ${ps.status==="visited"?"active":""}" onclick="setStatus('${p.id}','visited')">✓ 已去</button>
+   <button class="state-btn ${ps.status==="skip"?"active":""}" onclick="setStatus('${p.id}','skip')">× 暫時不去</button>
+   <button class="state-btn ${!ps.status?"active":""}" onclick="setStatus('${p.id}','')">清除</button>
+  </div>
+  <div class="day-line"><b style="font-size:10px">行程：</b>
+    <select onchange="setDay('${p.id}',this.value)"><option value="">未排行程</option>${itineraryDayOptions()}</select>
+  </div>`;
+ const sel=document.querySelector("#statePanel select");if(sel)sel.value=ps.day||"";
+}
+window.setStatus=(id,s)=>setPoiState(id,{status:s});
+// Day assignment is synchronized with the full itinerary below.
+window.setDay=(id,d)=>assignPoiToDay(id,d);
+
+
+function previewGalleryHTML(p){
+ return `<div class="gphoto-shell" id="gphoto_${p.id}">
+   <div class="gphoto-loading">📷 正在準備實景照片…</div>
+  </div>`;
+}
+
+function showInfo(id){
+ const p=byId[id];if(!p)return;
+ const ps=poiState(id),u=urlMeta(p.url);
+ const dist=state.currentLocation?haversine(state.currentLocation.lat,state.currentLocation.lon,p.lat,p.lon):null;
+ document.getElementById("infoTitle").textContent=p.id+"｜"+p.display;
+ let body=previewGalleryHTML(p)+`<p><b>區域：</b>${p.region}</p><p><b>分類：</b>${p.category}</p>
+  <p><b>NAVER 名稱：</b>${escapeHTML(p.name)}</p><p><b>地址：</b>${escapeHTML(p.address)}</p>
+  <p><b>座標：</b>${Number(p.lat).toFixed(7)}, ${Number(p.lon).toFixed(7)}</p>
+  <p><b>目前狀態：</b>${statusLabel(ps.status)}｜${dayLabel(ps.day)}</p>`;
+ if(dist!==null)body+=`<p><b>距離我的位置：</b>${fmtDist(dist)}</p>`;
+ if(p.memo)body+=`<p><b>我的備註：</b>${escapeHTML(p.memo)}</p>`;
+ if(p.url)body+=`<p><b>參考資料：</b>${u.icon} ${u.label}${u.host?`（${escapeHTML(u.host)}）`:""}</p><p class="url-note">${escapeHTML(p.url)}</p>`;
+ body+=`<p><b>Naver 導航起點：</b>目前位置</p>`;
+ document.getElementById("infoBody").innerHTML=body;
+ renderStatePanel(p);
+
+ let actions=`<button class="link-btn naver" onclick="openNaverNavigation('${p.id}')">🧭 點我，用Naver Map帶你去！</button>
+ <button class="link-btn" style="background:#74579c" onclick="quickAddToItinerary('${p.id}')">📅 加入我的行程</button>
+ <button class="link-btn secondary" onclick="openNaverView('${p.id}')">🗺️ 在 Naver Map 查看</button>
+ <button class="link-btn copy" onclick="copyText(byId['${p.id}'].name,'已複製韓文店名')">🇰🇷 複製韓文店名</button>
+ <button class="link-btn copy" onclick="copyText(byId['${p.id}'].address,'已複製韓文地址')">📋 複製地址</button>`;
+ if(p.url)actions+=`<a class="link-btn" href="${escapeAttr(p.url)}" target="_blank" rel="noopener">${u.icon} 開啟 ${u.label}</a>`;
+ actions+=`<button class="link-btn secondary" onclick="focusPlace('${p.id}')">📍 放大此景點</button>`;
+ document.getElementById("infoActions").innerHTML=actions;
+ document.getElementById("nearbyBox").innerHTML=nearbyHTML(p);
+ document.getElementById("info").style.display="block";
+ setTimeout(()=>loadGooglePlacePhotos(p),0);
+}
+
+function closePoiInfo(){document.getElementById("info").style.display="none"}
+document.getElementById("closeInfo").onclick=closePoiInfo;
+map.on("click",()=>closePoiInfo());
+
+window.focusPlace=id=>{const p=byId[id];if(!p)return;map.setView([p.lat,p.lon],Math.max(map.getZoom(),15));setTimeout(renderOverlay,100)};
+
+window.copyText=async function(text,msg){
+ if(!text){toast("這個景點沒有可複製的文字");return}
+ try{await navigator.clipboard.writeText(text);toast(msg)}catch(e){
+   const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();
+   try{document.execCommand("copy");toast(msg)}catch(_){toast("複製失敗，請長按文字複製")}
+   ta.remove()
+ }
+};
+
+window.openNaverNavigation=function(id){
+ const p=byId[id];if(!p)return;
+ const dname=encodeURIComponent(p.name||p.display||p.id),appname=encodeURIComponent(APPNAME);
+ const query=`navigation?dlat=${p.lat}&dlng=${p.lon}&dname=${dname}&appname=${appname}`;
+ const ua=navigator.userAgent||"",isAndroid=/Android/i.test(ua),isIOS=/iPhone|iPad|iPod/i.test(ua);
+ if(isAndroid){window.location.href=`intent://${query}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;return}
+ if(isIOS){
+   const started=Date.now();window.location.href=`nmap://${query}`;
+   setTimeout(()=>{if(Date.now()-started<2200)window.location.href="https://apps.apple.com/app/id311867728"},1500);return
+ }
+ window.open(`https://map.naver.com/p/search/${encodeURIComponent(p.name||p.display||p.id)}`,"_blank","noopener")
+};
+window.openNaverView=function(id){
+ const p=byId[id];if(!p)return;
+ window.open(`https://map.naver.com/p/search/${encodeURIComponent(p.name||p.display||p.id)}`,"_blank","noopener")
+};
+
+function renderOverlay(){
+ const rect=document.getElementById("viewer").getBoundingClientRect(),w=rect.width,h=rect.height;if(!w||!h)return;
+ overlay.setAttribute("viewBox",`0 0 ${w} ${h}`);overlay.replaceChildren();
+ const visible=state.filtered.map(p=>{const q=map.latLngToContainerPoint([p.lat,p.lon]);return {...p,sx:q.x,sy:q.y}}).filter(p=>p.sx>-30&&p.sx<w+30&&p.sy>-30&&p.sy<h+30);
+ visible.sort((a,b)=>(density[a.code]??99)-(density[b.code]??99)||a.sy-b.sy||a.sx-b.sx);
+ const boxes=[],placed=[],mobile=innerWidth<=900,radii=mobile?[24,34,46,60,76,96,120,148,180]:[22,31,41,53,67,83,102,126,152,184,220];
+ for(const p of visible){
+   const d=dims(p.id),angles=prefs[p.code]||[0,90,180,270];let chosen=null;
+   for(const rad of radii){for(const ang of angles){
+     const a=ang*Math.PI/180,cx=p.sx+rad*Math.cos(a),cy=p.sy+rad*Math.sin(a),b={x1:cx-d.w/2,y1:cy-d.h/2,x2:cx+d.w/2,y2:cy+d.h/2,cx,cy};
+     if(b.x1<3||b.y1<3||b.x2>w-3||b.y2>h-3||boxes.some(q=>overlap(b,q,3.4)))continue;chosen=b;break
+   }if(chosen)break}
+   if(chosen){boxes.push(chosen);placed.push({p,b:chosen})}
+ }
+ state.visibleLabels=placed.length;
+ for(const p of visible){
+   const ps=poiState(p.id),g=svgEl("g",{class:"dot","data-id":p.id});
+   const opacity=ps.status==="visited"?.55:ps.status==="skip"?.35:1;
+   g.setAttribute("opacity",opacity);
+   g.append(svgEl("circle",{cx:p.sx,cy:p.sy,r:6,fill:"#fff"}));g.append(svgEl("circle",{cx:p.sx,cy:p.sy,r:4.1,fill:p.color}));
+   const glyph=statusGlyph(ps.status);
+   if(glyph)g.append(svgEl("text",{x:p.sx+7,y:p.sy-7,"font-size":9,"font-weight":900,fill:"#263238",stroke:"#fff","stroke-width":2,"paint-order":"stroke"},glyph));
+   g.addEventListener("click",e=>{e.stopPropagation();showInfo(p.id)});overlay.append(g)
+ }
+ for(const item of placed){
+   const p=item.p,b=item.b,ex=Math.max(b.x1,Math.min(p.sx,b.x2)),ey=Math.max(b.y1,Math.min(p.sy,b.y2));
+   overlay.append(svgEl("line",{x1:p.sx,y1:p.sy,x2:ex,y2:ey,stroke:p.color,"stroke-width":1.35,opacity:.88}))
+ }
+ for(const item of placed){
+   const p=item.p,b=item.b,ps=poiState(p.id),g=svgEl("g",{class:"badge","data-id":p.id});
+   let fill=p.color;if(ps.status==="visited")fill="#658b70";else if(ps.status==="skip")fill="#888";
+   g.append(svgEl("rect",{x:b.x1,y:b.y1,width:b.x2-b.x1,height:b.y2-b.y1,rx:5,fill,stroke:"#fff","stroke-width":1.45}));
+   let txt=p.id+(ps.day?` D${ps.day}`:"");
+   g.append(svgEl("text",{x:b.cx,y:b.cy+.7,"text-anchor":"middle","dominant-baseline":"middle","font-size":11.2,"font-weight":900,fill:"#fff"},txt));
+   g.addEventListener("click",e=>{e.stopPropagation();showInfo(p.id)});overlay.append(g)
+ }
+ updateStatus(visible.length)
+}
+
+function updateStatus(visibleNow=null){
+ const loaded=state.layer==="hot"?state.loadedHot:state.loadedStd,layer=state.layer==="hot"?"HOT":"OSM Standard",v=visibleNow===null?state.filtered.length:visibleNow;
+ const loc=state.currentLocation?"｜📍已定位":"";
+ status.textContent=`${layer} ${loaded?"LIVE ✓":"載入中…"}｜View ${state.view}｜符合 ${state.filtered.length}｜畫面 ${v}｜標籤 ${state.visibleLabels}${loc}`
+}
+function syncLayerLabels(){
+ const txt=state.layer==="hot"?"底圖：HOT":"底圖：OSM Standard";
+ document.getElementById("layerBtn").textContent=txt;
+ const m=document.getElementById("moreLayer");if(m)m.textContent="🗺️ "+txt;
+}
+function toggleLayer(){
+ if(state.layer==="hot"){map.removeLayer(hot);standard.addTo(map);state.layer="std"}
+ else{map.removeLayer(standard);hot.addTo(map);state.layer="hot"}
+ syncLayerLabels();updateStatus();setTimeout(renderOverlay,120)
+}
+document.getElementById("layerBtn").onclick=toggleLayer;
+document.getElementById("mobileLayerBtn").onclick=toggleLayer;
+
+
+
+
+
+// ============================================================
+// BETA 2.8 — GOOGLE PLACES REAL PHOTOS VIA SUPABASE EDGE FUNCTION
+// ============================================================
+const GOOGLE_PLACE_ID_PREFIX=String(CITY.googlePlaceIdPrefix||`travelmap_${CITY.id||"city"}_google_place_id_`);
+let currentPhotoRequestToken=0;
+const googlePhotoMeta={};
+
+function photoBackendConfig(){
+ const c=window.BUSAN_CONFIG||{};
+ return {
+   url:String(c.supabaseUrl||"").replace(/\/$/,""),
+   key:String(c.supabasePublishableKey||"").trim(),
+   fn:String(c.placePhotosFunction||"place-photos").trim()
+ };
+}
+function photoBackendReady(){
+ const c=photoBackendConfig();
+ return /^https:\/\/.+\.supabase\.co$/i.test(c.url) && !!c.key && !/YOUR_|PASTE_/i.test(c.url+c.key);
+}
+
+async function callPlacePhotosBackend(p){
+ const c=photoBackendConfig();
+ if(!photoBackendReady())throw new Error("SUPABASE_NOT_CONFIGURED");
+ const cacheKey=GOOGLE_PLACE_ID_PREFIX+p.id;
+ const cachedPlaceId=localStorage.getItem(cacheKey)||"";
+ const res=await fetch(`${c.url}/functions/v1/${encodeURIComponent(c.fn)}`,{
+   method:"POST",
+   headers:{"Content-Type":"application/json","apikey":c.key},
+   body:JSON.stringify({
+     poiId:p.id,
+     name:p.name||p.display||"",
+     display:p.display||p.name||"",
+     address:p.address||"",
+     lat:Number(p.lat),
+     lon:Number(p.lon),
+     placeId:cachedPlaceId||undefined,
+     maxPhotos:2
+   })
+ });
+ let data=null;try{data=await res.json()}catch(e){}
+ if(!res.ok)throw new Error(data?.error||`PHOTO_BACKEND_${res.status}`);
+ if(data?.placeId)localStorage.setItem(cacheKey,data.placeId);
+ return data;
+}
+
+function gPhotoCredit(photo){
+ const attrs=photo?.authorAttributions||[];
+ if(!attrs.length)return "Google Maps";
+ return attrs.slice(0,2).map(a=>{
+   const name=escapeHTML(a.displayName||"Google Maps contributor");
+   return a.uri?`<a href="${escapeAttr(a.uri)}" target="_blank" rel="noopener">${name}</a>`:name;
+ }).join(" · ");
+}
+
+function openFullGooglePhoto(key){
+ const meta=googlePhotoMeta[key];if(!meta)return;
+ const box=document.getElementById("gphotoFull"),img=document.getElementById("gphotoFullImg"),credit=document.getElementById("gphotoFullCredit");
+ img.src=meta.url;
+ const attrs=meta.authorAttributions||[];
+ credit.innerHTML=attrs.length?attrs.map(a=>{
+   const name=escapeHTML(a.displayName||"Google Maps contributor");
+   const avatar=a.photoUri?`<img src="${escapeAttr(a.photoUri)}" alt="">`:"";
+   return a.uri?`<a href="${escapeAttr(a.uri)}" target="_blank" rel="noopener">${avatar}<span>${name}</span></a>`:`<span>${avatar}${name}</span>`;
+ }).join(""):`<span>Google Maps</span>`;
+ box.classList.add("show");
+}
+window.openFullGooglePhoto=openFullGooglePhoto;
+
+function renderGooglePhotos(p,place){
+ const box=document.getElementById("gphoto_"+p.id);if(!box)return;
+ const photos=(place?.photos||[]).slice(0,2);
+ if(!photos.length){
+   box.innerHTML=`<div class="gphoto-error">📷 Google Places 目前沒有回傳這個地點的照片。<br>可以改按下方「在 Naver Map 查看」。</div>`;
+   return;
+ }
+ const items=photos.map((ph,i)=>{
+   const uri=ph.url||"";
+   if(!uri)return "";
+   const key=`${p.id}_${i}`;
+   googlePhotoMeta[key]={url:uri,authorAttributions:ph.authorAttributions||[]};
+   return `<div class="gphoto-item" onclick="openFullGooglePhoto('${key}')">
+     <img src="${escapeAttr(uri)}" alt="${escapeAttr(p.display)} 實景照片 ${i+1}" loading="lazy" referrerpolicy="no-referrer">
+     <div class="gphoto-credit">${gPhotoCredit(ph)}</div>
+    </div>`;
+ }).join("");
+ if(!items){box.innerHTML=`<div class="gphoto-error">📷 找到地點，但沒有可顯示的照片。</div>`;return}
+ const cls=photos.length===1?"gphoto-grid one":"gphoto-grid";
+ const placeLink=place.googleMapsUri||"https://maps.google.com/";
+ box.innerHTML=`<div class="${cls}">${items}</div>
+   <div class="gphoto-footer"><span class="gmaps">Google Maps</span><span>實景照片</span>
+   <a href="${escapeAttr(placeLink)}" target="_blank" rel="noopener">查看來源地點</a></div>`;
+}
+
+async function loadGooglePlacePhotos(p){
+ const box=document.getElementById("gphoto_"+p.id);if(!box)return;
+ const token=++currentPhotoRequestToken;
+ if(!photoBackendReady()){
+   box.innerHTML=`<div class="gphoto-loading"><div>📷 實景照片後端尚未完成設定<br>
+    <button onclick="openPhotoSettings()">查看 Supabase 設定</button></div></div>`;
+   return;
+ }
+ box.innerHTML=`<div class="gphoto-loading">📷 正在透過 Supabase 讀取 Google Places 實景照片…</div>`;
+ try{
+   const place=await callPlacePhotosBackend(p);
+   if(token!==currentPhotoRequestToken)return;
+   if(!place?.placeId){
+     box.innerHTML=`<div class="gphoto-error">找不到足夠接近的 Google Places 地點，為避免放錯圖，本景點不顯示照片。</div>`;
+     return;
+   }
+   renderGooglePhotos(p,place);
+ }catch(e){
+   if(token!==currentPhotoRequestToken)return;
+   const msg=String(e?.message||e);
+   const help=msg.includes("SUPABASE_NOT_CONFIGURED")?"請先設定 app-config.js。":msg.includes("GOOGLE_API")?"請確認 Supabase Secret 與 Places API (New)。":"請開啟『實景照片設定』查看後端狀態。";
+   box.innerHTML=`<div class="gphoto-error">實景照片載入失敗。${escapeHTML(help)}<br><button style="margin-top:5px" onclick="openPhotoSettings()">檢查照片設定</button></div>`;
+ }
+}
+
+function openPhotoSettings(){
+ document.getElementById("photoSettings").classList.add("show");
+ const st=document.getElementById("photoSettingsStatus");
+ const c=photoBackendConfig();
+ st.textContent=photoBackendReady()?`前端設定完成：${c.url} / ${c.fn}。可按「測試照片後端」。`:`尚未完成。請在 app-config.js 填入 Supabase Project URL 與 Publishable Key。`;
+}
+window.openPhotoSettings=openPhotoSettings;
+function closePhotoSettings(){document.getElementById("photoSettings").classList.remove("show")}
+
+document.getElementById("morePhotos").onclick=()=>{openPhotoSettings();document.getElementById("moreMenu").classList.remove("show")};
+document.getElementById("closePhotoSettings").onclick=closePhotoSettings;
+document.getElementById("photoSettings").addEventListener("click",e=>{if(e.target.id==="photoSettings")closePhotoSettings()});
+document.getElementById("clearGooglePlaceCache").onclick=()=>{
+ Object.keys(localStorage).filter(k=>k.startsWith(GOOGLE_PLACE_ID_PREFIX)).forEach(k=>localStorage.removeItem(k));
+ document.getElementById("photoSettingsStatus").textContent="已清除 Google Place ID 快取；下次開景點會重新搜尋。";
+ toast("Place ID 快取已清除");
+};
+document.getElementById("testGooglePlacesBackend").onclick=async()=>{
+ const st=document.getElementById("photoSettingsStatus");
+ const testId=CITY.photoTestPoiId||ALL_RECORDS[0]?.id;const testPoi=byId[testId];
+ st.textContent=`正在透過 Supabase 測試 ${testId||"景點"}…`;
+ try{
+   if(!testPoi)throw new Error("找不到測試景點");
+   const place=await callPlacePhotosBackend(testPoi);
+   if(!place?.placeId)throw new Error("沒有找到足夠接近的 Google Place");
+   st.textContent=`測試成功：${place.displayName||"已找到地點"}｜照片 ${place.photos?.length||0} 張。Google API Key 未暴露在瀏覽器。`;
+ }catch(e){
+   st.textContent="測試失敗："+(e?.message||e);
+ }
+};
+
+document.getElementById("gphotoFullClose").onclick=()=>{document.getElementById("gphotoFull").classList.remove("show");document.getElementById("gphotoFullImg").src=""};
+document.getElementById("gphotoFull").addEventListener("click",e=>{if(e.target.id==="gphotoFull")e.currentTarget.classList.remove("show")});
+
+
+// ============================================================
+// BETA 2.8 — LOCAL FIRST CUSTOM PLACES
+// ============================================================
+function nextCustomId(){
+ const used=new Set(ALL_RECORDS.map(p=>p.id));let n=1,id="";do{id=`MY${String(n++).padStart(3,"0")}`}while(used.has(id));return id
+}
+function regionMeta(code){return (CITY.regions||[]).find(r=>r.code===code)||CITY.customPlaceDefaults||{code:"MY",region:"我的景點",color:"#4F7D8A"}}
+function customPlaceArray(){if(!Array.isArray(saved.customPlaces))saved.customPlaces=[];return saved.customPlaces}
+function resetCustomForm(){
+ document.getElementById("customEditId").value="";document.getElementById("customDisplay").value="";document.getElementById("customName").value="";
+ document.getElementById("customCategory").value=CITY.customPlaceDefaults?.category||"旅遊景點";document.getElementById("customRegionCode").value=CITY.customPlaceDefaults?.code||"MY";
+ document.getElementById("customAddress").value="";document.getElementById("customLat").value="";document.getElementById("customLon").value="";document.getElementById("customUrl").value="";document.getElementById("customMemo").value="";
+ document.getElementById("customSave").textContent="儲存景點";
+}
+function renderCustomPlacesList(){
+ const arr=customPlaceArray();const box=document.getElementById("customPlacesList");
+ box.innerHTML=`<b style="font-size:10px">我的景點：${arr.length} 個</b>`+(arr.length?arr.map(p=>`<div class="custom-list-item"><b style="color:${escapeAttr(p.color)}">${escapeHTML(p.id)}</b><div><b>${escapeHTML(p.display)}</b><br><small>${escapeHTML(p.category)}｜${escapeHTML(p.region)}<br>${escapeHTML(p.address||"")}</small></div><div class="row-actions"><button onclick="focusCustomPlace('${p.id}')">地圖</button><button onclick="editCustomPlace('${p.id}')">編輯</button><button class="custom-danger" onclick="deleteCustomPlace('${p.id}')">刪除</button></div></div>`).join(""):`<p>尚未新增。臨時看到 Threads / NAVER 推薦時，可以直接在這裡補一個只屬於你自己的景點。</p>`)
+}
+function openCustomPlaces(){
+ const regionSel=document.getElementById("customRegionCode");regionSel.innerHTML=(CITY.regions||[]).map(r=>`<option value="${escapeAttr(r.code)}">${escapeHTML(r.code)}｜${escapeHTML(r.label)}</option>`).join("");
+ const cats=[...new Set(ALL_RECORDS.map(p=>p.category).filter(Boolean))];document.getElementById("customCategoryList").innerHTML=cats.map(c=>`<option value="${escapeAttr(c)}"></option>`).join("");
+ resetCustomForm();renderCustomPlacesList();document.getElementById("customPlacesModal").classList.add("show");moreMenu.classList.remove("show")
+}
+function closeCustomPlaces(){document.getElementById("customPlacesModal").classList.remove("show")}
+function applyCustomRecordsAndRefresh(){rebuildRecords();renderCategoryChips();refreshViewSelect();persist();syncFilterControls();applyView(false);renderCustomPlacesList()}
+window.focusCustomPlace=function(id){const p=byId[id];if(!p)return;closeCustomPlaces();state.view="1";viewSelect.value="1";applyView(false);map.setView([p.lat,p.lon],Math.max(map.getZoom(),15));showInfo(id)};
+window.editCustomPlace=function(id){const p=customPlaceArray().find(x=>x.id===id);if(!p)return;document.getElementById("customEditId").value=id;document.getElementById("customDisplay").value=p.display||"";document.getElementById("customName").value=p.name||"";document.getElementById("customCategory").value=p.category||"";document.getElementById("customRegionCode").value=p.code||"MY";document.getElementById("customAddress").value=p.address||"";document.getElementById("customLat").value=p.lat??"";document.getElementById("customLon").value=p.lon??"";document.getElementById("customUrl").value=p.url||"";document.getElementById("customMemo").value=p.memo||"";document.getElementById("customSave").textContent=`更新 ${id}`;document.getElementById("customDisplay").focus()};
+window.deleteCustomPlace=function(id){if(!confirm(`刪除 ${id}？這也會從 Day 行程中移除。`))return;saved.customPlaces=customPlaceArray().filter(x=>x.id!==id);delete saved.poi[id];for(let d=1;d<=DAY_COUNT;d++)saved.itinerary[String(d)]=dayItems(d).filter(x=>x.id!==id);applyCustomRecordsAndRefresh();toast(`${id} 已刪除`)};
+document.getElementById("moreCustomPlaces").onclick=openCustomPlaces;
+document.getElementById("customClose").onclick=closeCustomPlaces;
+document.getElementById("customPlacesModal").addEventListener("click",e=>{if(e.target.id==="customPlacesModal")closeCustomPlaces()});
+document.getElementById("customReset").onclick=resetCustomForm;
+document.getElementById("customUseMapCenter").onclick=()=>{const c=map.getCenter();document.getElementById("customLat").value=c.lat.toFixed(7);document.getElementById("customLon").value=c.lng.toFixed(7);toast("已帶入目前地圖中心座標")};
+document.getElementById("customSave").onclick=()=>{
+ const editId=document.getElementById("customEditId").value.trim();const display=document.getElementById("customDisplay").value.trim();const lat=Number(document.getElementById("customLat").value),lon=Number(document.getElementById("customLon").value);
+ if(!display){toast("請填顯示名稱");return}if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){toast("請填正確緯度／經度");return}
+ const code=document.getElementById("customRegionCode").value||"MY",meta=regionMeta(code);const id=editId||nextCustomId();
+ const item={original_no:null,display,name:document.getElementById("customName").value.trim()||display,category:document.getElementById("customCategory").value.trim()||"旅遊景點",category_raw:"自訂",address:document.getElementById("customAddress").value.trim(),memo:document.getElementById("customMemo").value.trim(),url:document.getElementById("customUrl").value.trim(),lat,lon,code,id,region:meta.label||meta.region||"我的景點",color:meta.color||"#4F7D8A",sid:"",previewImages:[],custom:true};
+ const arr=customPlaceArray(),idx=arr.findIndex(x=>x.id===id);if(idx>=0)arr[idx]=item;else arr.push(item);applyCustomRecordsAndRefresh();resetCustomForm();toast(`${id} 已儲存`)
+};
+
+// ============================================================
+// BETA 2.8 — SIMPLIFIED SHELL / TUTORIAL / EXCHANGE LAYER
+// ============================================================
+const TUTORIAL_KEY=String(CITY.tutorialKey||`travelmap_${CITY.id}_tutorial_v1`);
+const EXCHANGE_CACHE_KEY=String(CITY.exchangeCacheKey||`travelmap_${CITY.id}_exchange_v1`);
+
+function syncSide(){
+ document.body.classList.toggle("side-closed",!state.sideOpen);
+ const b=document.getElementById("panelBtn");if(b)b.textContent=state.sideOpen?"✕ 收起面板":"☰ 景點面板";
+ setTimeout(()=>{map.invalidateSize();renderOverlay()},120);
+}
+document.getElementById("panelBtn").onclick=()=>{state.sideOpen=!state.sideOpen;persist();syncSide()};
+syncSide();
+
+// More menu keeps secondary controls out of the first screen.
+const moreMenu=document.getElementById("moreMenu");
+document.getElementById("moreBtn").onclick=e=>{e.stopPropagation();moreMenu.classList.toggle("show")};
+document.addEventListener("click",e=>{
+ if(!moreMenu.contains(e.target)&&e.target.id!=="moreBtn")moreMenu.classList.remove("show")
+});
+document.getElementById("moreTravel").onclick=()=>{document.getElementById("travelModeBtn").click();moreMenu.classList.remove("show")};
+document.getElementById("moreLayer").onclick=()=>{toggleLayer();moreMenu.classList.remove("show")};
+document.getElementById("moreFit").onclick=()=>{fitToPoints(state.filtered,{maxZoom:16});moreMenu.classList.remove("show")};
+document.getElementById("moreExport").onclick=()=>{exportPNG();moreMenu.classList.remove("show")};
+
+function openTutorial(){document.getElementById("onboarding").classList.add("show");moreMenu.classList.remove("show")}
+function closeTutorial(saveSeen=true){
+ if(saveSeen&&document.getElementById("dontShowTutorial").checked)localStorage.setItem(TUTORIAL_KEY,"1");
+ document.getElementById("onboarding").classList.remove("show")
+}
+document.getElementById("moreTutorial").onclick=openTutorial;
+document.getElementById("helpFab").onclick=openTutorial;
+document.getElementById("tutorialStart").onclick=()=>closeTutorial(true);
+document.getElementById("tutorialOpenPanel").onclick=()=>{state.sideOpen=true;persist();syncSide();closeTutorial(true)};
+document.getElementById("onboarding").addEventListener("click",e=>{if(e.target.id==="onboarding")closeTutorial(false)});
+setTimeout(()=>{if(!localStorage.getItem(TUTORIAL_KEY))openTutorial()},700);
+
+// --- Currency exchange layer ---
+const VERIFIED_EXCHANGES=[
+ {area:"南浦／光復",name:"MONEYBOX 南浦",ko:"머니박스 남포",address:"부산 중구 광복로 38 1층 A1호"},
+ {area:"南浦／光復",name:"MONEYPLANET BUSAN",ko:"머니플래닛 부산",address:"부산 중구 광복로 39-1"},
+ {area:"南浦／中央",name:"友利換錢所",ko:"우리환전",address:"부산 중구 광복로97번길 1"},
+ {area:"南浦／中央",name:"國民換錢所",ko:"국민환전소",address:"부산 중구 동광동1가 13-1"},
+ {area:"西面",name:"MONEYBOX 西面",ko:"머니박스 서면",address:"부산 부산진구 서면로 56"},
+ {area:"西面",name:"娜英換錢所",ko:"나영 환전소",address:"부산 부산진구 서면로 56"},
+ {area:"釜山站",name:"MONEYBOX 釜山站",ko:"머니박스 부산역",address:"부산 동구 중앙대로203번길 10"},
+ {area:"廣安里",name:"MONEYBOX 廣安",ko:"머니박스 광안",address:"부산 수영구 광안로 20 쌍용예가디오션 119호"},
+ {area:"海雲台",name:"MONEYBOX 海雲台",ko:"머니박스 해운대",address:"부산 해운대구 해운대해변로 287 씨클라우드호텔 상가 1층 107호"},
+ {area:"海雲台",name:"ENTO 換錢所",ko:"엔토 환전소",address:"부산 해운대구 해운대로 620"},
+ {area:"金海機場",name:"MONEYBOX 金海機場",ko:"머니박스 김해공항",address:"부산 강서구 공항진입로 165 김해경전철 공항역 1F"}
+];
+const exchangeIcon=L.divIcon({className:"",html:'<div class="exchange-marker">💱</div>',iconSize:[32,32],iconAnchor:[16,16]});
+const exchangeLayer=L.layerGroup();
+let exchangeVisible=false,exchangeLoaded=false,exchangeLoading=false;
+
+function exchangeNaverUrl(x){return "https://map.naver.com/p/search/"+encodeURIComponent(x.ko||x.name||x.address)}
+function renderExchangeList(){
+ document.getElementById("exchangeList").innerHTML=VERIFIED_EXCHANGES.map((x,i)=>`
+  <div class="exchange-item">
+   <h4>${escapeHTML(x.name)} <small style="color:#777">｜${escapeHTML(x.area)}</small></h4>
+   <p>${escapeHTML(x.ko)}</p><p>${escapeHTML(x.address)}</p>
+   <div class="actions">
+    <a class="naver" href="${exchangeNaverUrl(x)}" target="_blank" rel="noopener">Naver 查看</a>
+    <button onclick="locateVerifiedExchange(${i})">地圖定位</button>
+   </div>
+  </div>`).join("")
+}
+renderExchangeList();
+
+function addExchangeMarker(lat,lon,name,address,source="OSM"){
+ const m=L.marker([lat,lon],{icon:exchangeIcon,zIndexOffset:1100});
+ m.bindPopup(`<b>💱 ${escapeHTML(name||"換錢所")}</b><br>${escapeHTML(address||"")}<br><small>${escapeHTML(source)}</small>`);
+ m.addTo(exchangeLayer)
+}
+async function loadOSMExchanges(force=false){
+ if(exchangeLoading)return;
+ exchangeLoading=true;
+ const st=document.getElementById("exchangeStatus");st.textContent="讀取 OSM 換錢所中…";
+ try{
+  if(!force){
+   const cached=JSON.parse(localStorage.getItem(EXCHANGE_CACHE_KEY)||"null");
+   if(cached&&Date.now()-cached.at<7*24*3600*1000&&Array.isArray(cached.items)){
+    exchangeLayer.clearLayers();
+    cached.items.forEach(x=>addExchangeMarker(x.lat,x.lon,x.name,x.address,"OSM cache"));
+    exchangeLoaded=true;st.textContent=`OSM 已載入 ${cached.items.length} 個換錢所標記`;
+    exchangeLoading=false;return
+   }
+  }
+  const q='[out:json][timeout:25];(nwr["amenity"="bureau_de_change"](34.95,128.75,35.42,129.36););out center tags;';
+  const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},body:"data="+encodeURIComponent(q)});
+  if(!r.ok)throw new Error("Overpass "+r.status);
+  const data=await r.json(),items=[];
+  for(const e of data.elements||[]){
+   const lat=e.lat??e.center?.lat,lon=e.lon??e.center?.lon;if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+   const t=e.tags||{},name=t["name:zh"]||t["name:en"]||t.name||"換錢所";
+   const address=[t["addr:street"],t["addr:housenumber"]].filter(Boolean).join(" ");
+   items.push({lat,lon,name,address})
+  }
+  exchangeLayer.clearLayers();items.forEach(x=>addExchangeMarker(x.lat,x.lon,x.name,x.address,"OpenStreetMap"));
+  localStorage.setItem(EXCHANGE_CACHE_KEY,JSON.stringify({at:Date.now(),items}));
+  exchangeLoaded=true;st.textContent=`OSM 已載入 ${items.length} 個換錢所標記`;
+ }catch(e){
+  st.textContent="OSM 換錢所暫時讀取失敗；仍可使用下方 Naver 清單";
+ }finally{exchangeLoading=false}
+}
+async function locateVerifiedExchange(i){
+ const x=VERIFIED_EXCHANGES[i];if(!x)return;
+ const cacheKey=`travelmap_${CITY.id}_exchange_geocode_${i}`;
+ try{
+  let p=JSON.parse(localStorage.getItem(cacheKey)||"null");
+  if(!p){
+   const u="https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=kr&q="+encodeURIComponent(x.address);
+   const r=await fetch(u,{headers:{"Accept-Language":"ko,en"}});
+   const a=await r.json();if(!a?.length)throw new Error("not found");
+   p={lat:Number(a[0].lat),lon:Number(a[0].lon)};localStorage.setItem(cacheKey,JSON.stringify(p))
+  }
+  addExchangeMarker(p.lat,p.lon,x.name,x.address,"2026 verified list");
+  if(!map.hasLayer(exchangeLayer))exchangeLayer.addTo(map);
+  exchangeVisible=true;map.setView([p.lat,p.lon],16);document.getElementById("exchangeToggleMarkers").textContent="隱藏地圖標記"
+ }catch(e){window.open(exchangeNaverUrl(x),"_blank","noopener")}
+}
+window.locateVerifiedExchange=locateVerifiedExchange;
+
+async function showExchangeHub(){
+ document.getElementById("exchangeHub").classList.add("show");
+ if(!map.hasLayer(exchangeLayer))exchangeLayer.addTo(map);
+ exchangeVisible=true;document.getElementById("exchangeToggleMarkers").textContent="隱藏地圖標記";
+ await loadOSMExchanges(false)
+}
+function closeExchangeHub(){document.getElementById("exchangeHub").classList.remove("show")}
+document.getElementById("exchangeBtn").onclick=showExchangeHub;
+document.getElementById("closeExchangeHub").onclick=closeExchangeHub;
+document.getElementById("exchangeHub").addEventListener("click",e=>{if(e.target.id==="exchangeHub")closeExchangeHub()});
+document.getElementById("exchangeToggleMarkers").onclick=()=>{
+ exchangeVisible=!exchangeVisible;
+ if(exchangeVisible){exchangeLayer.addTo(map);document.getElementById("exchangeToggleMarkers").textContent="隱藏地圖標記"}
+ else{map.removeLayer(exchangeLayer);document.getElementById("exchangeToggleMarkers").textContent="顯示地圖標記"}
+};
+document.getElementById("refreshExchange").onclick=async()=>{localStorage.removeItem(EXCHANGE_CACHE_KEY);await loadOSMExchanges(true)};
+
+// ============================================================
+// LODGING ROUTES / FRIEND AIRBNB
+// ============================================================
+const HOTEL_FIXED={name:"마리안느호텔",lat:35.1614645,lon:129.1646476};
+const FRIEND_FIXED={name:"효이스테이 더 광안",lat:35.1499463,lon:129.1153057};
+const FRIEND_LODGING_KEY=String(CITY.friendLodgingKey||`travelmap_${CITY.id}_friend_lodging_v1`);
+
+function naverPublicRouteUrl(from,to){
+ const appname=encodeURIComponent(APPNAME);
+ const q=`route/public?slat=${from.lat}&slng=${from.lon}&sname=${encodeURIComponent(from.name)}&dlat=${to.lat}&dlng=${to.lon}&dname=${encodeURIComponent(to.name)}&appname=${appname}`;
+ const ua=navigator.userAgent||"";
+ if(/Android/i.test(ua))return `intent://${q}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
+ return `nmap://${q}`;
+}
+window.openFixedNaverRoute=function(a,b){
+ const getFixed=(x)=>x==="airport"?AIRPORT:(x==="friend"?FRIEND_FIXED:HOTEL_FIXED);
+ const A=getFixed(a),B=getFixed(b);
+ window.location.href=naverPublicRouteUrl(A,B);
+};
+function loadFriendLodging(){
+ let o={name:"효이스테이 더 광안",address:"부산광역시 수영구 광남로94번길 16",lat:"35.1499463",lon:"129.1153057"};
+ try{o={...o,...JSON.parse(localStorage.getItem(FRIEND_LODGING_KEY)||"{}")}}catch(e){}
+ const $=id=>document.getElementById(id);
+ if($("friendLodgingName"))$("friendLodgingName").value=o.name||"";
+ if($("friendLodgingAddress"))$("friendLodgingAddress").value=o.address||"";
+ if($("friendLodgingLat"))$("friendLodgingLat").value=o.lat||"";
+ if($("friendLodgingLon"))$("friendLodgingLon").value=o.lon||"";
+ updateFriendLodgingStatus(o);
+ return o;
+}
+function friendLodgingFromForm(){
+ return {
+  name:document.getElementById("friendLodgingName")?.value.trim()||"朋友的 Airbnb",
+  address:document.getElementById("friendLodgingAddress")?.value.trim()||"",
+  lat:document.getElementById("friendLodgingLat")?.value.trim()||"",
+  lon:document.getElementById("friendLodgingLon")?.value.trim()||""
+ };
+}
+function updateFriendLodgingStatus(o){
+ const el=document.getElementById("friendLodgingStatus");if(!el)return;
+ const ok=Number.isFinite(Number(o.lat))&&Number.isFinite(Number(o.lon))&&String(o.lat).trim()&&String(o.lon).trim();
+ el.textContent=ok?`已設定：${o.name}｜${o.lat}, ${o.lon}`:(o.address?`已存地址：${o.address}｜尚缺經緯度，先用 Naver 搜尋定位。`:"尚未設定精確地址／座標。");
+}
+window.saveFriendLodging=function(){
+ const o=friendLodgingFromForm();
+ try{localStorage.setItem(FRIEND_LODGING_KEY,JSON.stringify(o));updateFriendLodgingStatus(o);toast("朋友住宿資料已儲存")}catch(e){toast("儲存失敗")}
+};
+window.searchFriendOnNaver=function(){
+ const o=friendLodgingFromForm(),q=o.address||o.name;
+ if(!q){toast("請先輸入住宿地址或名稱");return}
+ window.open("https://map.naver.com/p/search/"+encodeURIComponent(q),"_blank","noopener");
+};
+window.openFriendRoute=function(a,b){
+ const o=friendLodgingFromForm(),lat=Number(o.lat),lon=Number(o.lon);
+ if(!Number.isFinite(lat)||!Number.isFinite(lon)||!o.lat||!o.lon){
+   toast("朋友 Airbnb 尚未有精確經緯度；先貼韓文地址或座標。");
+   searchFriendOnNaver();return;
+ }
+ const F={name:o.name||"朋友的 Airbnb",lat,lon};
+ const A=a==="airport"?AIRPORT:F,B=b==="airport"?AIRPORT:F;
+ window.location.href=naverPublicRouteUrl(A,B);
+};
+
+// ============================================================
+// GIMHAE AIRPORT HUB
+// ============================================================
+function openAirportHub(tab="quick"){
+ document.getElementById("airportHub").classList.add("show");
+ setAirportTab(tab);
+ if(tab==="lodging"||document.getElementById("friendLodgingName"))loadFriendLodging();
+}
+function closeAirportHub(){document.getElementById("airportHub").classList.remove("show")}
+function setAirportTab(name){
+ document.querySelectorAll(".airport-tab").forEach(b=>b.classList.toggle("active",b.dataset.airtab===name));
+ document.querySelectorAll(".airport-pane").forEach(p=>p.classList.toggle("active",p.dataset.airpane===name));
+ const body=document.querySelector("#airportHub .airport-body");if(body)body.scrollTop=0;
+}
+function centerAirport(){map.setView([AIRPORT.lat,AIRPORT.lon],14);closeAirportHub();setTimeout(renderOverlay,100)}
+function openAirportNaverNavigation(){
+ const dname=encodeURIComponent(AIRPORT.name||"공항"),appname=encodeURIComponent(APPNAME);
+ const query=`navigation?dlat=${AIRPORT.lat}&dlng=${AIRPORT.lon}&dname=${dname}&appname=${appname}`;
+ const ua=navigator.userAgent||"",isAndroid=/Android/i.test(ua),isIOS=/iPhone|iPad|iPod/i.test(ua);
+ if(isAndroid){window.location.href=`intent://${query}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;return}
+ if(isIOS){const started=Date.now();window.location.href=`nmap://${query}`;setTimeout(()=>{if(Date.now()-started<2200)window.location.href="https://apps.apple.com/app/id311867728"},1500);return}
+ window.open("https://map.naver.com/p/search/"+encodeURIComponent("김해국제공항"),"_blank","noopener")
+}
+document.querySelectorAll(".airport-tab").forEach(b=>b.onclick=()=>setAirportTab(b.dataset.airtab));
+document.getElementById("closeAirportHub").onclick=closeAirportHub;
+document.getElementById("airportCenterMap").onclick=centerAirport;
+document.getElementById("airportNaverNav").onclick=openAirportNaverNavigation;
+document.getElementById("airportHub").addEventListener("click",e=>{if(e.target.id==="airportHub")closeAirportHub()});
+if(airportMarker)airportMarker.on("click",()=>openAirportHub("quick"));
+
+function locateMe(){
+ if(!navigator.geolocation){toast("這個瀏覽器不支援定位");return}
+ toast("正在取得目前位置…");
+ navigator.geolocation.getCurrentPosition(pos=>{
+   state.currentLocation={lat:pos.coords.latitude,lon:pos.coords.longitude,accuracy:pos.coords.accuracy};
+   if(myMarker)map.removeLayer(myMarker);
+   myMarker=L.circleMarker([state.currentLocation.lat,state.currentLocation.lon],{radius:8,color:"#1769aa",fillColor:"#4da3e3",fillOpacity:.95,weight:3}).addTo(map).bindPopup(`我的位置<br>精度約 ${Math.round(pos.coords.accuracy)} m`);
+   state.sort="distance";syncFilterControls();applyFilters(false);map.setView([state.currentLocation.lat,state.currentLocation.lon],14);myMarker.openPopup();toast("已取得目前位置，結果已依距離排序")
+ },err=>{
+   let msg="無法取得目前位置";
+   if(location.protocol==="file:"||location.protocol==="content:")msg+="。本機 HTML 可能被手機瀏覽器限制定位；之後放到 HTTPS／PWA 會穩定很多。";
+   toast(msg)
+ },{enableHighAccuracy:true,timeout:10000,maximumAge:60000})
+}
+document.getElementById("locateBtn").onclick=locateMe;
+document.getElementById("mobileLocate").onclick=locateMe;
+document.getElementById("airportBtn").onclick=()=>openAirportHub("quick");
+
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.style.display="none",3200)}
+
+function syncFilterControls(){
+ document.getElementById("statusFilter").value=state.statusFilter;document.getElementById("mobileStatusFilter").value=state.statusFilter;
+ document.getElementById("dayFilter").value=state.dayFilter;document.getElementById("mobileDayFilter").value=state.dayFilter;
+ document.getElementById("radiusFilter").value=state.radius;document.getElementById("mobileRadiusFilter").value=state.radius;
+ document.getElementById("sortSelect").value=state.sort;document.getElementById("mobileSortSelect").value=state.sort;
+}
+function bindPair(a,b,field){
+ const A=document.getElementById(a),B=document.getElementById(b);
+ A.onchange=()=>{state[field]=A.value;B.value=A.value;if(field==="radius"&&state.radius&&!state.currentLocation){toast("請先使用「我的位置」取得定位");}applyFilters(false)};
+ B.onchange=()=>{state[field]=B.value;A.value=B.value;if(field==="radius"&&state.radius&&!state.currentLocation){toast("請先使用「我的位置」取得定位");}applyFilters(false)}
+}
+bindPair("statusFilter","mobileStatusFilter","statusFilter");
+bindPair("dayFilter","mobileDayFilter","dayFilter");
+bindPair("radiusFilter","mobileRadiusFilter","radius");
+bindPair("sortSelect","mobileSortSelect","sort");
+
+viewSelect.onchange=()=>{state.view=viewSelect.value;applyView(true)};
+function bindSearch(a,b){
+ const A=document.getElementById(a),B=document.getElementById(b);
+ A.oninput=()=>{state.search=A.value;B.value=A.value;applyFilters(false)};
+ B.oninput=()=>{state.search=B.value;A.value=B.value;applyFilters(false)}
+}
+bindSearch("searchBox","mobileSearchBox");
+
+document.addEventListener("change",e=>{
+ const chk=e.target;if(!(chk instanceof HTMLInputElement)||!chk.classList.contains("cat-check"))return;
+ document.querySelectorAll(`.cat-check[value="${CSS.escape(chk.value)}"]`).forEach(x=>x.checked=chk.checked);
+ state.categories=new Set([...document.querySelectorAll(".cat-check:checked")].map(x=>x.value));applyFilters(false)
+});
+function syncUrl(a,b){
+ const A=document.getElementById(a),B=document.getElementById(b);
+ A.onchange=()=>{state.urlOnly=A.checked;B.checked=A.checked;applyFilters(false)};
+ B.onchange=()=>{state.urlOnly=B.checked;A.checked=B.checked;applyFilters(false)}
+}
+syncUrl("urlOnly","mobileUrlOnly");
+
+function clearFilters(){
+ state.categories.clear();state.search="";state.urlOnly=false;state.statusFilter="";state.dayFilter="";state.radius="";state.sort="default";
+ document.querySelectorAll(".cat-check").forEach(x=>x.checked=false);
+ ["searchBox","mobileSearchBox"].forEach(id=>document.getElementById(id).value="");
+ ["urlOnly","mobileUrlOnly"].forEach(id=>document.getElementById(id).checked=false);
+ syncFilterControls();applyFilters(false)
+}
+document.getElementById("clearFilters").onclick=clearFilters;document.getElementById("mobileClear").onclick=clearFilters;
+
+document.getElementById("fitBtn").onclick=()=>fitToPoints(state.filtered,{maxZoom:16});
+document.getElementById("fitResultsSide").onclick=()=>fitToPoints(state.filtered,{maxZoom:16});
+document.getElementById("mobileFitBtn").onclick=()=>{fitToPoints(state.filtered,{maxZoom:16});closeSheets()};
+
+function setTravelMode(on){
+ state.travelMode=on;document.body.classList.toggle("travel-mode",on);
+ document.getElementById("travelModeBtn").textContent=on?"退出旅行模式":"旅行模式";persist();setTimeout(()=>map.invalidateSize(),100)
+}
+document.getElementById("travelModeBtn").onclick=()=>setTravelMode(!state.travelMode);
+setTravelMode(state.travelMode);
+
+const backdrop=document.getElementById("sheetBackdrop"),filterSheet=document.getElementById("filterSheet"),resultsSheet=document.getElementById("resultsSheet");
+function openSheet(s){backdrop.classList.add("show");s.classList.add("show")}
+function closeSheets(){backdrop.classList.remove("show");filterSheet.classList.remove("show");resultsSheet.classList.remove("show")}
+document.getElementById("filterBtn").onclick=()=>openSheet(filterSheet);
+document.getElementById("resultsBtn").onclick=()=>openSheet(resultsSheet);
+document.querySelectorAll("[data-close]").forEach(x=>x.onclick=closeSheets);backdrop.onclick=closeSheets;
+document.getElementById("travelCategory").onclick=()=>openSheet(filterSheet);
+document.getElementById("travelSearch").onclick=()=>{openSheet(filterSheet);setTimeout(()=>document.getElementById("mobileSearchBox").focus(),150)};
+document.getElementById("travelResults").onclick=()=>openSheet(resultsSheet);
+document.getElementById("travelNearby").onclick=locateMe;
+document.getElementById("travelArea").onclick=()=>{viewSelect.focus();viewSelect.click?.();toast("請從上方選擇區域")};
+
+function exportPNG(){
+ const btn=document.getElementById("exportBtn");if(btn){btn.disabled=true;btn.textContent="產生中…"}
+ leafletImage(map,(err,mapCanvas)=>{
+   if(err){toast("底圖匯出失敗："+err);if(btn){btn.disabled=false;btn.textContent="匯出 PNG"};return}
+   try{
+     const w=mapCanvas.width,h=mapCanvas.height,out=document.createElement("canvas");out.width=w;out.height=h;const c=out.getContext("2d");c.drawImage(mapCanvas,0,0);
+     const svgText=new XMLSerializer().serializeToString(overlay),blob=new Blob([svgText],{type:"image/svg+xml;charset=utf-8"}),url=URL.createObjectURL(blob),img=new Image();
+     img.onload=()=>{c.drawImage(img,0,0,w,h);URL.revokeObjectURL(url);const a=document.createElement("a");a.download=`${CITY.id||"travelmap"}_View${state.view}_${state.layer==="hot"?"Humanitarian":"OSMStandard"}.png`;a.href=out.toDataURL("image/png");a.click();if(btn){btn.disabled=false;btn.textContent="匯出 PNG"}};
+     img.onerror=()=>{URL.revokeObjectURL(url);toast("標籤匯出失敗");if(btn){btn.disabled=false;btn.textContent="匯出 PNG"}};img.src=url
+   }catch(e){toast("匯出失敗："+e);if(btn){btn.disabled=false;btn.textContent="匯出 PNG"}}
+ })
+}
+document.getElementById("exportBtn").onclick=exportPNG;
+document.getElementById("mobileExportBtn").onclick=()=>{closeSheets();setTimeout(exportPNG,100)};
+
+function backupState(){
+ const payload={version:4,cityId:CITY.id||"",exportedAt:new Date().toISOString(),poi:saved.poi||{},ui:saved.ui||{},itinerary:saved.itinerary||{},customPlaces:saved.customPlaces||[]};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=`${CITY.id||"travelmap"}_TripState_Backup.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),500);toast("旅程狀態已備份")
+}
+document.getElementById("backupBtn").onclick=backupState;
+document.getElementById("restoreBtn").onclick=()=>document.getElementById("restoreFile").click();
+document.getElementById("restoreFile").onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+   const o=JSON.parse(await file.text());if(!o.poi)throw new Error("格式不符");
+   saved=normalizeSaved(o);rebuildRecords();renderCategoryChips();refreshViewSelect();persist();state.view=saved.ui?.view||state.view;viewSelect.value=state.view;setTravelMode(!!saved.ui?.travelMode);applyView(false);toast("旅程狀態已匯入")
+ }catch(err){toast("匯入失敗：檔案格式不正確")}
+ e.target.value=""
+};
+
+
+// ============================================================
+// MY ITINERARY — configurable Day count
+// ============================================================
+let itineraryDay=Number(saved.ui?.itineraryDay||1);
+let editorMode="add", editorIndex=-1, editorDay=1;
+
+function itineraryData(){
+ if(!saved.itinerary)saved.itinerary={};
+ for(let d=1;d<=DAY_COUNT;d++)if(!Array.isArray(saved.itinerary[d]))saved.itinerary[d]=[];
+ return saved.itinerary;
+}
+function saveItinerary(){
+ itineraryData();saved.ui.itineraryDay=itineraryDay;persist();
+}
+function dayItems(day){return itineraryData()[String(day)]||itineraryData()[day]||[]}
+function findItineraryItem(id){
+ for(let d=1;d<=DAY_COUNT;d++){
+   const arr=dayItems(d),idx=arr.findIndex(x=>x.id===id);
+   if(idx>=0)return {day:d,index:idx,item:arr[idx]};
+ }
+ return null;
+}
+function detachPoiFromAllDays(id){
+ let carried=null;
+ for(let d=1;d<=DAY_COUNT;d++){
+   const arr=dayItems(d);
+   for(let i=arr.length-1;i>=0;i--){
+     if(arr[i].id===id){if(!carried)carried={...arr[i]};arr.splice(i,1)}
+   }
+   saved.itinerary[String(d)]=arr;
+ }
+ return carried;
+}
+function assignPoiToDay(id,d){
+ const day=String(d||"");
+ const p=byId[id];if(!p)return;
+ const carried=detachPoiFromAllDays(id)||{id,time:"",note:"",transport:""};
+ if(day){
+   const arr=dayItems(Number(day));
+   if(!arr.some(x=>x.id===id))arr.push(carried);
+   saved.itinerary[day]=arr;
+ }
+ saved.poi[id]={...poiState(id),day};
+ if(!saved.poi[id].status&&!saved.poi[id].day)delete saved.poi[id];
+ saveItinerary();
+ applyFilters(false);
+ if(document.getElementById("itineraryModal")?.classList.contains("show"))renderItinerary();
+ if(document.getElementById("info").style.display==="block")showInfo(id);
+ toast(day?`${id} 已加入 Day ${day}`:`${id} 已從行程移除`);
+}
+function repairLegacyDayAssignments(){
+ // Beta2 previously stored a Day on saved.poi but did not insert the POI into saved.itinerary.
+ // Repair those assignments once, preserving any existing full itinerary item.
+ let changed=false;
+ itineraryData();
+ for(const [id,ps] of Object.entries(saved.poi||{})){
+   const d=Number(ps?.day||0);
+   if(!d||d<1||d>DAY_COUNT||!byId[id])continue;
+   if(!findItineraryItem(id)){
+     dayItems(d).push({id,time:"",note:"",transport:""});
+     saved.itinerary[String(d)]=dayItems(d);
+     changed=true;
+   }
+ }
+ if(changed)saveItinerary();
+ return changed;
+}
+function dayCounts(){
+ const out={};for(let d=1;d<=DAY_COUNT;d++)out[d]=dayItems(d).length;return out
+}
+function renderDayList(){
+ const today=Number(saved.ui?.todayDay||0),counts=dayCounts();
+ document.getElementById("dayList").innerHTML=Array.from({length:DAY_COUNT},(_,i)=>i+1).map(d=>
+  `<button class="day-tab ${d===itineraryDay?"active":""}" data-day="${d}">Day ${d}${today===d?'<span class="today-badge">今天</span>':""}<small>${counts[d]} 個景點</small></button>`
+ ).join("");
+ document.querySelectorAll(".day-tab").forEach(b=>b.onclick=()=>{itineraryDay=Number(b.dataset.day);saveItinerary();renderItinerary()})
+}
+function renderItinerary(){
+ renderDayList();
+ const items=dayItems(itineraryDay),today=Number(saved.ui?.todayDay||0);
+ document.getElementById("dayTitle").innerHTML=`Day ${itineraryDay}${today===itineraryDay?'<span class="today-badge">今天</span>':""}`;
+ const total=Object.values(itineraryData()).reduce((n,a)=>n+(Array.isArray(a)?a.length:0),0);
+ document.getElementById("itinerarySummary").textContent=`共 ${total} 個行程項目`;
+ document.getElementById("itineraryItems").innerHTML=items.length?items.map((it,i)=>{
+   const p=byId[it.id]||{};
+   return `<div class="itin-item">
+    <div class="itin-order">#${i+1}<br><button onclick="moveItin(${itineraryDay},${i},-1)" style="border:0;background:none">▲</button><button onclick="moveItin(${itineraryDay},${i},1)" style="border:0;background:none">▼</button></div>
+    <div class="itin-time">${escapeHTML(it.time||"未定")}</div>
+    <div><div class="itin-name"><span style="color:${p.color||"#555"}">${escapeHTML(it.id)}</span> ${escapeHTML(p.display||it.id)}</div>
+      ${it.note?`<div class="itin-note">📝 ${escapeHTML(it.note)}</div>`:""}
+      ${it.transport?`<div class="itin-note">🚇 ${escapeHTML(it.transport)}</div>`:""}
+    </div>
+    <div class="itin-actions">
+      <button onclick="focusAndInfo('${it.id}')">地圖</button>
+      <button onclick="editItin(${itineraryDay},${i})">編輯</button>
+      <button onclick="removeItin(${itineraryDay},${i})" style="background:#f4dddd">移除</button>
+    </div>
+   </div>`
+ }).join(""):`<div style="padding:30px;text-align:center;color:#777;font-size:11px">Day ${itineraryDay} 還沒有景點<br><br>按「＋ 新增景點」開始安排。</div>`;
+}
+function openItinerary(day=null){
+ if(day)itineraryDay=Number(day);saveItinerary();renderItinerary();
+ document.getElementById("itineraryModal").classList.add("show")
+}
+function closeItinerary(){document.getElementById("itineraryModal").classList.remove("show")}
+function populateEditorPlaces(selected=""){
+ const arr=[...ALL_RECORDS].sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
+ document.getElementById("editorPlace").innerHTML=arr.map(p=>`<option value="${p.id}">${p.id}｜${escapeHTML(p.display)}｜${escapeHTML(p.category)}</option>`).join("");
+ if(selected)document.getElementById("editorPlace").value=selected
+}
+function openItinEditor(mode,day,index=-1,placeId=""){
+ editorMode=mode;editorDay=Number(day);editorIndex=index;
+ const item=index>=0?dayItems(editorDay)[index]:null;
+ document.getElementById("editorTitle").textContent=mode==="edit"?`編輯 Day ${editorDay} 景點`:`新增到 Day ${editorDay}`;
+ populateEditorPlaces(item?.id||placeId);
+ document.getElementById("editorPlace").disabled=mode==="edit";
+ document.getElementById("editorTime").value=item?.time||"";
+ document.getElementById("editorNote").value=item?.note||"";
+ document.getElementById("editorTransport").value=item?.transport||"";
+ document.getElementById("itinEditor").classList.add("show")
+}
+function closeEditor(){document.getElementById("itinEditor").classList.remove("show")}
+function saveEditor(){
+ const id=document.getElementById("editorPlace").value,time=document.getElementById("editorTime").value,note=document.getElementById("editorNote").value.trim(),transport=document.getElementById("editorTransport").value.trim();
+ const arr=dayItems(editorDay);
+ if(editorMode==="edit"&&editorIndex>=0)arr[editorIndex]={...arr[editorIndex],time,note,transport};
+ else{
+   const existing=findItineraryItem(id);
+   if(existing&&existing.day===editorDay){toast(`這個景點已經在 Day ${editorDay}`);return}
+   const carried=detachPoiFromAllDays(id)||{id,time:"",note:"",transport:""};
+   arr.push({...carried,id,time,note,transport})
+ }
+ saved.itinerary[String(editorDay)]=arr;
+ // Keep the Day filter/state and the itinerary as one synchronized source of truth:
+ saved.poi[id]={...poiState(id),day:String(editorDay)};
+ saveItinerary();closeEditor();renderItinerary();applyFilters(false);toast("行程已儲存")
+}
+window.moveItin=function(day,index,dir){
+ const arr=dayItems(day),j=index+dir;if(j<0||j>=arr.length)return;
+ [arr[index],arr[j]]=[arr[j],arr[index]];saved.itinerary[String(day)]=arr;saveItinerary();renderItinerary()
+};
+window.editItin=(day,index)=>openItinEditor("edit",day,index);
+window.removeItin=function(day,index){
+ const arr=dayItems(day),removed=arr[index];if(!removed)return;
+ if(!confirm(`從 Day ${day} 移除 ${removed.id}？`))return;
+ arr.splice(index,1);saved.itinerary[String(day)]=arr;
+ // Only clear legacy day if this POI isn't on another itinerary day.
+ let other=null;for(let d=1;d<=DAY_COUNT;d++)if(dayItems(d).some(x=>x.id===removed.id)){other=d;break}
+ saved.poi[removed.id]={...poiState(removed.id),day:other?String(other):""};
+ saveItinerary();renderItinerary();applyFilters(false)
+};
+window.quickAddToItinerary=function(id){
+ const d=Number(saved.ui?.todayDay||itineraryDay||1);
+ openItinEditor("add",d,-1,id)
+};
+function showDayOnMap(day){
+ const arr=dayItems(day),pts=arr.map(x=>byId[x.id]).filter(Boolean);
+ if(!pts.length){toast(`Day ${day} 還沒有景點`);return}
+ closeItinerary();
+ state.dayFilter=String(day);syncFilterControls();applyFilters(false);fitToPoints(pts,{maxZoom:16});toast(`目前地圖顯示 Day ${day} 行程`)
+}
+function setToday(day){
+ saved.ui.todayDay=Number(day);saveItinerary();renderItinerary();toast(`今天已設定為 Day ${day}`)
+}
+function sortItinByTime(day){
+ const arr=dayItems(day);arr.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));saved.itinerary[String(day)]=arr;saveItinerary();renderItinerary()
+}
+
+document.getElementById("itineraryBtn").onclick=()=>openItinerary(saved.ui?.todayDay||itineraryDay);
+document.getElementById("closeItinerary").onclick=closeItinerary;
+document.getElementById("addItinPlace").onclick=()=>openItinEditor("add",itineraryDay);
+document.getElementById("showDayMap").onclick=()=>showDayOnMap(itineraryDay);
+document.getElementById("makeToday").onclick=()=>setToday(itineraryDay);
+document.getElementById("setTodayBtn").onclick=()=>setToday(itineraryDay);
+document.getElementById("sortByTime").onclick=()=>sortItinByTime(itineraryDay);
+document.getElementById("editorCancel").onclick=closeEditor;
+document.getElementById("editorSave").onclick=saveEditor;
+
+
+map.on("move",()=>requestAnimationFrame(renderOverlay));map.on("zoom",()=>requestAnimationFrame(renderOverlay));map.on("resize",renderOverlay);
+
+map.whenReady(()=>{
+ const repaired=repairLegacyDayAssignments();
+ syncFilterControls();applyView(true);
+ if(repaired)setTimeout(()=>toast("已自動修復舊版 Day 行程資料"),500);
+});
+})();
+</script>
+</body>
+</html>

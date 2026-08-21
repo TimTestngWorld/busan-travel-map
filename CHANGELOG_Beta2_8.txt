@@ -1,0 +1,21 @@
+Beta 2.8｜公版核心・Local First
+
+基準：2026/08/21 GitHub 已部署 Beta 2.7
+
+新增
+- data/city.json：城市/區域/View/地圖中心/Day 數量設定
+- data/poi-data.json：81 個釜山景點主資料
+- IndexedDB Local First 儲存，舊 localStorage 自動移轉
+- 更多 → 我的景點：新增、修改、刪除本機自訂景點
+- 自訂景點可加入 Day、狀態、備註與地圖
+
+保留
+- 現有 Supabase Project URL / Publishable Key
+- Supabase place-photos Edge Function
+- Google Places 實景照片架構
+- 原 81 景點與現有行程功能
+
+尚未做（按 roadmap）
+- Beta 2.9：Day 行程圖、分享碼、手機 Share Sheet
+- Beta 2.10：Travel Map Manager
+- Beta 3.0：PWA
