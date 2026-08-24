@@ -1,0 +1,7 @@
+Beta 2.9｜App Dashboard・Smart Labels
+- 首頁 Dashboard
+- 智慧標籤：自動／全部／關閉
+- 文字與按鈕放大
+- 頂端工具精簡
+- 預留 Beta 2.10 分帳與分享入口
+- 保留 Beta 2.8 Local First / Supabase Places Proxy
