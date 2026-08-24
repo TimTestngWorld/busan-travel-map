@@ -1,6 +1,5 @@
 # 旅遊地圖｜歷代版本更新紀錄
 
-> 這份檔案可直接放在 GitHub 專案根目錄。後續每個 Beta 版本都往最上方追加。
 
 ## Beta 2.9 — App Dashboard・Smart Labels（2026-08-24）
 
