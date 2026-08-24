@@ -1,0 +1,17 @@
+{
+  "version": "2.9.2",
+  "date": "2026-08-24",
+  "cityVersion": "2.9.2",
+  "poiCount": 81,
+  "checks": {
+    "uniqueHtmlIds": true,
+    "duplicateHtmlIds": [],
+    "dashboardDuplicateExploreRemoved": true,
+    "dashboardFade035": true,
+    "referenceUrlRestored": true,
+    "separateNaverUrl": true,
+    "exchangeAutoRefresh": true,
+    "exchangeCardToMap": true,
+    "supabaseProxyFilesPresent": true
+  }
+}
