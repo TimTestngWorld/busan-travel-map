@@ -1,0 +1,15 @@
+{
+  "version": "2.9.3",
+  "base": "2.9.2",
+  "poi_count": 81,
+  "exchange_primary": "Google Places via Supabase",
+  "exchange_fallback": [
+    "OpenStreetMap",
+    "local cache",
+    "built-in list"
+  ],
+  "naver_api_hub_required": false,
+  "naver_role": "manual view/search + shared-link parsing only",
+  "motion": "0.25-0.35s + prefers-reduced-motion",
+  "edge_function_redeploy_required": true
+}

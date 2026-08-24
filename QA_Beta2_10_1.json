@@ -1,0 +1,14 @@
+{
+  "version": "2.10.1",
+  "base": "2.10",
+  "checks": {
+    "finance_member_add_fix": true,
+    "naver_zero_zero_fix": true,
+    "custom_info_edit": true,
+    "real_osm_day_png": true,
+    "share_sender_receiver_split": true,
+    "exchange_chinese_district": true,
+    "tutorial_updated": true,
+    "supabase_function_changed": true
+  }
+}
