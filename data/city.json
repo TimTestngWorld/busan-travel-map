@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "id": "busan",
+  "name": "釜山",
+  "displayTitle": "釜山旅行地圖",
+  "version": "2.10.4",
+  "subtitle": "Kakao Map・Smart Labels・Mobile Search・Share・Payment & Top-up",
+  "appName": "travel-map.busan",
+  "storageKey": "travelmap_busan_trip_state_v4",
+  "legacyStoreKeys": [
+    "busan80_trip_state_v2"
+  ],
+  "dayCount": 14,
+  "map": {
+    "center": [
+      35.1671,
+      129.1189
+    ],
+    "zoom": 12
+  },
+  "airport": {
+    "id": "AIRPORT",
+    "name": "金海國際機場",
+    "shortName": "金海機場",
+    "lat": 35.1796,
+    "lon": 128.9382,
+    "enabled": true
+  },
+  "views": [
+    {
+      "key": "1",
+      "label": "1｜釜山景點總覽",
+      "codes": [
+        "N",
+        "SD",
+        "Y",
+        "BS",
+        "S",
+        "DY",
+        "G",
+        "C",
+        "H",
+        "CS",
+        "K",
+        "SA",
+        "DN"
+      ],
+      "all": true,
+      "includeAirport": true
+    },
+    {
+      "key": "2",
+      "label": "2｜N＋SD 南浦／中央／松島",
+      "codes": [
+        "N",
+        "SD"
+      ]
+    },
+    {
+      "key": "3",
+      "label": "3｜Y＋BS 影島／釜山站",
+      "codes": [
+        "Y",
+        "BS"
+      ]
+    },
+    {
+      "key": "4",
+      "label": "4｜S＋DY 西面／田浦／大淵",
+      "codes": [
+        "S",
+        "DY"
+      ]
+    },
+    {
+      "key": "5",
+      "label": "5｜G 廣安里／水營／南川／民樂",
+      "codes": [
+        "G"
+      ]
+    },
+    {
+      "key": "6",
+      "label": "6｜C＋H Centum／冬柏／海雲台／海理團",
+      "codes": [
+        "C",
+        "H"
+      ]
+    },
+    {
+      "key": "7",
+      "label": "7｜CS＋K 青沙浦／機張／日光",
+      "codes": [
+        "CS",
+        "K"
+      ]
+    },
+    {
+      "key": "8",
+      "label": "8｜SA＋DN 沙上／東萊",
+      "codes": [
+        "SA",
+        "DN"
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "code": "N",
+      "label": "南浦／光復／中央・中區",
+      "color": "#EB5B5B",
+      "density": 4,
+      "labelAngles": [
+        180,
+        145,
+        215,
+        110,
+        250,
+        90,
+        270,
+        0
+      ]
+    },
+    {
+      "code": "SD",
+      "label": "松島・西區",
+      "color": "#DE953C",
+      "density": 7,
+      "labelAngles": [
+        180,
+        135,
+        225,
+        90,
+        270,
+        0
+      ]
+    },
+    {
+      "code": "Y",
+      "label": "影島",
+      "color": "#579B70",
+      "density": 8,
+      "labelAngles": [
+        90,
+        45,
+        135,
+        0,
+        180,
+        270
+      ]
+    },
+    {
+      "code": "BS",
+      "label": "釜山站・東區",
+      "color": "#557CB0",
+      "density": 9,
+      "labelAngles": [
+        180,
+        135,
+        225,
+        90,
+        270,
+        0
+      ]
+    },
+    {
+      "code": "S",
+      "label": "西面／田浦・釜山鎮區",
+      "color": "#8168A6",
+      "density": 3,
+      "labelAngles": [
+        180,
+        155,
+        205,
+        130,
+        230,
+        90,
+        270,
+        0
+      ]
+    },
+    {
+      "code": "DY",
+      "label": "大淵・南區",
+      "color": "#92944E",
+      "density": 12,
+      "labelAngles": [
+        180,
+        135,
+        225,
+        90,
+        270,
+        0
+      ]
+    },
+    {
+      "code": "G",
+      "label": "廣安里／水營／南川／民樂",
+      "color": "#DE7552",
+      "density": 1,
+      "labelAngles": [
+        90,
+        65,
+        115,
+        35,
+        145,
+        0,
+        180,
+        270
+      ]
+    },
+    {
+      "code": "C",
+      "label": "Marine City／冬柏／Centum",
+      "color": "#438D99",
+      "density": 2,
+      "labelAngles": [
+        270,
+        245,
+        295,
+        220,
+        320,
+        180,
+        0,
+        90
+      ]
+    },
+    {
+      "code": "H",
+      "label": "海雲台／海理團／中洞／佑洞",
+      "color": "#D65077",
+      "density": 0,
+      "labelAngles": [
+        0,
+        25,
+        -25,
+        55,
+        -55,
+        90,
+        -90,
+        135,
+        -135,
+        180
+      ]
+    },
+    {
+      "code": "CS",
+      "label": "青沙浦",
+      "color": "#3E86B4",
+      "density": 5,
+      "labelAngles": [
+        0,
+        -35,
+        35,
+        -70,
+        70,
+        90,
+        180
+      ]
+    },
+    {
+      "code": "K",
+      "label": "機張／日光",
+      "color": "#C58B37",
+      "density": 6,
+      "labelAngles": [
+        270,
+        315,
+        225,
+        0,
+        180,
+        90
+      ]
+    },
+    {
+      "code": "SA",
+      "label": "沙上",
+      "color": "#6D8954",
+      "density": 10,
+      "labelAngles": [
+        180,
+        150,
+        210,
+        90,
+        270
+      ]
+    },
+    {
+      "code": "DN",
+      "label": "東萊",
+      "color": "#8A6D58",
+      "density": 11,
+      "labelAngles": [
+        270,
+        225,
+        315,
+        180,
+        0
+      ]
+    },
+    {
+      "code": "MY",
+      "label": "我的景點",
+      "color": "#4F7D8A",
+      "density": 98,
+      "labelAngles": [
+        0,
+        45,
+        -45,
+        90,
+        -90,
+        180,
+        135,
+        -135
+      ]
+    }
+  ],
+  "customPlaceDefaults": {
+    "code": "MY",
+    "region": "我的景點",
+    "color": "#4F7D8A",
+    "category": "旅遊景點"
+  },
+  "photoTestPoiId": "G07",
+  "googlePlaceIdPrefix": "busan81_google_place_id_",
+  "tutorialKey": "busan81_tutorial_seen_v1",
+  "exchangeCacheKey": "busan81_exchange_osm_v1",
+  "friendLodgingKey": "busan80_friend_lodging_v1",
+  "currency": {
+    "trip": "KRW",
+    "home": "TWD"
+  },
+  "search": {
+    "countryCode": "kr",
+    "language": "zh-TW,ko,en",
+    "freeProvider": "OpenStreetMap Nominatim",
+    "kakaoCityName": "부산"
+  }
+}
