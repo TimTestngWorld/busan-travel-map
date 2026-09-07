@@ -625,6 +625,19 @@ html,body{background:var(--app-bg)}
 .dashboard-stats,.dashboard-grid,.dashboard-feature-row,.dashboard-quick{grid-template-columns:repeat(2,minmax(0,1fr))!important}.dashboard-card,.dashboard-feature,.dashboard-quick button,.dashboard-stat{width:100%;box-sizing:border-box}
 @media(max-width:760px){.map-utility-bar{top:50px;left:7px;max-width:calc(100% - 14px);padding:5px}.map-utility-bar button{font-size:11px;padding:7px 9px}.dashboard-stats,.dashboard-grid,.dashboard-feature-row,.dashboard-quick{grid-template-columns:1fr!important}.airport-flow-grid,.boarding-key{grid-template-columns:1fr}.custom-search-result{grid-template-columns:1fr}.custom-search-result button{width:100%}}
 
+/* ===== Beta 2.10.8 — Funliday-inspired product polish ===== */
+:root{--fun-blue:#1769aa;--fun-line:#e5eaf0;--fun-muted:#6f7d89;--fun-shadow:0 10px 28px rgba(30,54,76,.08)}
+.dashboard{background:#f6f8fb!important}.dashboard-shell{max-width:1180px}.dashboard-title{letter-spacing:-.025em}.dashboard-sub{color:#72808d}.dashboard-today{background:linear-gradient(135deg,#1b6fae,#4aa2d7);box-shadow:0 12px 30px rgba(23,105,170,.2)}
+.dashboard-grid,.dashboard-feature-row,.dashboard-quick{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}.dashboard-stats{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+.dashboard-card,.dashboard-feature,.dashboard-quick button,.dashboard-stat{border:1px solid var(--fun-line)!important;border-radius:18px!important;box-shadow:var(--fun-shadow)!important;background:#fff!important}.dashboard-card:hover,.dashboard-feature:hover,.dashboard-quick button:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(30,54,76,.12)!important}.dashboard-card:before,.dashboard-feature:before{display:none!important}.dashboard-card .ico,.dashboard-feature .ico{background:#edf6fc!important;color:var(--app-accent)!important;border:0!important}.dashboard-card .tag,.dashboard-feature .tag{color:var(--app-accent)!important}.dashboard-quick button{min-height:74px}
+.fun-filter-panel{display:grid;gap:9px}.filter-panel-title{display:flex;align-items:center;gap:10px}.filter-panel-title>div{min-width:0;flex:1}.filter-panel-title h3{margin:0!important;font-size:17px!important}.filter-panel-title small{color:var(--fun-muted);font-size:11px}.filter-accordion{border:1px solid var(--fun-line);border-radius:13px;background:#fff;overflow:hidden}.filter-accordion>summary{list-style:none;cursor:pointer;padding:11px 12px;font-weight:900;font-size:12px;display:flex;align-items:center;gap:7px}.filter-accordion>summary::-webkit-details-marker{display:none}.filter-accordion>summary:after{content:'⌄';margin-left:auto;color:#6d7b85;transition:.2s}.filter-accordion[open]>summary:after{transform:rotate(180deg)}.filter-accordion>summary span{font-size:10px;font-weight:700;color:#8a969f}.accordion-body{padding:0 10px 10px}.filter-backup{margin-top:8px}.filter-backup>summary{cursor:pointer;font-size:11px;color:#71808b}.region-chips,.chips{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.region-chip,.chip{min-width:0!important;margin:0!important}.region-chip span,.chip span{display:flex!important;align-items:center;justify-content:center;min-height:34px;box-sizing:border-box;text-align:center;padding:6px 7px!important;border-radius:10px!important;white-space:normal!important;line-height:1.25}.filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.filter-grid select{min-width:0}.mobile-map-tools{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.map-find-new{border-radius:12px!important;padding:10px 12px!important}.hint{display:none!important}
+.place-search-card{border-radius:22px!important;background:#fff!important}.place-search-head{background:linear-gradient(135deg,#1769aa,#3c99cf)!important}.place-search-note{color:#6f7d89!important}.external-place-card{border:1px solid var(--fun-line)!important;box-shadow:0 5px 16px rgba(34,62,82,.06);padding:13px!important}.provider-badge{background:#eef5fa!important;color:#37647e!important;border:1px solid #d6e5ef}.confidence-badge{display:inline-flex;margin-left:6px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:900;background:#edf8f0;color:#31714a;vertical-align:middle}.confidence-badge.candidate{background:#fff5dc;color:#8c6714}.search-progress{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.search-progress span{padding:4px 7px;border-radius:999px;background:#eef2f6;color:#65737e;font-size:10px;font-weight:800}.search-progress span.done{background:#e7f5ec;color:#34714c}.search-progress span.fail{background:#fff0ee;color:#a45a4d}
+.day-route-summary{padding:8px 10px;border-bottom:1px solid #e8edf1;background:#f7fafc;color:#63727e;font-size:11px;line-height:1.45}.itin-item{grid-template-columns:34px 52px minmax(0,1fr) auto!important;border:1px solid var(--fun-line)!important;border-radius:14px!important;box-shadow:0 4px 13px rgba(33,58,76,.05);transition:.18s}.itin-item.dragging{opacity:.55;transform:scale(.99)}.itin-item.drag-target{outline:2px solid var(--app-accent);outline-offset:2px}.itin-drag{border:0;background:#eef4f8;color:#6c7a84;border-radius:9px;width:30px;height:34px;font-size:16px;cursor:grab;touch-action:none}.itin-order{display:grid;gap:3px;justify-items:center}.itin-order small{font-size:8px;color:#8b969e}.day-tools{gap:7px!important}.day-tools button{border-radius:10px!important}.day-tools #optimizeRoute{background:#eef7ff;border-color:#b9d8ed;color:#246c98}.day-tools #openTextItinerary{background:#f4efff;border-color:#d5c8ed;color:#604b84}
+.text-itinerary-hub{display:flex;position:fixed;inset:0;z-index:5700;background:#0008;padding:10px;align-items:center;justify-content:center;opacity:0;visibility:hidden;pointer-events:none;transition:.25s}.text-itinerary-hub.show{opacity:1;visibility:visible;pointer-events:auto}.text-itinerary-card{width:min(760px,96vw);max-height:92vh;overflow:hidden;background:#fff;border-radius:22px;box-shadow:0 24px 70px #0005;display:grid;grid-template-rows:auto 1fr}.text-itinerary-head{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1769aa,#3c99cf);color:#fff;padding:14px 16px}.text-itinerary-head>div{display:grid;gap:2px}.text-itinerary-head strong{font-size:19px}.text-itinerary-head small{color:#dbeefa}.text-itinerary-head button{margin-left:auto;border:0;border-radius:10px;padding:8px 11px;font-weight:900}.text-itinerary-body{padding:15px;overflow:auto}.text-itinerary-body p{font-size:12px;color:#6b7882;line-height:1.55}.text-itinerary-body textarea{width:100%;min-height:220px;box-sizing:border-box;border:1px solid #ccd8e1;border-radius:14px;padding:12px;font-size:14px;line-height:1.6;resize:vertical}.text-itinerary-actions{display:flex;gap:8px;margin-top:9px}.text-itinerary-actions button{border:1px solid #ccd8e1;background:#fff;border-radius:10px;padding:9px 12px;font-weight:900}.text-itinerary-actions .primary{background:var(--app-accent);color:#fff;border-color:var(--app-accent)}.text-itinerary-preview{margin-top:10px;display:grid;gap:7px}.text-import-day{border:1px solid var(--fun-line);border-radius:13px;padding:10px}.text-import-day h4{margin:0 0 7px}.text-import-row{display:grid;grid-template-columns:55px minmax(0,1fr) auto;gap:7px;align-items:center;padding:6px 0;border-top:1px dashed #edf0f3;font-size:11px}.text-import-row:first-of-type{border-top:0}.text-import-row .match{color:#2c7450;font-weight:900}.text-import-row .unmatched{color:#a55a4e}.text-import-row button{border:0;border-radius:8px;padding:6px 8px;background:#eef5fa;color:#286786;font-weight:900}
+.photo-settings{display:none!important}
+@media(max-width:900px){.dashboard-grid,.dashboard-feature-row,.dashboard-quick{grid-template-columns:repeat(2,minmax(0,1fr))!important}.dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:760px){.dashboard-grid,.dashboard-feature-row{grid-template-columns:1fr!important}.dashboard-quick{grid-template-columns:repeat(3,minmax(0,1fr))!important}.dashboard-quick button{padding:10px 6px!important;min-height:68px}.dashboard-quick b{font-size:11px}.dashboard-quick small{font-size:9px}.region-chips,.chips{grid-template-columns:repeat(3,minmax(0,1fr))!important}.region-chip span,.chip span{font-size:10px!important;padding:6px 4px!important}.filter-grid{grid-template-columns:1fr 1fr!important}.itin-item{grid-template-columns:34px 48px minmax(0,1fr)!important}.itin-actions{grid-column:1/-1!important}.text-import-row{grid-template-columns:48px minmax(0,1fr)}.text-import-row button{grid-column:2}.text-itinerary-body textarea{min-height:180px}}
+
 </style>
 </head>
 <body>
@@ -650,14 +663,14 @@ html,body{background:var(--app-bg)}
    <button class="dashboard-card" id="dashCustom"><span class="ico">➕</span><strong>我的景點</strong><span>用地點名稱或 Naver Map 連結查找；選定候選後再儲存。</span><span class="tag">新增／修改景點 →</span></button>
   </div>
   <div class="dashboard-feature-row">
-   <button class="dashboard-feature" id="dashFinance"><span class="ico">💰</span><strong>旅行分帳</strong><span>旅伴、消費、匯率與最終結算都存在本機。</span><span class="tag">開啟分帳 →</span></button>
-   <button class="dashboard-feature share" id="dashShare"><span class="ico">📤</span><strong>分享旅行</strong><span>匯出 Day 行程圖片、複製分享碼或叫出手機分享。</span><span class="tag">分享行程 →</span></button>
+   <button class="dashboard-feature" id="dashFinance"><span class="ico">💰</span><strong>旅行分帳</strong><span>記錄旅伴、消費、幣別與結算。</span><span class="tag">開啟分帳 →</span></button>
+   <button class="dashboard-feature share" id="dashShare"><span class="ico">📤</span><strong>分享旅行</strong><span>分享 Day 行程圖與旅伴分享碼。</span><span class="tag">分享行程 →</span></button>
+   <button class="dashboard-feature" id="dashAirport"><span class="ico">✈️</span><strong>出國注意事項</strong><span>行李、入境、刷卡與金海機場資訊。</span><span class="tag">查看旅行提醒 →</span></button>
   </div>
   <div class="dashboard-quick">
-   <button id="dashAirport"><b>✈️ 出國注意事項</b><small>行李、入境、支付回饋與金海機場</small></button>
-   <button id="dashExchange"><b>💳 支付・加值</b><small>換錢、T-money、WOWPASS 一次查看</small></button>
-   <button id="dashLocate"><b>📍 目前位置</b><small>在地圖顯示我的位置</small></button>
-   <button id="dashTutorial"><b>❓ 使用教學</b><small>快速查看主要操作</small></button>
+   <button id="dashExchange"><b>💳 支付・加值</b><small>換錢、T-money、WOWPASS</small></button>
+   <button id="dashLocate"><b>📍 目前位置</b><small>回到旅途中所在位置</small></button>
+   <button id="dashTutorial"><b>❓ 使用教學</b><small>第一次使用快速看重點</small></button>
   </div>
  </div>
 </div>
@@ -693,8 +706,8 @@ html,body{background:var(--app-bg)}
    <button id="moreFit">🎯 顯示目前結果</button>
    <button id="moreExport">🖼️ 匯出 PNG</button>
    <button id="morePlaceSearch">🔎 搜尋新地點</button>
+   <button id="moreTextItinerary">✨ 匯入文字行程</button>
    <button id="moreCustomPlaces">➕ 我的景點</button>
-   <button id="morePhotos">📷 實景照片設定</button>
    <button id="moreTheme">🎨 外觀主題</button>
    <button id="moreTutorial">❓ 使用教學</button>
   </div>
@@ -723,44 +736,31 @@ html,body{background:var(--app-bg)}
   </div>
 
   <aside class="side">
-    <div class="filters">
-      <h3>交叉篩選</h3>
-      <input id="searchBox" class="search" placeholder="搜尋名稱、韓文、地址、備註、URL…">
-      <button class="map-find-new" id="openPlaceSearchDesktop" type="button">🌐 搜尋地圖上還沒有的景點</button>
-      <div class="region-filter-block"><div class="filter-section-title">區域（可複選）</div><div class="region-chips" id="regionChipsDesktop"></div></div>
-      <div class="filter-section-title" style="margin-top:10px">類別（可複選）</div>
-      <div class="chips" id="categoryChipsDesktop"></div>
-      <div class="filter-grid">
-        <select id="statusFilter">
-          <option value="">全部狀態</option>
-          <option value="unset">未設定</option>
-          <option value="wish">★ 想去</option>
-          <option value="visited">✓ 已去</option>
-          <option value="skip">× 暫時不去</option>
-        </select>
-        <select id="dayFilter"></select>
-        <select id="radiusFilter">
-          <option value="">不限距離</option>
-          <option value="0.5">500 m 內</option>
-          <option value="1">1 km 內</option>
-          <option value="3">3 km 內</option>
-          <option value="5">5 km 內</option>
-        </select>
-        <select id="sortSelect">
-          <option value="default">預設景點順序</option>
-          <option value="distance">距離最近</option>
-          <option value="id">依 ID</option>
-        </select>
-      </div>
-      <div class="filter-row">
-        <label class="toggle-label"><input type="checkbox" id="urlOnly"> 僅有 URL（61）</label>
-        <button class="small-btn" id="clearFilters">清除篩選</button>
-      </div>
-      <div class="filter-row">
-        <button class="small-btn" id="backupBtn">備份旅程狀態</button>
-        <button class="small-btn" id="restoreBtn">匯入旅程狀態</button>
-        <input type="file" id="restoreFile" accept=".json,application/json" hidden>
-      </div>
+    <div class="filters fun-filter-panel">
+      <div class="filter-panel-title"><div><h3>探索景點</h3><small id="filterActiveSummary">用搜尋或篩選快速縮小結果</small></div><button class="small-btn" id="clearFilters">清除</button></div>
+      <input id="searchBox" class="search" placeholder="搜尋目前景點名稱、地址、備註…">
+      <button class="map-find-new" id="openPlaceSearchDesktop" type="button">🔎 搜尋釜山的新地點</button>
+      <details class="filter-accordion">
+       <summary>📍 區域 <span>可複選</span></summary>
+       <div class="accordion-body"><div class="region-chips" id="regionChipsDesktop"></div></div>
+      </details>
+      <details class="filter-accordion">
+       <summary>🏷️ 類別 <span>可複選</span></summary>
+       <div class="accordion-body"><div class="chips" id="categoryChipsDesktop"></div></div>
+      </details>
+      <details class="filter-accordion">
+       <summary>⚙️ 行程與更多條件</summary>
+       <div class="accordion-body">
+        <div class="filter-grid">
+          <select id="statusFilter"><option value="">全部狀態</option><option value="unset">未設定</option><option value="wish">★ 想去</option><option value="visited">✓ 已去</option><option value="skip">× 暫時不去</option></select>
+          <select id="dayFilter"></select>
+          <select id="radiusFilter"><option value="">不限距離</option><option value="0.5">500 m 內</option><option value="1">1 km 內</option><option value="3">3 km 內</option><option value="5">5 km 內</option></select>
+          <select id="sortSelect"><option value="default">預設景點順序</option><option value="distance">距離最近</option><option value="id">依 ID</option></select>
+        </div>
+        <div class="filter-row"><label class="toggle-label"><input type="checkbox" id="urlOnly"> 僅有參考連結</label></div>
+        <details class="filter-backup"><summary>資料備份</summary><div class="filter-row"><button class="small-btn" id="backupBtn">備份旅程</button><button class="small-btn" id="restoreBtn">匯入備份</button><input type="file" id="restoreFile" accept=".json,application/json" hidden></div></details>
+       </div>
+      </details>
     </div>
     <div style="min-height:0;display:grid;grid-template-rows:auto 1fr">
       <div class="result-head"><span id="resultCount">載入中…</span><button class="small-btn" id="fitResultsSide">顯示全部結果</button></div>
@@ -780,35 +780,17 @@ html,body{background:var(--app-bg)}
 
 <div id="sheetBackdrop"></div>
 <div class="mobile-sheet" id="filterSheet">
- <div class="sheet-head"><span>交叉篩選</span><button class="sheet-close" data-close>完成</button></div>
- <div class="sheet-body">
-   <input id="mobileSearchBox" class="search" placeholder="搜尋名稱、地址、備註、URL…">
-   <button class="map-find-new" id="openPlaceSearchMobile" type="button">🌐 搜尋地圖上還沒有的景點</button>
-   <div class="region-filter-block"><div class="filter-section-title">區域（可複選）</div><div class="region-chips" id="regionChipsMobile"></div></div>
-   <div class="filter-section-title" style="margin-top:10px">類別（可複選）</div>
-   <div class="chips" id="categoryChipsMobile"></div>
-   <div class="filter-grid">
-     <select id="mobileStatusFilter">
-       <option value="">全部狀態</option><option value="unset">未設定</option><option value="wish">★ 想去</option><option value="visited">✓ 已去</option><option value="skip">× 暫時不去</option>
-     </select>
-     <select id="mobileDayFilter"></select>
-     <select id="mobileRadiusFilter">
-       <option value="">不限距離</option><option value="0.5">500 m 內</option><option value="1">1 km 內</option><option value="3">3 km 內</option><option value="5">5 km 內</option>
-     </select>
-     <select id="mobileSortSelect">
-       <option value="default">預設景點順序</option><option value="distance">距離最近</option><option value="id">依 ID</option>
-     </select>
-   </div>
-   <div class="filter-row">
-     <label class="toggle-label"><input type="checkbox" id="mobileUrlOnly"> 僅有 URL（61）</label>
-     <button class="small-btn" id="mobileClear">清除篩選</button>
-   </div>
-   <div class="filter-row">
-     <button class="small-btn" id="mobileLocate">📍我的位置</button>
-     <button class="small-btn" id="mobileLayerBtn">切換底圖</button>
-     <button class="small-btn" id="mobileFitBtn">顯示結果</button>
-     <button class="small-btn" id="mobileExportBtn">匯出 PNG</button>
-   </div>
+ <div class="sheet-head"><span>篩選景點</span><button class="sheet-close" data-close>完成</button></div>
+ <div class="sheet-body fun-filter-panel mobile-filter-panel">
+   <input id="mobileSearchBox" class="search" placeholder="搜尋目前景點名稱、地址、備註…">
+   <button class="map-find-new" id="openPlaceSearchMobile" type="button">🔎 搜尋釜山的新地點</button>
+   <details class="filter-accordion"><summary>📍 區域 <span>可複選</span></summary><div class="accordion-body"><div class="region-chips" id="regionChipsMobile"></div></div></details>
+   <details class="filter-accordion"><summary>🏷️ 類別 <span>可複選</span></summary><div class="accordion-body"><div class="chips" id="categoryChipsMobile"></div></div></details>
+   <details class="filter-accordion"><summary>⚙️ 行程與更多條件</summary><div class="accordion-body">
+    <div class="filter-grid"><select id="mobileStatusFilter"><option value="">全部狀態</option><option value="unset">未設定</option><option value="wish">★ 想去</option><option value="visited">✓ 已去</option><option value="skip">× 暫時不去</option></select><select id="mobileDayFilter"></select><select id="mobileRadiusFilter"><option value="">不限距離</option><option value="0.5">500 m 內</option><option value="1">1 km 內</option><option value="3">3 km 內</option><option value="5">5 km 內</option></select><select id="mobileSortSelect"><option value="default">預設景點順序</option><option value="distance">距離最近</option><option value="id">依 ID</option></select></div>
+    <div class="filter-row"><label class="toggle-label"><input type="checkbox" id="mobileUrlOnly"> 僅有參考連結</label><button class="small-btn" id="mobileClear">清除篩選</button></div>
+   </div></details>
+   <div class="filter-row mobile-map-tools"><button class="small-btn" id="mobileLocate">📍我的位置</button><button class="small-btn" id="mobileLayerBtn">切換底圖</button><button class="small-btn" id="mobileFitBtn">顯示結果</button><button class="small-btn" id="mobileExportBtn">匯出 PNG</button></div>
  </div>
 </div>
 
@@ -821,7 +803,8 @@ html,body{background:var(--app-bg)}
 <div class="app-sheet" id="quickAddSheet">
  <div class="sheet-head"><span>＋ 新增</span><button class="sheet-close" data-app-sheet-close>完成</button></div>
  <div class="sheet-body app-action-list">
-  <button id="quickSearchPlace">🔎 搜尋新地點<small>直接搜尋地圖資料，找到後加入我的景點或 Day 行程。</small></button>
+  <button id="quickSearchPlace">🔎 搜尋新地點<small>搜尋、預覽後加入我的景點或 Day 行程。</small></button>
+  <button id="quickTextItinerary">✨ 匯入文字行程<small>把 ChatGPT／Gemini 排好的文字行程貼進來，快速轉成 Day 行程。</small></button>
   <button id="quickCustomPlace">📌 新增我的景點<small>可貼 Naver 連結，也可直接輸入名稱並選擇正確候選。</small></button>
   <button id="quickExpense">💰 新增消費<small>開啟旅行分帳，記錄這趟旅行的花費。</small></button>
  </div>
@@ -832,7 +815,8 @@ html,body{background:var(--app-bg)}
   <button id="appMoreFinance">💰 旅行分帳<small>旅伴、消費、匯率與結算。</small></button>
   <button id="appMoreExchange">💳 支付・加值<small>換錢、T-money 與 WOWPASS 加值點。</small></button>
   <button id="appMoreAirport">✈️ 出國注意事項・刷卡指南<small>行李清單、入境、支付回饋與金海機場。</small></button>
-  <button id="appMoreShare">📤 分享旅行<small>Day PNG、分享碼與手機 Share Sheet。</small></button>
+  <button id="appMoreShare">📤 分享旅行<small>Day 行程圖、旅伴分享碼與手機分享。</small></button>
+  <button id="appMoreTextItinerary">✨ 匯入文字行程<small>把文字旅程轉成每天的景點安排。</small></button>
   <button id="appMoreCustom">📌 我的景點<small>管理自己新增的私人景點。</small></button>
   <button id="appMoreTheme">🎨 外觀主題<small>CNBLUE 藍色預設，也可自訂主色與背景。</small></button>
   <button id="appMoreTutorial">❓ 使用教學<small>重新查看手把手操作說明。</small></button>
@@ -841,11 +825,11 @@ html,body{background:var(--app-bg)}
 
 <div class="place-search-hub" id="placeSearchHub">
  <div class="place-search-card">
-  <div class="place-search-head"><div><strong>🔎 搜尋新地點</strong><br><small>一個欄位搜尋，找到就直接加入行程</small></div><button id="closePlaceSearch">關閉</button></div>
+  <div class="place-search-head"><div><strong>🔎 探索新地點</strong><br><small>搜尋、預覽，直接加入收藏或 Day 行程</small></div><button id="closePlaceSearch">關閉</button></div>
   <div class="place-search-form">
-   <div class="place-search-row"><input id="placeSearchQuery" placeholder="輸入韓文／中文／英文店名、景點、餐廳、咖啡廳…"><button id="runPlaceSearch">統一搜尋</button></div>
+   <div class="place-search-row"><input id="placeSearchQuery" placeholder="輸入韓文／中文／英文店名、景點、餐廳、咖啡廳…"><button id="runPlaceSearch">搜尋</button></div>
    <div class="place-search-subactions"><button id="googlePrecisePlaceSearch" type="button">🎯 Google 備援</button><button id="osmFallbackPlaceSearch" type="button">🌍 OSM 備援</button><button id="clearPlaceSearch" type="button">清除結果</button></div>
-   <div class="place-search-note">同一條搜尋流程會自動依序使用 Kakao 瀏覽器搜尋、Kakao 後端、Google Places、OSM；不用自己判斷要按哪一個。</div>
+   <div class="place-search-note" id="placeSearchStatus">會自動選擇可用的地圖資料來源；結果會標示來源與精準程度。</div>
   </div>
   <div class="place-search-results" id="placeSearchResults"><div class="place-search-empty">輸入名稱後按「搜尋」。<br>找到結果後可直接「加入我的景點」或「加入今天 Day」。</div></div>
  </div>
@@ -919,9 +903,9 @@ html,body{background:var(--app-bg)}
   <h2>🧭 旅行地圖使用教學</h2>
   <div class="sub">第一次使用照著下面順序操作即可。所有個人行程、狀態、我的景點與分帳都保存在目前裝置。</div>
   <div class="tutorial-guide">
-   <div class="tutorial-section"><h3>① 手機底部 5 個按鈕</h3><ol><li>「首頁」看目前 Day 與旅行摘要。</li><li>「探索」直接回到地圖。</li><li>中央「＋」會從底部打開新增選單：搜尋新地點、貼 Naver Map、增加消費。</li><li>「行程」打開目前 Day；「更多」可進分帳、支付・加值、機場、分享與教學。</li></ol><div class="tutorial-tip">2.10.7 的「＋／更多」使用獨立 App Sheet，不會被 Dashboard 或舊篩選面板遮住。</div></div>
-   <div class="tutorial-section"><h3>② 搜尋景點：一個按鈕自動備援</h3><ol><li>手機按「＋ → 搜尋新地點」，桌機按「搜尋地圖上還沒有的景點」。</li><li>輸入韓文、中文或英文名稱後按「統一搜尋」；系統會自動依序查 Kakao 瀏覽器、Kakao 後端、Google Places、OSM。</li><li>常見英文別名（例如 lotte）會補成韓文地點名稱；不用再自己切換 Google／OSM 按鈕。</li><li>按「地圖預覽」後紅色 Marker 可以再點，重新叫出「加入我的景點／加入 Day」按鈕。</li></ol></div>
-   <div class="tutorial-section"><h3>③ 排 Day 行程</h3><ol><li>按底部「行程」或首頁「我的行程」，先選 Day。</li><li>從既有景點資訊卡可直接加入 Day；搜尋新地點時也可以一鍵加入今天的 Day。</li><li>每個行程可設定時間、一般備註與交通備註，並可上下調整順序。</li><li>「查看 Day 地圖」確認當天分布；「Day 行程圖」產出 1920×1080 PNG。</li></ol></div>
+   <div class="tutorial-section"><h3>① 手機底部 5 個按鈕</h3><ol><li>「首頁」看目前 Day 與旅行摘要。</li><li>「探索」直接回到地圖。</li><li>中央「＋」會從底部打開新增選單：搜尋新地點、貼 Naver Map、增加消費。</li><li>「行程」打開目前 Day；「更多」可進分帳、支付・加值、機場、分享與教學。</li></ol></div>
+   <div class="tutorial-section"><h3>② 搜尋景點</h3><ol><li>手機按「＋ → 搜尋新地點」，桌機按「搜尋釜山的新地點」。</li><li>輸入韓文、中文或英文名稱後按「搜尋」；系統會自動選擇可用資料來源。</li><li>搜尋結果會標示來源與精準程度，並自動合併重複地點。</li><li>按「地圖預覽」後可直接加入「我的景點」或今天的 Day。</li></ol></div>
+   <div class="tutorial-section"><h3>③ 排 Day 行程</h3><ol><li>按底部「行程」或首頁「我的行程」，先選 Day。</li><li>可從景點卡直接加入 Day，也可貼上 ChatGPT／Gemini 的文字行程快速匯入。</li><li>每個行程可設定時間、一般備註與交通備註；可拖曳調整順序，或使用「順路排序」。</li><li>「查看 Day 地圖」確認當天分布；「Day 行程圖」可直接分享。</li></ol></div>
    <div class="tutorial-section"><h3>④ 我的景點：三種新增方式</h3><ol><li>「搜尋新地點」找到後直接存成我的景點。</li><li>有 Naver Map 連結時，按「＋ → 貼 Naver Map 連結」；若 Naver 未提供座標，補上名稱後會用同一套搜尋列出候選供確認。</li><li>機場、換錢所、T-money、WOWPASS 地圖點也可直接加入我的景點／今天 Day。</li><li>已經知道大概位置時，也可以在定位進階設定使用目前地圖中心。</li></ol></div>
    <div class="tutorial-section"><h3>⑤ 旅行分帳與匯率</h3><ol><li>先新增旅伴。</li><li>旅行幣別與我的幣別改為下拉選單，可直接選 KRW、TWD、JPY、USD 等常用貨幣，也可按「交換幣別」。</li><li>更新網路參考匯率後新增消費，選付款人、參與者與分法。</li><li>右側會自動整理總支出與結算建議。</li></ol></div>
    <div class="tutorial-section"><h3>⑥ 分享給朋友：傳送方</h3><ol><li>開啟「分享旅行」。</li><li>只想快速看行程：選 Day →「下載 PNG」或「手機分享圖片」。</li><li>要讓朋友匯入 App：在「我要傳給朋友」按「產生分享碼」。</li><li>再按「複製分享碼」或「手機分享」，把整串文字傳給朋友。</li></ol></div>
@@ -1499,7 +1483,7 @@ html,body{background:var(--app-bg)}
     <div class="airport-grid">
      <div class="route-card route-best">
       <h3>🏨 你的住宿｜H11 Marianne Hotel（마리안느호텔）</h3>
-      <p style="font-size:9.5px;line-height:1.6">地址：부산 해운대구 해운대해변로 310（HAR 座標 35.1614645, 129.1646476）</p>
+      <p style="font-size:9.5px;line-height:1.6">地址：부산 해운대구 해운대해변로 310</p>
 
       <div class="inline-diagram">
        <svg viewBox="0 0 940 230" role="img" aria-label="金海機場到Marianne Hotel交通示意">
@@ -1577,16 +1561,6 @@ html,body{background:var(--app-bg)}
       <div class="route-method"><b>海雲台站點</b><div>2026 改線後，舊 09112 已調整到 <b>海雲台海水浴場 09116</b>，避免照到舊部落格站牌。</div></div>
      </div>
 
-     <div class="route-card">
-      <h3>🖼️ 景點預覽圖：GitHub 版會怎麼放</h3>
-      <div class="photo-plan">
-       每個景點資料已有 NAVER Place ID（<code>sid</code>），HTML 會依序讀：
-       <br><code>images/&lt;sid&gt;/01.webp</code>
-       <br><code>images/&lt;sid&gt;/02.webp</code>
-       <br><br>圖片採 <b>lazy-load</b>：只有你點開景點時才載入，不會一開網站就把 160 張全下載。
-       <br>目前 HAR <b>沒有 Place 圖片 URL</b>，所以這版仍保留「預覽圖待同步」。正式 GitHub 圖片同步器會另外產生／快取圖片，不把 Base64 塞進 index.html。
-      </div>
-     </div>
     </div>
    </section>
   </div>
@@ -1693,6 +1667,18 @@ html,body{background:var(--app-bg)}
  </div>
 </div>
 
+<div class="text-itinerary-hub" id="textItineraryHub">
+ <div class="text-itinerary-card">
+  <div class="text-itinerary-head"><div><strong>✨ 匯入文字行程</strong><small>把 ChatGPT／Gemini 或自己的行程文字貼進來</small></div><button id="closeTextItinerary">關閉</button></div>
+  <div class="text-itinerary-body">
+   <p>支援「Day 1／第 1 天」與「09:30 景點名稱」等常見格式。系統會先比對目前已有的釜山景點，確認後才加入行程。</p>
+   <textarea id="textItineraryInput" placeholder="Day 1&#10;09:00 BIFF廣場&#10;11:00 松島纜車-松島灣站&#10;&#10;Day 2&#10;白淺灣文化村&#10;족욕카페 뷰"></textarea>
+   <div class="text-itinerary-actions"><button id="previewTextItinerary">解析預覽</button><button class="primary" id="importTextItinerary">加入匹配景點</button></div>
+   <div class="text-itinerary-preview" id="textItineraryPreview">貼上行程後按「解析預覽」。</div>
+  </div>
+ </div>
+</div>
+
 <div class="itinerary-modal" id="itineraryModal">
  <div class="itinerary-card">
   <div class="itinerary-head">
@@ -1712,7 +1698,10 @@ html,body{background:var(--app-bg)}
      <button class="day-native-share" id="shareDayImage">📲 分享 Day</button>
      <button class="today" id="makeToday">設為今天</button>
      <button id="sortByTime">依時間排序</button>
+     <button id="optimizeRoute">✨ 順路排序</button>
+     <button id="openTextItinerary">貼上文字行程</button>
     </div>
+    <div class="day-route-summary" id="dayRouteSummary"></div>
     <div class="itinerary-items" id="itineraryItems"></div>
    </div>
   </div>
@@ -1754,7 +1743,7 @@ try{
  [CITY,BASE_RECORDS]=await Promise.all([loadTravelJSON("data/city.json"),loadTravelJSON("data/poi-data.json")]);
 }catch(e){
  console.error(e);
- document.body.innerHTML=`<div style="padding:30px;font-family:sans-serif"><h2>旅遊資料包載入失敗</h2><p>${String(e?.message||e)}</p><p>請確認 GitHub 根目錄存在 <code>data/city.json</code> 與 <code>data/poi-data.json</code>，並透過 GitHub Pages / HTTP 開啟，不要直接雙擊 index.html。</p></div>`;
+ console.error("旅遊資料載入失敗",e);document.body.innerHTML=`<div style="padding:30px;font-family:sans-serif"><h2>旅遊資料暫時無法載入</h2><p>請重新整理頁面；若仍無法使用，請稍後再試。</p></div>`;
  return;
 }
 let VIEWS=Object.fromEntries((CITY.views||[]).map(v=>[String(v.key),{...v,count:0}]));
@@ -1967,12 +1956,12 @@ function applyView(shouldFit=true){
  state.view=Object.keys(VIEWS).find(k=>VIEWS[k]?.all)||"1";computeFiltered();const codes=selectedViewCodes(),base=ALL_RECORDS.filter(p=>codes.has(p.code)),regionText=state.regions.size?`已選 ${state.regions.size} 個區域`:`全釜山`;
  if(shouldFit)fitToPoints(base,{includeAirport:!state.regions.size,maxZoom:15});
  mapTitle.innerHTML=`全釜山景點<small>${state.filtered.length} 個符合條件｜${regionText}</small>`;
- renderResults();renderOverlay();updateStatus();persist()
+ renderResults();renderOverlay();updateStatus();updateFilterSummary2108();persist()
 }
 function applyFilters(shouldFit=false){
  computeFiltered();const regionText=state.regions.size?`已選 ${state.regions.size} 個區域`:`全釜山`;
  mapTitle.innerHTML=`全釜山景點<small>${state.filtered.length} 個符合條件｜${regionText}</small>`;
- renderResults();renderOverlay();if(shouldFit&&state.filtered.length)fitToPoints(state.filtered,{maxZoom:16});updateStatus()
+ renderResults();renderOverlay();if(shouldFit&&state.filtered.length)fitToPoints(state.filtered,{maxZoom:16});updateStatus();updateFilterSummary2108()
 }
 
 function renderResults(){
@@ -2258,11 +2247,10 @@ async function loadGooglePlacePhotos(p){
  const box=document.getElementById("gphoto_"+p.id);if(!box)return;
  const token=++currentPhotoRequestToken;
  if(!photoBackendReady()){
-   box.innerHTML=`<div class="gphoto-loading"><div>📷 實景照片後端尚未完成設定<br>
-    <button onclick="openPhotoSettings()">查看 Supabase 設定</button></div></div>`;
+   box.innerHTML=`<div class="gphoto-error">📷 實景照片目前暫時無法使用。</div>`;
    return;
  }
- box.innerHTML=`<div class="gphoto-loading">📷 正在透過 Supabase 讀取 Google Places 實景照片…</div>`;
+ box.innerHTML=`<div class="gphoto-loading">📷 正在載入實景照片…</div>`;
  try{
    const place=await callPlacePhotosBackend(p);
    if(token!==currentPhotoRequestToken)return;
@@ -2273,9 +2261,8 @@ async function loadGooglePlacePhotos(p){
    renderGooglePhotos(p,place);
  }catch(e){
    if(token!==currentPhotoRequestToken)return;
-   const msg=String(e?.message||e);
-   const help=msg.includes("SUPABASE_NOT_CONFIGURED")?"請先設定 app-config.js。":msg.includes("GOOGLE_API")?"請確認 Supabase Secret 與 Places API (New)。":"請開啟『實景照片設定』查看後端狀態。";
-   box.innerHTML=`<div class="gphoto-error">實景照片載入失敗。${escapeHTML(help)}<br><button style="margin-top:5px" onclick="openPhotoSettings()">檢查照片設定</button></div>`;
+   console.warn("實景照片載入失敗",e);
+   box.innerHTML=`<div class="gphoto-error">📷 實景照片暫時無法載入，其他景點資訊仍可正常使用。</div>`;
  }
 }
 
@@ -2288,7 +2275,7 @@ function openPhotoSettings(){
 window.openPhotoSettings=openPhotoSettings;
 function closePhotoSettings(){document.getElementById("photoSettings").classList.remove("show")}
 
-document.getElementById("morePhotos").onclick=()=>{openPhotoSettings();document.getElementById("moreMenu").classList.remove("show")};
+document.getElementById("morePhotos")?.addEventListener("click",()=>{openPhotoSettings();document.getElementById("moreMenu").classList.remove("show")});
 document.getElementById("closePhotoSettings").onclick=closePhotoSettings;
 document.getElementById("photoSettings").addEventListener("click",e=>{if(e.target.id==="photoSettings")closePhotoSettings()});
 document.getElementById("clearGooglePlaceCache").onclick=()=>{
@@ -2746,6 +2733,7 @@ document.getElementById("airportBtn").onclick=()=>openAirportHub("quick");
 
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.style.display="none",3200)}
 
+function updateFilterSummary2108(){const el=document.getElementById("filterActiveSummary");if(!el)return;let n=0;if(String(state.search||"").trim())n++;n+=(state.regions?.size||0);n+=(state.categories?.size||0);if(state.statusFilter)n++;if(state.dayFilter)n++;if(state.radius)n++;if(state.urlOnly)n++;el.textContent=n?`已套用 ${n} 個條件`:`用搜尋或篩選快速縮小結果`}
 function syncFilterControls(){
  document.getElementById("statusFilter").value=state.statusFilter;document.getElementById("mobileStatusFilter").value=state.statusFilter;
  document.getElementById("dayFilter").value=state.dayFilter;document.getElementById("mobileDayFilter").value=state.dayFilter;
@@ -3034,8 +3022,8 @@ function renderItinerary(){
  document.getElementById("itinerarySummary").textContent=`共 ${total} 個行程項目`;
  document.getElementById("itineraryItems").innerHTML=items.length?items.map((it,i)=>{
    const p=byId[it.id]||{};
-   return `<div class="itin-item">
-    <div class="itin-order">#${i+1}<br><button onclick="moveItin(${itineraryDay},${i},-1)" style="border:0;background:none">▲</button><button onclick="moveItin(${itineraryDay},${i},1)" style="border:0;background:none">▼</button></div>
+   return `<div class="itin-item" data-itin-index="${i}">
+    <div class="itin-order"><button class="itin-drag" type="button" data-drag-index="${i}" aria-label="拖曳調整順序">☷</button><small>#${i+1}</small><div><button onclick="moveItin(${itineraryDay},${i},-1)" style="border:0;background:none" aria-label="往上">▲</button><button onclick="moveItin(${itineraryDay},${i},1)" style="border:0;background:none" aria-label="往下">▼</button></div></div>
     <div class="itin-time">${escapeHTML(it.time||"未定")}</div>
     <div><div class="itin-name"><span style="color:${p.color||"#555"}">${escapeHTML(it.id)}</span> ${escapeHTML(p.display||it.id)}</div>
       ${it.note?`<div class="itin-note">📝 ${escapeHTML(it.note)}</div>`:""}
@@ -3048,6 +3036,8 @@ function renderItinerary(){
     </div>
    </div>`
  }).join(""):`<div style="padding:30px;text-align:center;color:#777;font-size:11px">Day ${itineraryDay} 還沒有景點<br><br>按「＋ 新增景點」開始安排。</div>`;
+ updateDayRouteSummary2108();
+ bindItineraryDrag2108();
 }
 function openItinerary(day=null){
  if(day)itineraryDay=Number(day);saveItinerary();renderItinerary();
@@ -3105,10 +3095,13 @@ window.quickAddToItinerary=function(id){
  openItinEditor("add",d,-1,id)
 };
 function showDayOnMap(day){
- const arr=dayItems(day),pts=arr.map(x=>byId[x.id]).filter(Boolean);
+ const arr=dayItems(day),pts=arr.map(x=>byId[x.id]).filter(p=>p&&validGeo(Number(p.lat),Number(p.lon)));
  if(!pts.length){toast(`Day ${day} 還沒有景點`);return}
  closeItinerary();
- state.dayFilter=String(day);syncFilterControls();applyFilters(false);fitToPoints(pts,{maxZoom:16});toast(`目前地圖顯示 Day ${day} 行程`)
+ state.dayFilter=String(day);syncFilterControls();applyFilters(false);fitToPoints(pts,{maxZoom:16});
+ try{dayRouteLayer2108.clearLayers();if(pts.length>1)L.polyline(pts.map(p=>[Number(p.lat),Number(p.lon)]),{color:"#1769aa",weight:5,opacity:.78,dashArray:"9 7"}).addTo(dayRouteLayer2108)}catch(e){}
+ if(typeof window.renderKakaoDayRoute2108==="function")window.renderKakaoDayRoute2108(pts);
+ toast(`目前地圖顯示 Day ${day} 行程`)
 }
 function setToday(day){
  saved.ui.todayDay=Number(day);saveItinerary();renderItinerary();toast(`今天已設定為 Day ${day}`)
@@ -3116,6 +3109,14 @@ function setToday(day){
 function sortItinByTime(day){
  const arr=dayItems(day);arr.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));saved.itinerary[String(day)]=arr;saveItinerary();renderItinerary()
 }
+
+// Beta 2.10.8: Funliday-like route overview, smart ordering and touch/mouse drag reordering.
+function itinGeo2108(item){const p=byId[item?.id];return p&&validGeo(Number(p.lat),Number(p.lon))?{lat:Number(p.lat),lon:Number(p.lon)}:null}
+function itineraryStraightDistance2108(day){const arr=dayItems(day);let km=0,legs=0;for(let i=1;i<arr.length;i++){const a=itinGeo2108(arr[i-1]),b=itinGeo2108(arr[i]);if(a&&b){km+=haversine(a.lat,a.lon,b.lat,b.lon);legs++}}return {km,legs}}
+function updateDayRouteSummary2108(){const box=document.getElementById("dayRouteSummary");if(!box)return;const arr=dayItems(itineraryDay),m=itineraryStraightDistance2108(itineraryDay);if(arr.length<2){box.textContent=arr.length?"再加入一個景點，就能比較當天移動順序。":"新增景點後會在這裡顯示路線摘要。";return}box.innerHTML=`${arr.length} 個景點｜景點間直線距離合計約 <b>${m.km.toFixed(m.km<10?1:0)} km</b>｜可拖曳調整，或使用「順路排序」<span style="display:block;font-size:9px;color:#8a969f">直線距離只用來比較順路程度，不代表實際交通時間。</span>`}
+function optimizeItineraryRoute2108(day){const arr=[...dayItems(day)];if(arr.length<3){toast("至少 3 個景點才需要順路排序");return}const valid=arr.every(x=>itinGeo2108(x));if(!valid){toast("部分景點沒有座標，無法自動排序");return}if(!confirm("會固定第一站，依景點距離重新排列後面的順序；原本時間與備註不會改。要繼續嗎？"))return;const out=[arr.shift()];while(arr.length){const a=itinGeo2108(out[out.length-1]);let best=0,bestD=Infinity;arr.forEach((x,i)=>{const b=itinGeo2108(x),d=haversine(a.lat,a.lon,b.lat,b.lon);if(d<bestD){bestD=d;best=i}});out.push(arr.splice(best,1)[0])}saved.itinerary[String(day)]=out;saveItinerary();renderItinerary();toast("已依距離重新排列，可再拖曳微調")}
+let itinDrag2108=null;
+function bindItineraryDrag2108(){document.querySelectorAll("#itineraryItems .itin-drag").forEach(h=>{h.onpointerdown=e=>{if(e.button!==undefined&&e.button!==0)return;const idx=Number(h.dataset.dragIndex),item=h.closest(".itin-item");if(!Number.isFinite(idx)||!item)return;itinDrag2108={day:itineraryDay,from:idx,to:idx,item,pointerId:e.pointerId};item.classList.add("dragging");try{h.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()};h.onpointermove=e=>{if(!itinDrag2108||itinDrag2108.pointerId!==e.pointerId)return;document.querySelectorAll("#itineraryItems .drag-target").forEach(x=>x.classList.remove("drag-target"));const el=document.elementFromPoint(e.clientX,e.clientY)?.closest?.(".itin-item");if(el&&document.getElementById("itineraryItems").contains(el)){const to=Number(el.dataset.itinIndex);if(Number.isFinite(to)){itinDrag2108.to=to;el.classList.add("drag-target")}}e.preventDefault()};h.onpointerup=h.onpointercancel=e=>{if(!itinDrag2108||itinDrag2108.pointerId!==e.pointerId)return;const st=itinDrag2108;itinDrag2108=null;document.querySelectorAll("#itineraryItems .drag-target").forEach(x=>x.classList.remove("drag-target"));st.item?.classList.remove("dragging");if(st.from!==st.to){const arr=dayItems(st.day),[moved]=arr.splice(st.from,1);arr.splice(st.to,0,moved);saved.itinerary[String(st.day)]=arr;saveItinerary();renderItinerary();toast("行程順序已更新")}}})}
 
 document.getElementById("itineraryBtn").onclick=()=>openItinerary(saved.ui?.todayDay||itineraryDay);
 document.getElementById("closeItinerary").onclick=closeItinerary;
@@ -3126,6 +3127,7 @@ document.getElementById("shareDayImage").onclick=()=>nativeShareDayPNG(itinerary
 document.getElementById("makeToday").onclick=()=>setToday(itineraryDay);
 document.getElementById("setTodayBtn").onclick=()=>setToday(itineraryDay);
 document.getElementById("sortByTime").onclick=()=>sortItinByTime(itineraryDay);
+document.getElementById("optimizeRoute").onclick=()=>optimizeItineraryRoute2108(itineraryDay);
 document.getElementById("editorCancel").onclick=closeEditor;
 document.getElementById("editorSave").onclick=saveEditor;
 
@@ -3135,7 +3137,7 @@ document.getElementById("editorSave").onclick=saveEditor;
 // ============================================================
 const placeSearchHub=document.getElementById("placeSearchHub"),placeSearchResults=document.getElementById("placeSearchResults");
 const quickAddSheet=document.getElementById("quickAddSheet"),appMoreSheet=document.getElementById("appMoreSheet");
-let externalPlaceResults=[],searchPreviewLayer=L.layerGroup().addTo(map),lastNominatimAt=0;
+let externalPlaceResults=[],searchPreviewLayer=L.layerGroup().addTo(map),dayRouteLayer2108=L.layerGroup().addTo(map),lastNominatimAt=0;
 const OSM_SEARCH_CACHE_KEY=`travelmap_${CITY.id||"city"}_nominatim_cache_v1`;
 function setBottomNav(key){document.querySelectorAll(".app-nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.nav===key))}
 function closeAppSheets(){quickAddSheet.classList.remove("show");appMoreSheet.classList.remove("show");if(!filterSheet.classList.contains("show")&&!resultsSheet.classList.contains("show"))backdrop.classList.remove("show")}
@@ -3178,6 +3180,19 @@ const dashboardStatsBase=dashboardStats;dashboardStats=function(){dashboardStats
 function openTodayItinerary(){hideDashboard();setBottomNav("itinerary");openItinerary(Number(saved.ui?.todayDay||1))}
 document.getElementById("dashboardTodayCard").onclick=openTodayItinerary;document.getElementById("dashboardTodayOpen").onclick=e=>{e.stopPropagation();openTodayItinerary()};document.getElementById("dashboardTodayCard").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openTodayItinerary()}};
 document.getElementById("openPlaceSearchDesktop").onclick=()=>openPlaceSearch();document.getElementById("openPlaceSearchMobile").onclick=()=>openPlaceSearch();document.getElementById("morePlaceSearch").onclick=()=>openPlaceSearch();document.getElementById("closePlaceSearch").onclick=closePlaceSearch;document.getElementById("runPlaceSearch").onclick=runNominatimSearch;document.getElementById("googlePrecisePlaceSearch").onclick=runGooglePreciseSearch;document.getElementById("clearPlaceSearch").onclick=()=>{externalPlaceResults=[];placeSearchResults.innerHTML='<div class="place-search-empty">輸入名稱後按「搜尋」。</div>'};placeSearchHub.addEventListener("click",e=>{if(e.target===placeSearchHub)closePlaceSearch()});
+// Beta 2.10.8: import a ChatGPT/Gemini/plain-text itinerary into existing POIs.
+let textItineraryParsed2108=[];
+function openTextItinerary2108(){closeAppSheets();closeSheets();document.getElementById("textItineraryHub").classList.add("show");setTimeout(()=>document.getElementById("textItineraryInput").focus(),120)}
+function closeTextItinerary2108(){document.getElementById("textItineraryHub").classList.remove("show")}
+function parseDayHeading2108(s){const m=s.match(/^(?:day\s*|d\s*|第\s*)(\d{1,2})(?:\s*天)?\b/i)||s.match(/^第\s*(\d{1,2})\s*天/i);return m?Math.max(1,Math.min(DAY_COUNT,Number(m[1]))):null}
+function cleanTextPlace2108(s){return s.replace(/^[\-•●▪︎◦★☆✓✔️\s]+/,"").replace(/^\(?\d+[.)、]\s*/,"").replace(/^\d{1,2}:\d{2}\s*[-–—]?\s*/,"").replace(/\s*[｜|].*$/,"").trim()}
+function findTextPoi2108(name){const q=norm(name);if(!q)return null;let best=null,score=0;for(const p of ALL_RECORDS){const names=[p.display,p.name,p.id].filter(Boolean).map(norm);let s=0;for(const n of names){if(n===q)s=Math.max(s,100);else if(n.includes(q)||q.includes(n))s=Math.max(s,Math.min(n.length,q.length)>=3?78:0);else{const toks=q.split(/\s+/).filter(x=>x.length>1),hits=toks.filter(t=>n.includes(t)).length;if(toks.length)s=Math.max(s,Math.round(hits/toks.length*60))}}if(s>score){score=s;best=p}}return score>=58?{p:best,score}:null}
+function parseTextItinerary2108(){const raw=document.getElementById("textItineraryInput").value,lines=raw.split(/\r?\n/);let day=Number(saved.ui?.todayDay||itineraryDay||1);const out=[];for(let line of lines){line=line.trim();if(!line)continue;const hd=parseDayHeading2108(line);if(hd){day=hd;continue}const tm=line.match(/(?:^|\s)([01]?\d|2[0-3]):([0-5]\d)(?:\s|$)/),time=tm?`${String(tm[1]).padStart(2,"0")}:${tm[2]}`:"",name=cleanTextPlace2108(line);if(!name||name.length<2)continue;const match=findTextPoi2108(name);out.push({day,time,name,match})}textItineraryParsed2108=out;renderTextItineraryPreview2108();return out}
+function renderTextItineraryPreview2108(){const box=document.getElementById("textItineraryPreview"),out=textItineraryParsed2108;if(!out.length){box.innerHTML='<div class="place-search-empty">沒有解析到行程內容。可以試「Day 1」後每行放一個景點。</div>';return}const groups={};out.forEach(x=>(groups[x.day]??=[]).push(x));box.innerHTML=Object.entries(groups).map(([d,arr])=>`<div class="text-import-day"><h4>Day ${d}</h4>${arr.map((x,i)=>{const idx=out.indexOf(x);return `<div class="text-import-row"><span>${escapeHTML(x.time||"—")}</span><div><b>${escapeHTML(x.name)}</b><br>${x.match?`<span class="match">✓ ${escapeHTML(x.match.p.display)} · ${x.match.score}%</span>`:`<span class="unmatched">尚未匹配</span>`}</div>${x.match?"":`<button onclick="searchTextItineraryMissing2108(${idx})">搜尋</button>`}</div>`}).join("")}</div>`).join("")}
+window.searchTextItineraryMissing2108=function(i){const x=textItineraryParsed2108[i];if(!x)return;closeTextItinerary2108();openPlaceSearch(x.name)}
+function importTextItinerary2108(){const out=textItineraryParsed2108.length?textItineraryParsed2108:parseTextItinerary2108(),matched=out.filter(x=>x.match?.p);if(!matched.length){toast("目前沒有可直接匯入的匹配景點");return}let added=0;for(const x of matched){const id=x.match.p.id,arr=dayItems(x.day);if(arr.some(it=>it.id===id))continue;const carried=detachPoiFromAllDays(id)||{id,time:"",note:"",transport:""};arr.push({...carried,id,time:x.time||carried.time||""});saved.itinerary[String(x.day)]=arr;saved.poi[id]={...poiState(id),day:String(x.day)};added++}saveItinerary();applyFilters(false);renderItinerary();dashboardStats();toast(`已加入 ${added} 個行程景點`);if(added)closeTextItinerary2108()}
+document.getElementById("closeTextItinerary").onclick=closeTextItinerary2108;document.getElementById("textItineraryHub").onclick=e=>{if(e.target.id==="textItineraryHub")closeTextItinerary2108()};document.getElementById("previewTextItinerary").onclick=parseTextItinerary2108;document.getElementById("importTextItinerary").onclick=importTextItinerary2108;document.getElementById("quickTextItinerary").onclick=openTextItinerary2108;document.getElementById("appMoreTextItinerary").onclick=openTextItinerary2108;document.getElementById("moreTextItinerary").onclick=()=>{moreMenu.classList.remove("show");openTextItinerary2108()};document.getElementById("openTextItinerary").onclick=openTextItinerary2108;
+
 document.querySelectorAll("[data-app-sheet-close]").forEach(b=>b.onclick=closeAppSheets);document.getElementById("quickSearchPlace").onclick=()=>{closeAppSheets();openPlaceSearch()};document.getElementById("quickCustomPlace").onclick=()=>{closeAppSheets();openCustomPlaces()};document.getElementById("quickExpense").onclick=()=>{closeAppSheets();openFinance()};document.getElementById("appMoreFinance").onclick=()=>{closeAppSheets();openFinance()};document.getElementById("appMoreExchange").onclick=()=>{closeAppSheets();showExchangeHub()};document.getElementById("appMoreAirport").onclick=()=>{closeAppSheets();openAirportHub()};document.getElementById("appMoreShare").onclick=()=>{closeAppSheets();openShareHub()};document.getElementById("appMoreCustom").onclick=()=>{closeAppSheets();openCustomPlaces()};document.getElementById("appMoreTutorial").onclick=()=>{closeAppSheets();openTutorial()};
 document.querySelectorAll(".app-nav-btn").forEach(b=>b.onclick=()=>{const key=b.dataset.nav;setBottomNav(key);if(key==="home")showDashboard();if(key==="explore")openExploreView();if(key==="add")openAppSheet(quickAddSheet);if(key==="itinerary"){hideDashboard();openItinerary(Number(saved.ui?.todayDay||itineraryDay||1))}if(key==="more")openAppSheet(appMoreSheet)});
 backdrop.onclick=()=>{closeSheets();closeAppSheets()};
@@ -3191,7 +3206,7 @@ let mapStateTimer=null;map.on("moveend zoomend",()=>{clearTimeout(mapStateTimer)
 // ============================================================
 const KAKAO_JS_KEY=String(window.BUSAN_CONFIG?.kakaoJavaScriptKey||"").trim();
 const kakaoMapEl=document.getElementById("kakaoMap"),appActionBackdrop=document.getElementById("appActionBackdrop");
-let kakaoMap=null,kakaoSdkReady=false,kakaoSdkPromise=null,kakaoOverlays=[],kakaoAirportOverlay=null,kakaoPreviewOverlay=null,kakaoCurrentLocationOverlay=null,kakaoSyncTimer=null,kakaoIgnoreLeafletUntil=0;
+let kakaoMap=null,kakaoSdkReady=false,kakaoSdkPromise=null,kakaoOverlays=[],kakaoAirportOverlay=null,kakaoPreviewOverlay=null,kakaoCurrentLocationOverlay=null,kakaoDayRoute2108=null,kakaoSyncTimer=null,kakaoIgnoreLeafletUntil=0;
 state.mapEngine=saved.ui?.mapEngine||(KAKAO_JS_KEY?"kakao":"osm");
 function leafletZoomToKakaoLevel(z){return Math.max(1,Math.min(14,Math.round(19-Number(z||12))))}
 function kakaoLevelToLeafletZoom(level){return Math.max(5,Math.min(19,19-Number(level||7)))}
@@ -3206,6 +3221,7 @@ async function ensureKakaoMap(){
  kakao.maps.event.addListener(kakaoMap,"idle",()=>{if(state.mapEngine!=="kakao")return;const c=kakaoMap.getCenter(),z=kakaoLevelToLeafletZoom(kakaoMap.getLevel());kakaoIgnoreLeafletUntil=Date.now()+350;map.setView([c.getLat(),c.getLng()],z,{animate:false});saved.ui={...(saved.ui||{}),mapCenter:[Number(c.getLat().toFixed(6)),Number(c.getLng().toFixed(6))],mapZoom:z,mapEngine:"kakao"};persist();scheduleKakaoMarkers();syncKakaoCurrentLocation()});kakao.maps.event.addListener(kakaoMap,"click",()=>{closePoiInfo();if(kakaoPreviewOverlay){try{kakaoPreviewOverlay.setMap(null)}catch(e){}kakaoPreviewOverlay=null}});return kakaoMap;
 }
 function clearKakaoOverlays(){for(const x of kakaoOverlays)try{x.setMap(null)}catch(e){}kakaoOverlays=[];if(kakaoAirportOverlay){try{kakaoAirportOverlay.setMap(null)}catch(e){}kakaoAirportOverlay=null}}
+window.renderKakaoDayRoute2108=async function(pts){try{await ensureKakaoMap();if(kakaoDayRoute2108){kakaoDayRoute2108.setMap(null);kakaoDayRoute2108=null}if(state.mapEngine!=="kakao"||!Array.isArray(pts)||pts.length<2)return;const path=pts.map(p=>new kakao.maps.LatLng(Number(p.lat),Number(p.lon)));kakaoDayRoute2108=new kakao.maps.Polyline({path,strokeWeight:5,strokeColor:"#1769AA",strokeOpacity:.78,strokeStyle:"shortdash"});kakaoDayRoute2108.setMap(kakaoMap)}catch(e){console.warn("Kakao day route",e)}};
 function syncKakaoCurrentLocation(){if(kakaoCurrentLocationOverlay){try{kakaoCurrentLocationOverlay.setMap(null)}catch(e){}kakaoCurrentLocationOverlay=null}if(!kakaoMap||state.mapEngine!=="kakao"||!state.currentLocation||!validGeo(Number(state.currentLocation.lat),Number(state.currentLocation.lon)))return;const el=document.createElement("div");el.className="kakao-current-location";el.title=`我的位置（精度約 ${Math.round(Number(state.currentLocation.accuracy||0))} m）`;kakaoCurrentLocationOverlay=new kakao.maps.CustomOverlay({position:new kakao.maps.LatLng(Number(state.currentLocation.lat),Number(state.currentLocation.lon)),content:el,xAnchor:.5,yAnchor:.5,zIndex:40});kakaoCurrentLocationOverlay.setMap(kakaoMap)}
 function scheduleKakaoMarkers(){clearTimeout(kakaoSyncTimer);kakaoSyncTimer=setTimeout(syncKakaoMarkers,45)}
 function kakaoPinContent(p,zoom){
@@ -3318,6 +3334,18 @@ async function runGoogleMultiPlaceSearch2105(){const q=document.getElementById("
 googlePreciseBtn2105.onclick=runGoogleMultiPlaceSearch2105;
 runKakaoPlaceSearch=async function(){const q=document.getElementById("placeSearchQuery").value.trim();if(!q){toast("請輸入要搜尋的地點名稱");return}placeSearchResults.innerHTML='<div class="place-search-empty">正在搜尋 Kakao Map…</div>';const c=map.getCenter();let items=[];try{items=await searchKakaoDirect2105([q],{lat:Number(c.lat),lon:Number(c.lng),radius:20000})}catch(e){console.warn(e)}if(!items.length){try{const data=await backendPost2104({action:"searchKakao",queries:[q],cityName:CITY.search?.kakaoCityName||CITY.name||"부산",cityLat:Number(c.lat),cityLon:Number(c.lng),radius:20000});items=Array.isArray(data?.items)?data.items:[]}catch(e){console.warn(e)}}if(items.length){renderExternalPlaceResults(items,"Kakao");return}placeSearchResults.innerHTML='<div class="place-search-empty">Kakao 沒有找到結果。可直接按「Google 備援」或「OSM 備援」。</div>'};
 document.getElementById("runPlaceSearch").onclick=runKakaoPlaceSearch;document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();runKakaoPlaceSearch()}};
+
+// Beta 2.10.8 unified search: one tap, automatic fallback, source/confidence labels and dedupe.
+function searchStatus2108(msg,steps=[]){const el=document.getElementById("placeSearchStatus");if(!el)return;el.innerHTML=`${escapeHTML(msg)}${steps.length?`<div class="search-progress">${steps.map(x=>`<span class="${x.state||""}">${escapeHTML(x.label)}</span>`).join("")}</div>`:""}`}
+function placeKey2108(x){const n=norm(x.name||x.displayName||""),a=norm(x.address||x.formattedAddress||x.addressText||"");return `${n}|${a.slice(0,30)}`}
+function addUniqueExternal2108(bucket,items,provider){for(const raw of items||[]){const p=normalizeExternalPlace(raw,provider);if(!validGeo(p.lat,p.lon))continue;p.provider=raw?._provider||provider;p._raw=raw;let dup=bucket.find(x=>norm(x.name)===norm(p.name)&&haversine(x.lat,x.lon,p.lat,p.lon)<.12);if(!dup)dup=bucket.find(x=>placeKey2108(x)===placeKey2108(p));if(!dup)bucket.push(p)}}
+async function searchNominatimItems2108(q){const bounds=map.getBounds(),params=new URLSearchParams({format:"jsonv2",q,limit:"8",addressdetails:"1",namedetails:"1","accept-language":String(CITY.search?.language||"zh-TW,ko,en")});const cc=String(CITY.search?.countryCode||"").trim();if(cc)params.set("countrycodes",cc);if(bounds?.isValid?.())params.set("viewbox",`${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()},${bounds.getSouth()}`);const wait=Math.max(0,1100-(Date.now()-lastNominatimAt));if(wait)await new Promise(r=>setTimeout(r,wait));lastNominatimAt=Date.now();const res=await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`,{headers:{Accept:"application/json"}});if(!res.ok)throw new Error(`NOMINATIM_${res.status}`);return await res.json()}
+function renderUnifiedResults2108(bucket){externalPlaceResults=bucket.slice(0,20);if(!externalPlaceResults.length){placeSearchResults.innerHTML='<div class="place-search-empty">目前沒有找到符合的地點。<br>可以換成韓文原名、英文完整名稱，或加上「부산」。</div>';return}placeSearchResults.innerHTML=externalPlaceResults.map((p,i)=>{const precise=/Kakao|Google/.test(p.provider||""),conf=precise?"精準":"候選";return `<div class="external-place-card"><h4>${escapeHTML(p.name)}<span class="provider-badge">${escapeHTML(p.provider||"地圖")}</span><span class="confidence-badge ${precise?"":"candidate"}">${conf}</span></h4><p>${escapeHTML(p.category||"地點")}｜${escapeHTML(regionMeta(inferRegionCode(p.lat,p.lon)).label||"自動分區")}</p><p>${escapeHTML(p.address||"未提供地址")}</p><div class="external-place-actions"><button class="preview" onclick="previewExternalPlace(${i})">📍 地圖預覽</button><button class="save" onclick="saveExternalPlace(${i})">＋ 加入我的景點</button><button class="day" onclick="saveExternalPlace(${i},true)">📅 加入今天 Day</button></div></div>`}).join("")}
+async function runUnifiedPlaceSearch2108(){const q=document.getElementById("placeSearchQuery").value.trim();if(!q){toast("請輸入要搜尋的地點名稱");return}const btn=document.getElementById("runPlaceSearch"),bucket=[];btn.disabled=true;btn.textContent="搜尋中…";placeSearchResults.innerHTML='<div class="place-search-empty">正在搜尋釜山地點…</div>';const steps=[{label:"Kakao",state:""},{label:"Google",state:""},{label:"OpenStreetMap",state:""}],queries=[...new Set([...expandedPlaceQueries2106(q),`${q} 부산`])];try{const c=map.getCenter();searchStatus2108("正在搜尋最適合的地點…",steps);let k=[];try{k=await searchKakaoDirect2105(queries,{lat:Number(c.lat),lon:Number(c.lng),radius:30000});steps[0].state=k.length?"done":""}catch(e){console.warn("Kakao browser",e)}if(!k.length){try{const data=await backendPost2104({action:"searchKakao",queries,cityName:CITY.search?.kakaoCityName||CITY.name||"부산",cityLat:Number(c.lat),cityLon:Number(c.lng),radius:30000});k=Array.isArray(data?.items)?data.items:[];steps[0].state=k.length?"done":"fail"}catch(e){steps[0].state="fail";console.warn("Kakao backend",e)}}addUniqueExternal2108(bucket,k,"Kakao");if(bucket.length)renderUnifiedResults2108(bucket);
+ if(bucket.length<6){try{const g=await searchGoogleMulti2105(q);steps[1].state=g.length?"done":"fail";addUniqueExternal2108(bucket,g,"Google Places");if(bucket.length)renderUnifiedResults2108(bucket)}catch(e){steps[1].state="fail";console.warn("Google search",e)}}else steps[1].state="";
+ if(bucket.length<6){try{const o=await searchNominatimItems2108(`${q} ${CITY.name||"Busan"}`);steps[2].state=o.length?"done":"fail";addUniqueExternal2108(bucket,o,"OpenStreetMap");if(bucket.length)renderUnifiedResults2108(bucket)}catch(e){steps[2].state="fail";console.warn("OSM search",e)}}
+ renderUnifiedResults2108(bucket);searchStatus2108(bucket.length?`找到 ${bucket.length} 個候選，已自動合併重複地點。`:"沒有找到結果，可以改用韓文原名或更完整的名稱。",steps)}finally{btn.disabled=false;btn.textContent="搜尋"}}
+document.getElementById("runPlaceSearch").onclick=runUnifiedPlaceSearch2108;document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();runUnifiedPlaceSearch2108()}};
 
 // Search preview red marker is clickable and restores preview/actions.
 let externalPlaceProvider2105="";
@@ -3475,13 +3503,13 @@ function rankUnifiedItems2107(items,q,provider){
 }
 async function searchUnifiedPlaces2107(query){
  const q=String(query||"").trim();if(!q)throw new Error("QUERY_REQUIRED");const queries=expandedPlaceQueries2106(q),trail=[];let items=[];
- try{items=await searchKakaoDirect2105(queries,{lat:Number(map.getCenter().lat),lon:Number(map.getCenter().lng),radius:20000});trail.push(items.length?"Kakao 瀏覽器 ✓":"Kakao 瀏覽器 0")}catch(e){trail.push("Kakao 瀏覽器不可用")}
+ try{items=await searchKakaoDirect2105(queries,{lat:Number(map.getCenter().lat),lon:Number(map.getCenter().lng),radius:20000});trail.push(items.length?"Kakao ✓":"Kakao 0")}catch(e){trail.push("Kakao 暫時無法使用")}
  if(items.length)return {items:rankUnifiedItems2107(items,q,"Kakao"),provider:"Kakao",trail};
- try{const c=map.getCenter(),data=await backendPost2104({action:"searchKakao",queries,cityName:CITY.search?.kakaoCityName||CITY.name||"부산",cityLat:Number(c.lat),cityLon:Number(c.lng),radius:20000});items=Array.isArray(data?.items)?data.items:[];trail.push(items.length?"Kakao 後端 ✓":"Kakao 後端 0")}catch(e){trail.push("Kakao 後端不可用")}
+ try{const c=map.getCenter(),data=await backendPost2104({action:"searchKakao",queries,cityName:CITY.search?.kakaoCityName||CITY.name||"부산",cityLat:Number(c.lat),cityLon:Number(c.lng),radius:20000});items=Array.isArray(data?.items)?data.items:[];trail.push(items.length?"Kakao ✓":"Kakao 0")}catch(e){trail.push("Kakao 暫時無法使用")}
  if(items.length)return {items:rankUnifiedItems2107(items,q,"Kakao"),provider:"Kakao",trail};
  try{for(const x of queries.slice(0,2)){items=await searchGoogleMulti2105(x);if(items.length)break}trail.push(items.length?"Google Places ✓":"Google Places 0")}catch(e){trail.push("Google Places 不可用")}
  if(items.length)return {items:rankUnifiedItems2107(items,q,"Google Places"),provider:"Google Places",trail};
- try{items=await searchOsmRaw2107(q);trail.push(items.length?"OSM ✓":"OSM 0")}catch(e){trail.push("OSM 不可用")}
+ try{items=await searchOsmRaw2107(q);trail.push(items.length?"OpenStreetMap ✓":"OpenStreetMap 0")}catch(e){trail.push("OpenStreetMap 暫時無法使用")}
  return {items:rankUnifiedItems2107(items,q,"OpenStreetMap"),provider:"OpenStreetMap",trail};
 }
 runKakaoPlaceSearch=async function(){
@@ -3542,6 +3570,10 @@ map.whenReady(()=>{
  syncLabelModeButton();
  setTimeout(showDashboard,180);
 });
+// Beta 2.10.8 final search binding: legacy handlers above are retained only for compatibility.
+runKakaoPlaceSearch=runUnifiedPlaceSearch2108;
+document.getElementById("runPlaceSearch").onclick=runUnifiedPlaceSearch2108;
+document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();runUnifiedPlaceSearch2108()}};
 })();
 </script>
 </body>
