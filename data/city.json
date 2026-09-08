@@ -3,7 +3,7 @@
   "id": "busan",
   "name": "釜山",
   "displayTitle": "釜山旅行地圖",
-  "version": "2.11.15",
+  "version": "2.11.16",
   "subtitle": "Human-first UX・anchored More menu・compact Day rail・airport bus correction・Money Box・nearby T-money/WOWPASS guidance・2026-09-08",
   "appName": "travel-map.busan",
   "storageKey": "travelmap_busan_trip_state_v4",

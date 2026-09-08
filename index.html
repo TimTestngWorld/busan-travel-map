@@ -952,6 +952,13 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 
 
+/* ===== Beta 2.11.16 — mobile keyboard-safe search ===== */
+@media(max-width:900px){
+  .spots-mobile211{max-height:calc(100dvh - 155px)!important;}
+  #placeSearchQuery{font-size:16px!important;touch-action:manipulation;}
+  .spots-mobile211:focus-within{transition:height .18s ease,transform .18s ease;}
+}
+
 /* ===== Beta 2.11.15 | Global consistency audit ===== */
 /* ===== Beta 2.11.9 | Human-first utility map + airport arrival ===== */
 .exchange-head strong{font-size:18px!important}.exchange-head small{font-size:12px!important}.exchange-head button{font-size:13px!important;min-height:40px!important}
@@ -4135,7 +4142,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.15";
+const beta211Version="2.11.16";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4194,10 +4201,22 @@ function buildShell211(){
   bindShell211();mountPlaces211();
 }
 
+// Beta 2.11.16: keyboard-safe responsive mounting.
+// Android/iOS virtual keyboards resize the viewport. Re-appending the focused search DOM
+// during that height-only resize removes focus and immediately closes the keyboard.
+let placesLayoutMode211=(innerWidth<=900)?"mobile":"desktop";
 function mountPlaces211(){
   const mobile=innerWidth<=900,hub=document.getElementById("placeSearchHub"),mr=document.getElementById("mobileResults");
-  if(mobile){document.getElementById("spotsSearchMountMobile211")?.appendChild(hub);document.getElementById("spotsResultsMountMobile211")?.appendChild(mr)}
-  else{const side=document.querySelector(".side"),filters=document.querySelector(".filters");if(side&&filters)side.insertBefore(hub,filters);const old=document.getElementById("resultsSheet");if(old&&!old.contains(mr))old.appendChild(mr)}
+  if(mobile){
+    const searchMount=document.getElementById("spotsSearchMountMobile211"),resultsMount=document.getElementById("spotsResultsMountMobile211");
+    if(hub&&searchMount&&hub.parentElement!==searchMount)searchMount.appendChild(hub);
+    if(mr&&resultsMount&&mr.parentElement!==resultsMount)resultsMount.appendChild(mr);
+  }else{
+    const side=document.querySelector(".side"),filters=document.querySelector(".filters"),old=document.getElementById("resultsSheet");
+    if(hub&&side&&filters&&hub.parentElement!==side)side.insertBefore(hub,filters);
+    if(mr&&old&&mr.parentElement!==old)old.appendChild(mr);
+  }
+  placesLayoutMode211=mobile?"mobile":"desktop";
 }
 
 function bindShell211(){
@@ -4218,11 +4237,22 @@ function bindShell211(){
   document.getElementById("spotsLocate211").onclick=()=>document.getElementById("moreLocate")?.click();
   document.getElementById("spotsMobileExpand211").onclick=toggleSpotsMobile211;document.getElementById("spotsMobileHandle211").onclick=toggleSpotsMobile211;
   document.getElementById("spotsTargetCancel211").onclick=cancelAddTarget211;document.getElementById("spotsTargetMobileCancel211").onclick=cancelAddTarget211;
-  const q=document.getElementById("placeSearchQuery");q.oninput=()=>{if(spotsMode211==="saved")spotsSavedQuery211=q.value;else spotsExploreQuery211=q.value;localSearch211(q.value)};q.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();runPlacesSearch211()}};document.getElementById("runPlaceSearch").onclick=runPlacesSearch211;
+  const q=document.getElementById("placeSearchQuery");
+  q.setAttribute("enterkeyhint","search");q.setAttribute("autocomplete","off");q.setAttribute("autocapitalize","none");
+  q.oninput=()=>{if(spotsMode211==="saved")spotsSavedQuery211=q.value;else spotsExploreQuery211=q.value;localSearch211(q.value)};q.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();runPlacesSearch211()}};document.getElementById("runPlaceSearch").onclick=runPlacesSearch211;
   document.getElementById("more211Finance").onclick=()=>{closeAppSheets2104();openFinance()};document.getElementById("more211Share").onclick=()=>{closeAppSheets2104();openShareHub();setShareTab2104?.("send")};document.getElementById("more211Airport").onclick=()=>{closeAppSheets2104();openAirportHub()};document.getElementById("more211Pay").onclick=()=>{closeAppSheets2104();showExchangeHub()};document.getElementById("more211Manual").onclick=()=>{closeAppSheets2104();openManualPlace211()};document.getElementById("more211Theme").onclick=()=>{closeAppSheets2104();openTheme2105()};document.getElementById("more211Tutorial").onclick=()=>{closeAppSheets2104();openTutorial()};
   document.getElementById("desk211Finance").onclick=()=>{moreMenu.classList.remove("show");openFinance()};document.getElementById("desk211Share").onclick=()=>{moreMenu.classList.remove("show");openShareHub();setShareTab2104?.("send")};document.getElementById("desk211Airport").onclick=()=>{moreMenu.classList.remove("show");openAirportHub()};document.getElementById("desk211Pay").onclick=()=>{moreMenu.classList.remove("show");showExchangeHub()};document.getElementById("desk211Manual").onclick=()=>{moreMenu.classList.remove("show");openManualPlace211()};document.getElementById("desk211Theme").onclick=()=>{moreMenu.classList.remove("show");openTheme2105()};document.getElementById("desk211Tutorial").onclick=()=>{moreMenu.classList.remove("show");openTutorial()};
   nav.addEventListener("click",e=>{const b=e.target.closest(".app-nav-btn");if(b&&b.dataset.nav!=="explore")document.getElementById("spotsMobile211")?.classList.remove("show")});
-  addEventListener("resize",()=>{mountPlaces211();if(innerWidth>900)document.getElementById("spotsMobile211")?.classList.remove("show")});
+  // Virtual keyboard opening/closing causes height-only resize events on mobile.
+  // Only remount the shared search DOM when the layout actually crosses the 900px breakpoint.
+  if(!window.__placesResponsiveResize21116){
+    window.__placesResponsiveResize21116=true;
+    window.addEventListener("resize",()=>{
+      const nextMode=innerWidth<=900?"mobile":"desktop";
+      if(nextMode!==placesLayoutMode211)mountPlaces211();
+      if(nextMode==="desktop")document.getElementById("spotsMobile211")?.classList.remove("show");
+    });
+  }
 }
 
 function openCompactFilter211(){closeSheets();filterSheet.classList.add("compact-filter211","show");backdrop.classList.add("compact-filter-backdrop211");backdrop.classList.remove("show")}

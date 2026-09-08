@@ -391,3 +391,9 @@
 - 手機底部導覽原始 HTML 統一為四項，避免載入前舊五鍵閃現。
 - 修正搜尋／手動新增／教學的過時 Naver 與技術文案。
 - 移除會干擾 More 動態定位的舊 CSS top 規則。
+
+## Beta 2.11.16 — 2026-09-08
+- 修正手機景點搜尋欄因虛擬鍵盤 resize 觸發 DOM 重掛載而失焦／鍵盤自動收起。
+- `mountPlaces211()` 改為 idempotent：目標父節點相同時不再 append。
+- resize 僅在跨越 900px 桌機／手機 breakpoint 時重新掛載搜尋 DOM。
+- 搜尋 input 補強手機鍵盤與輸入設定。
