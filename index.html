@@ -952,13 +952,81 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 
 
-/* ===== Beta 2.11.10 | Quick user guide refresh ===== */
+/* ===== Beta 2.11.13 | Desktop navigation coherence fix ===== */
 /* ===== Beta 2.11.9 | Human-first utility map + airport arrival ===== */
 .exchange-head strong{font-size:18px!important}.exchange-head small{font-size:12px!important}.exchange-head button{font-size:13px!important;min-height:40px!important}
 .exchange-tools button,.exchange-tools a{font-size:13px!important;min-height:40px!important}.exchange-note{font-size:14px!important;line-height:1.65!important}.exchange-item h4{font-size:16px!important}.exchange-item p,.exchange-extra{font-size:13px!important;line-height:1.55!important}.exchange-item .actions button,.exchange-item .actions a{font-size:12px!important;min-height:38px!important}.payment-warning{font-size:12px!important;line-height:1.5!important}
 .payment-context2119{border:1px solid #d9e6de;background:#f3faf6;border-radius:12px;padding:11px 13px;margin-bottom:10px;font-size:13px;line-height:1.6;color:#385046}.payment-context2119 b{color:#1f4d3b}
 .arrival-plan2119{display:grid;gap:7px;border:1px solid #cfe1ea;background:#f3f9fc;border-radius:13px;padding:12px 14px;margin:10px 0 14px}.arrival-plan2119 b{font-size:15px;color:#244f68}.arrival-plan2119 span{font-size:14px;line-height:1.55;color:#41555f}
 @media(max-width:900px){.exchange-head strong{font-size:16px!important}.exchange-head small{font-size:11px!important}.exchange-note,.payment-context2119{font-size:13px!important}.exchange-item h4{font-size:15px!important}.exchange-item p,.exchange-extra{font-size:12px!important}.arrival-plan2119 span{font-size:13px}}
+
+/* ===== Beta 2.11.13 — desktop navigation coherence ===== */
+@media(min-width:901px){
+  /* Primary navigation stays left; travel shortcuts + More form one utility cluster on the right. */
+  .desktop-quick2118{margin-left:auto!important;display:flex!important;gap:8px!important;align-items:center!important}
+  .desktop-quick2118 #moreBtn{
+    background:#ffffff18!important;color:#fff!important;border:1px solid #ffffff4a!important;
+    box-shadow:none!important;outline:none!important;min-height:40px!important;padding:8px 13px!important
+  }
+  .desktop-quick2118 #moreBtn:hover{background:#ffffff2b!important}
+  .desktop-quick2118 #moreBtn:focus-visible{outline:2px solid #fff!important;outline-offset:2px!important}
+  /* More is positioned by JS directly below its trigger instead of floating at the far-right edge. */
+  .more-menu{right:auto!important;z-index:5200!important}
+}
+
+
+/* ===== Beta 2.11.13 — compact single-zone desktop navigation ===== */
+@media(min-width:901px){
+  /* Desktop does not need a full-height blue banner. Keep every action in one compact strip. */
+  .toolbar{
+    min-height:52px!important;height:52px!important;padding:6px 12px!important;gap:6px!important;
+    flex-wrap:nowrap!important;justify-content:flex-start!important;
+    background:#ffffff!important;color:#17324a!important;
+    border-bottom:1px solid #dce5eb!important;box-shadow:0 3px 14px #17354a12!important;
+  }
+  .brand{
+    color:#0b477b!important;font-size:16px!important;line-height:1.15!important;
+    padding:0 12px 0 2px!important;margin:0 2px 0 0!important;border-right:1px solid #d8e2e9!important;
+    flex:0 0 auto!important;
+  }
+  #homeBtn,#spotsBtn211,#itineraryBtn,
+  .desktop-quick2118 button,.desktop-quick2118 #moreBtn{
+    min-height:38px!important;height:38px!important;padding:7px 11px!important;border-radius:10px!important;
+    font-size:13px!important;line-height:1!important;box-shadow:none!important;transform:none!important;
+  }
+  #homeBtn{margin-left:0!important;background:#eef6f1!important;color:#285943!important}
+  #spotsBtn211{background:#f5f8fa!important;color:#244a63!important;border:1px solid #dce6ec!important}
+  #itineraryBtn{background:#f0eafa!important;color:#5b417c!important;border:1px solid #ded3ee!important}
+  .desktop-quick2118{
+    margin-left:0!important;display:flex!important;gap:6px!important;align-items:center!important;flex:0 0 auto!important;
+  }
+  .desktop-quick2118 button,.desktop-quick2118 #moreBtn{
+    background:#f5f8fa!important;color:#31566f!important;border:1px solid #dce6ec!important;
+  }
+  .desktop-quick2118 button:hover,.desktop-quick2118 #moreBtn:hover{background:#eaf2f7!important}
+  .desktop-quick2118 #moreBtn:focus-visible{outline:2px solid #1769aa!important;outline-offset:2px!important}
+  .more-menu{top:auto!important}
+}
+
+
+/* ===== Beta 2.11.13 — Home secondary actions keep meaningful visual weight ===== */
+@media(min-width:761px){
+  .home211-tools{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin-top:16px!important;width:100%!important}
+  .home211-tools button{min-width:0!important;min-height:112px!important;padding:15px 16px!important;border-radius:17px!important;display:grid!important;grid-template-columns:46px minmax(0,1fr)!important;gap:12px!important;align-items:center!important;text-align:left!important;background:#fff!important;border:1px solid var(--b211-line)!important;box-shadow:0 5px 16px #28485d0b!important;color:#1d4058!important;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important}
+  .home211-tools button:hover{transform:translateY(-2px)!important;box-shadow:0 10px 24px #28485d16!important;border-color:#cbd9e3!important}
+  .home211-tools .home-tool-ico{width:46px;height:46px;border-radius:14px;background:#eef6fc;display:grid;place-items:center;font-size:22px;line-height:1}
+  .home211-tools button:nth-child(2) .home-tool-ico{background:#eef3ff}.home211-tools button:nth-child(3) .home-tool-ico{background:#edf8f6}.home211-tools button:nth-child(4) .home-tool-ico{background:#fff3e8}
+  .home211-tools .home-tool-copy{min-width:0;display:block}
+  .home211-tools .home-tool-copy b{display:block;font-size:16px!important;line-height:1.25;color:#17324a;margin:0}
+  .home211-tools .home-tool-copy small{display:block;margin-top:5px;font-size:13px!important;line-height:1.45;color:#71808c;font-weight:600}
+}
+@media(max-width:760px){
+  .home211-tools{display:grid!important;grid-template-columns:1fr 1fr!important;gap:9px!important;margin-top:12px!important}
+  .home211-tools button{min-height:82px!important;padding:11px!important;border-radius:14px!important;display:grid!important;grid-template-columns:36px minmax(0,1fr)!important;gap:8px!important;align-items:center!important;text-align:left!important}
+  .home211-tools .home-tool-ico{width:36px;height:36px;border-radius:11px;background:#eef6fc;display:grid;place-items:center;font-size:18px}
+  .home211-tools .home-tool-copy b{display:block;font-size:13px!important;line-height:1.2;color:#17324a}
+  .home211-tools .home-tool-copy small{display:none}
+}
 </style>
 </head>
 <body>
@@ -4061,7 +4129,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.10";
+const beta211Version="2.11.13";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4080,7 +4148,7 @@ function buildShell211(){
     <section class="home211-today"><div class="home211-today-bar"><small>今日行程</small><label class="home211-day-picker">今天是 <select id="homeTodaySelect211" aria-label="設定今天是第幾天"></select></label></div><h2 id="dashboardTodayTitle">Day 1</h2><p id="dashboardTodayMeta">今天的行程</p><div class="home211-list" id="homeTodayList211"></div><div class="home211-today-actions"><button class="primary" id="dashboardTodayOpen">查看完整行程</button><button class="secondary" id="homeFind211">＋ 找景點</button></div></section>
     <aside class="home211-side"><button class="home211-action" id="homeSpots211"><b>📍 找景點</b><span>搜尋、收藏、直接加入今天或指定 Day。</span></button><button class="home211-action" id="homeExpense211"><b>💰 記一筆消費</b><span>旅行中快速新增分帳紀錄。</span></button><div class="home211-metrics"><div class="home211-metric"><b id="homeWish211">0</b><span>想去</span></div><div class="home211-metric"><b id="homeItin211">0</b><span>已排行程</span></div></div></aside>
    </div>
-   <div class="home211-tools"><button id="homeSaved211">♥ 收藏景點</button><button id="homeAirport211">✈️ 出國資訊</button><button id="homePayment211">💳 支付・加值</button><button id="homeLodging2118">🏨 住宿</button></div>`;
+   <div class="home211-tools"><button id="homeSaved211"><span class="home-tool-ico">♥</span><span class="home-tool-copy"><b>收藏景點</b><small>查看已收藏、想去與自行加入的景點</small></span></button><button id="homeAirport211"><span class="home-tool-ico">✈️</span><span class="home-tool-copy"><b>出國資訊</b><small>行李、入境、機場流程與刷卡提醒</small></span></button><button id="homePayment211"><span class="home-tool-ico">💳</span><span class="home-tool-copy"><b>支付・加值</b><small>信用卡、LINE Pay、悠遊付與換錢資訊</small></span></button><button id="homeLodging2118"><span class="home-tool-ico">🏨</span><span class="home-tool-copy"><b>住宿</b><small>住宿位置、機場巴士與回程交通</small></span></button></div>`;
 
   // Desktop trip rail.
   const main=document.querySelector(".main");
@@ -4281,7 +4349,7 @@ function openLodging2118(){
  hideDashboard?.();closeAppSheets2104?.();moreMenu?.classList.remove("show");openAirportHub("lodging");
 }
 function enhanceShell2118(){
- // Fill desktop toolbar whitespace with frequently used actions.
+ // Keep desktop navigation and travel tools in one compact horizontal strip.
  const toolbar=document.querySelector(".toolbar"),more=document.getElementById("moreBtn");
  if(toolbar&&!document.getElementById("desktopQuick2118")){
   const q=document.createElement("div");q.id="desktopQuick2118";q.className="desktop-quick2118";
@@ -4291,13 +4359,27 @@ function enhanceShell2118(){
   document.getElementById("deskAirport2118").onclick=()=>{hideDashboard();openAirportHub()};
   document.getElementById("deskPay2118").onclick=()=>{hideDashboard();showExchangeHub()};
   document.getElementById("deskFinance2118").onclick=()=>{hideDashboard();openFinance()};
+  /* More stays at the end of the same compact desktop navigation strip. */
+  q.appendChild(more);
  }
+ /* Keep the More trigger visually and spatially attached to its dropdown on desktop. */
+ more.onclick=e=>{
+  e.stopPropagation();
+  const opening=!moreMenu.classList.contains("show");
+  moreMenu.classList.toggle("show",opening);
+  if(opening&&window.innerWidth>900){
+   const r=more.getBoundingClientRect(),menuW=Math.max(270,moreMenu.offsetWidth||270);
+   const left=Math.max(10,Math.min(window.innerWidth-menuW-10,r.right-menuW));
+   moreMenu.style.position="fixed";moreMenu.style.left=`${Math.round(left)}px`;moreMenu.style.right="auto";moreMenu.style.top=`${Math.round(r.bottom+6)}px`;
+  }
+ };
  // Desktop More now contains only genuinely secondary actions; larger type makes it scannable.
  moreMenu.innerHTML='<button id="desk211Share">📤 分享旅行</button><button id="desk211Manual">📌 手動新增</button><button id="desk211Theme">🎨 外觀主題</button><button id="desk211Tutorial">❓ 使用教學</button>';
  document.getElementById("desk211Share").onclick=()=>{moreMenu.classList.remove("show");openShareHub();setShareTab2104?.("send")};
  document.getElementById("desk211Manual").onclick=()=>{moreMenu.classList.remove("show");openManualPlace211()};
  document.getElementById("desk211Theme").onclick=()=>{moreMenu.classList.remove("show");openTheme2105()};
  document.getElementById("desk211Tutorial").onclick=()=>{moreMenu.classList.remove("show");openTutorial()};
+ if(!window.__beta21111MoreResize){window.__beta21111MoreResize=true;window.addEventListener("resize",()=>moreMenu.classList.remove("show"));}
 
  // Mobile More gets lodging as a first-class travel tool.
  const lodgeMobile=document.getElementById("more211Lodging");if(lodgeMobile)lodgeMobile.onclick=openLodging2118;

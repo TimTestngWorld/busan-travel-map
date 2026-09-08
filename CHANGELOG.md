@@ -1,3 +1,23 @@
+
+## Beta 2.11.13 — 首頁第二層工具重新取得合理視覺權重
+- 桌機版首頁「收藏景點／出國資訊／支付・加值／住宿」不再縮成小型膠囊按鈕。
+- 四個入口改為等寬大型次要卡片，加入圖示、標題與一句用途說明。
+- 桌機 4 欄、手機 2 欄；保留今日行程為主焦點，但不再把常用旅行工具降到幾乎看不見。
+- 延續 2.11.12 的單一桌機導覽列，不恢復大面積藍色 Header。
+
+
+## Beta 2.11.12 — 桌機單區導覽
+- 桌機頂部取消大面積藍色導覽帶，改為白色緊湊單列。
+- 主導覽與住宿／出國／支付／分帳／更多合併在同一操作區，不再分成三段。
+- 統一桌機按鈕尺寸與視覺層級；手機版維持原操作。
+# Beta 2.11.12 — 2026-09-08
+
+- Desktop top navigation regrouped into primary navigation and right-side travel utilities.
+- Moved More into the travel utility cluster.
+- Anchored the More dropdown directly below its trigger.
+- Removed the detached far-right dropdown behavior and the accidental heavy focus outline.
+- Beta 2.11.10 quick user guide and all travel data retained.
+
 # Beta 2.11.10 — 2026-09-08
 - 重寫 App 內使用教學，以一般旅客的實際操作流程為主。
 - 教學由 8 大段縮為 5 個情境：找景點、排行程、旅行當天、支付加值、其他功能。
