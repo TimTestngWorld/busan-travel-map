@@ -876,7 +876,7 @@ body.spots-saved-mode211 .place-search-form{border-bottom:1px solid var(--b211-l
 .payment-guide-cards strong{font-size:20px!important;line-height:1.2!important}
 .payment-guide-cards span{font-size:12px!important;line-height:1.55!important}
 .payment-guide-cards article>a{display:inline-flex;margin-top:9px;padding:6px 9px;border-radius:8px;background:#eef4f8;color:#245678;text-decoration:none;font-size:11px;font-weight:900}
-/* ===== Beta 2.11.17 — card cap-at-a-glance ===== */
+/* ===== Beta 2.11.18 — card cap-at-a-glance ===== */
 .card-cap2117{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px!important;margin-top:9px!important}
 .card-cap2117 em{font-style:normal;border-radius:10px;padding:7px 8px;background:#f2f7fa;color:#31586f;font-size:11px;line-height:1.4}
 .card-cap2117 em b{display:block!important;font-size:10px!important;color:#6d7e89!important;margin-bottom:2px!important}
@@ -1062,7 +1062,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 }
 
 
-/* ===== Beta 2.11.17｜final readability gate ===== */
+/* ===== Beta 2.11.18｜final readability gate ===== */
 .result-meta,.result-tags,.external-place-card p,.spot-main211 small,.filter-accordion>summary,.filter-grid select{font-size:12px!important;line-height:1.5!important}
 .map-utility-bar button,.link-btn,.state-btn,.external-place-actions button{font-size:12px!important}
 .airport-source{font-size:11px!important;line-height:1.55!important}
@@ -1072,6 +1072,29 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   .map-title small{font-size:11px!important}.map-utility-bar button{font-size:12px!important}
   .spots-mobile211 .spots-quick211 button{font-size:12px!important}
 }
+
+
+/* ===== Beta 2.11.18｜首頁教學入口 + 釜山各區即時天氣 ===== */
+.home211-top{display:grid!important;grid-template-columns:minmax(300px,.72fr) minmax(540px,1.28fr)!important;gap:18px!important;align-items:stretch!important;margin-bottom:18px!important}
+.home211-heading{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:4px 0}
+.home211-head-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.home211-head-actions button{border:1px solid #d8e4eb;background:#fff;color:#315d78;border-radius:12px;padding:9px 12px;font-size:13px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px #17354a0a;transition:.16s ease}
+.home211-head-actions button:hover{transform:translateY(-1px);border-color:#bcd1dd;box-shadow:0 7px 18px #17354a14}
+.home211-head-actions .tutorial{background:#fff7e8;color:#76531c;border-color:#eedcb7}
+.home-weather21118{position:relative;overflow:hidden;border:1px solid #d8e5ec;border-radius:19px;background:linear-gradient(135deg,#fafdff,#eef7fc);box-shadow:0 6px 20px #264d6610;padding:13px 14px;min-height:126px}
+.home-weather-head21118{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px}
+.home-weather-title21118{display:flex;align-items:baseline;gap:8px;min-width:0}.home-weather-title21118 b{font-size:15px;color:#173a53}.home-weather-title21118 small{font-size:11px;color:#728895;white-space:nowrap}
+.home-weather-actions21118{display:flex;align-items:center;gap:7px;flex:0 0 auto}.home-weather-actions21118 button{border:1px solid #d7e4ec;background:#fff;border-radius:9px;padding:5px 8px;color:#436a81;font-size:11px;font-weight:900;cursor:pointer}.home-weather-actions21118 a{font-size:10px;color:#688697;text-decoration:none;font-weight:800}
+.home-weather-stage21118{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;min-height:72px;transition:opacity .2s ease,transform .2s ease}.home-weather-stage21118.flipping{opacity:.15;transform:translateY(7px)}
+.home-weather-card21118{min-width:0;border:1px solid #dbe8ef;border-radius:13px;background:#ffffffd9;padding:8px 9px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:2px 6px;align-items:center}
+.home-weather-card21118 .district{font-size:12px;font-weight:950;color:#244a62;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.home-weather-card21118 .temp{grid-row:1/3;grid-column:2;font-size:20px;line-height:1;font-weight:950;color:#1769aa}.home-weather-card21118 .cond{font-size:10px;color:#6f8490;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.home-weather-card21118 .rain{font-size:9px;color:#6f8490;margin-top:1px;grid-column:1/3}
+.home-weather-loading21118{grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:#6d8492;font-size:12px;min-height:66px}
+.home-weather-ticker21118{margin-top:7px;height:17px;overflow:hidden;border-top:1px solid #dfeaf0;padding-top:5px;white-space:nowrap;color:#5e7887;font-size:10px}.home-weather-ticker-track21118{display:inline-block;min-width:100%;animation:weatherTicker21118 42s linear infinite;padding-left:100%}.home-weather-ticker21118:hover .home-weather-ticker-track21118{animation-play-state:paused}@keyframes weatherTicker21118{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+.home-weather-error21118{grid-column:1/-1;display:flex;align-items:center;justify-content:center;min-height:64px;padding:8px;text-align:center;color:#8b5b4f;font-size:11px;line-height:1.45}
+@media(min-width:761px){.dashboard-shell{width:min(1280px,100%)!important}}
+@media(max-width:900px){.home211-top{grid-template-columns:1fr!important;gap:10px!important}.home211-heading{padding:0}.home-weather21118{min-height:116px}.home-weather-stage21118{grid-template-columns:repeat(4,minmax(0,1fr))}.home211-head-actions{margin-top:10px}}
+@media(max-width:600px){.home-weather-stage21118{grid-template-columns:repeat(2,minmax(0,1fr));min-height:124px}.home-weather21118{padding:11px 12px}.home-weather-title21118 small{display:none}.home-weather-actions21118 a{display:none}.home-weather-ticker21118{font-size:9px}.home211-head-actions button{font-size:12px;padding:8px 10px}}
+
 </style>
 </head>
 <body>
@@ -4163,7 +4186,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.17";
+const beta211Version="2.11.18";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4177,7 +4200,14 @@ function buildShell211(){
   // Home is rebuilt around today's trip, not a feature catalogue.
   const shell=document.querySelector("#dashboard .dashboard-shell");
   shell.innerHTML=`
-   <div class="home211-top"><div><div class="home211-kicker">BUSAN TRIP</div><h1 class="home211-title" id="dashboardTitle">釜山旅行</h1><div class="home211-sub" id="dashboardSub">今天去哪裡，一眼就知道。</div></div><button class="home211-close" id="home211Map">查看地圖</button></div>
+   <div class="home211-top">
+    <div class="home211-heading"><div class="home211-kicker">BUSAN TRIP</div><h1 class="home211-title" id="dashboardTitle">釜山旅行</h1><div class="home211-sub" id="dashboardSub">Day 1 · 今天的行程</div><div class="home211-head-actions"><button id="home211Map">🗺️ 查看地圖</button><button class="tutorial" id="homeTutorial21118">❓ 快速教學</button></div></div>
+    <section class="home-weather21118" id="homeWeather21118" aria-label="釜山各區即時天氣">
+      <div class="home-weather-head21118"><div class="home-weather-title21118"><b>🌤️ 釜山各區即時天氣</b><small id="homeWeatherUpdated21118">各區代表位置 · 載入中</small></div><div class="home-weather-actions21118"><button id="homeWeatherRefresh21118" type="button" title="重新整理天氣">↻ 更新</button><a href="https://open-meteo.com/" target="_blank" rel="noopener">資料來源</a><a href="https://www.weather.go.kr/busan/html/main/" target="_blank" rel="noopener">官方預報</a></div></div>
+      <div class="home-weather-stage21118" id="homeWeatherStage21118"><div class="home-weather-loading21118">正在取得各區天氣…</div></div>
+      <div class="home-weather-ticker21118"><span class="home-weather-ticker-track21118" id="homeWeatherTicker21118">釜山各區天氣會自動輪播</span></div>
+    </section>
+   </div>
    <div class="home211-hero">
     <section class="home211-today"><div class="home211-today-bar"><small>今日行程</small><label class="home211-day-picker">今天是 <select id="homeTodaySelect211" aria-label="設定今天是第幾天"></select></label></div><h2 id="dashboardTodayTitle">Day 1</h2><p id="dashboardTodayMeta">今天的行程</p><div class="home211-list" id="homeTodayList211"></div><div class="home211-today-actions"><button class="primary" id="dashboardTodayOpen">查看完整行程</button><button class="secondary" id="homeFind211">＋ 找景點</button></div></section>
     <aside class="home211-side"><button class="home211-action" id="homeSpots211"><b>📍 找景點</b><span>搜尋、收藏、直接加入今天或指定 Day。</span></button><button class="home211-action" id="homeExpense211"><b>💰 記一筆消費</b><span>旅行中快速新增分帳紀錄。</span></button><div class="home211-metrics"><div class="home211-metric"><b id="homeWish211">0</b><span>想去</span></div><div class="home211-metric"><b id="homeItin211">0</b><span>已排行程</span></div></div></aside>
@@ -4242,6 +4272,8 @@ function mountPlaces211(){
 
 function bindShell211(){
   document.getElementById("home211Map").onclick=()=>openExploreView();
+  document.getElementById("homeTutorial21118").onclick=()=>openTutorial();
+  document.getElementById("homeWeatherRefresh21118").onclick=()=>loadBusanWeather21118(true);
   document.getElementById("homeSpots211").onclick=()=>openExploreView();document.getElementById("homeFind211").onclick=()=>{addTargetDay211=Number(saved.ui?.todayDay||1);openExploreView();updateAddTarget211()};
   document.getElementById("homeExpense211").onclick=()=>{hideDashboard();openFinance()};
   document.getElementById("homeSaved211").onclick=()=>{spotsMode211="saved";openExploreView();setSpotsMode211("saved")};
@@ -4326,7 +4358,49 @@ showInfo=function(id){
 };
 
 function renderTripRail211(){const box=document.getElementById("tripDays211");if(!box)return;const today=Number(saved.ui?.todayDay||1);box.innerHTML=Array.from({length:DAY_COUNT},(_,i)=>i+1).map(d=>{const items=dayItems(d);return `<button class="trip-day211 ${d===today?"today":""}" data-rail-day="${d}"><span><b>Day ${d}${d===today?" · 今天":""}</b><span>${items.length?escapeHTML((byId[items[0]?.id]?.display||items[0]?.id||"")+(items.length>1?` ＋${items.length-1}`:"")):"尚未安排"}</span></span><em>${items.length}</em></button>`}).join("");box.querySelectorAll("[data-rail-day]").forEach(b=>b.onclick=()=>openItinerary(Number(b.dataset.railDay)))}
-function renderHome211(){const d=Number(saved.ui?.todayDay||1),items=dayItems(d);document.getElementById("dashboardTitle").textContent=`${CITY.name||"我的"}旅行`;document.getElementById("dashboardSub").textContent=`Day ${d} · ${items.length} 個行程`;const picker=document.getElementById("homeTodaySelect211");if(picker){picker.innerHTML=Array.from({length:DAY_COUNT},(_,i)=>`<option value="${i+1}">Day ${i+1}</option>`).join("");picker.value=String(d)}document.getElementById("dashboardTodayTitle").textContent=`Day ${d}｜${items.length} 個行程`;document.getElementById("dashboardTodayMeta").textContent=items.length?`第一站｜${byId[items[0]?.id]?.display||items[0]?.id||""}`:"尚未安排行程";const box=document.getElementById("homeTodayList211");if(box)box.innerHTML=items.length?items.slice(0,5).map((x,i)=>{const p=byId[x.id]||{};return `<div class="home211-stop"><time>${escapeHTML(x.time||`${i+1}`)}</time><b>${escapeHTML(p.display||x.id)}</b><button data-home-spot="${x.id}">地圖</button></div>`}).join(""):'<div class="home211-stop"><time>—</time><b>尚未安排行程</b><button id="homeEmptyFind211">找景點</button></div>';const wish=ALL_RECORDS.filter(p=>poiState(p.id).status==="wish").length,itinSet=new Set();for(let dd=1;dd<=DAY_COUNT;dd++)dayItems(dd).forEach(x=>itinSet.add(x.id));document.getElementById("homeWish211").textContent=wish;document.getElementById("homeItin211").textContent=itinSet.size;document.querySelectorAll("[data-home-spot]").forEach(b=>b.onclick=()=>{hideDashboard();openExploreView();setTimeout(()=>focusAndInfo(b.dataset.homeSpot),90)});document.getElementById("homeEmptyFind211")?.addEventListener("click",()=>openExploreView());renderTripRail211()}
+
+// ============================================================
+// BETA 2.11.18 — BUSAN DISTRICT WEATHER / HUMAN-FIRST HOME
+// ============================================================
+const BUSAN_WEATHER_DISTRICTS_21118=[
+ {n:"海雲台",k:"해운대구",lat:35.1631,lon:129.1635},{n:"水營・廣安里",k:"수영구",lat:35.1454,lon:129.1131},{n:"中區・南浦",k:"중구",lat:35.1064,lon:129.0323},{n:"釜山鎮・西面",k:"부산진구",lat:35.1629,lon:129.0532},
+ {n:"影島",k:"영도구",lat:35.0912,lon:129.0678},{n:"機張",k:"기장군",lat:35.2445,lon:129.2223},{n:"江西・機場",k:"강서구",lat:35.2122,lon:128.9806},{n:"東區",k:"동구",lat:35.1292,lon:129.0453},
+ {n:"南區",k:"남구",lat:35.1365,lon:129.0842},{n:"東萊",k:"동래구",lat:35.2048,lon:129.0838},{n:"蓮堤",k:"연제구",lat:35.1762,lon:129.0799},{n:"金井",k:"금정구",lat:35.2429,lon:129.0922},
+ {n:"沙下",k:"사하구",lat:35.1046,lon:128.9747},{n:"西區",k:"서구",lat:35.0979,lon:129.0244},{n:"沙上",k:"사상구",lat:35.1526,lon:128.9910},{n:"北區",k:"북구",lat:35.1970,lon:128.9906}
+];
+const BUSAN_WEATHER_CACHE_KEY_21118="busan_weather_districts_21118";
+let busanWeatherData21118=[],busanWeatherPage21118=0,busanWeatherFlipTimer21118=null,busanWeatherRefreshTimer21118=null,busanWeatherLoading21118=false;
+function weatherLabel21118(code){
+ const c=Number(code);if(c===0)return ["☀️","晴"];if(c===1)return ["🌤️","大致晴朗"];if(c===2)return ["⛅","局部多雲"];if(c===3)return ["☁️","陰天"];if([45,48].includes(c))return ["🌫️","有霧"];if(c>=51&&c<=57)return ["🌦️","毛毛雨"];if(c>=61&&c<=67)return ["🌧️","下雨"];if(c>=71&&c<=77)return ["🌨️","降雪"];if(c>=80&&c<=82)return ["🌦️","陣雨"];if(c>=85&&c<=86)return ["🌨️","陣雪"];if(c>=95)return ["⛈️","雷雨"];return ["🌤️","天氣變化"];
+}
+function weatherTime21118(ts){try{return new Intl.DateTimeFormat("zh-TW",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date(ts))}catch(_){return "剛剛"}}
+function renderBusanWeather21118(){
+ const stage=document.getElementById("homeWeatherStage21118"),ticker=document.getElementById("homeWeatherTicker21118"),updated=document.getElementById("homeWeatherUpdated21118");if(!stage||!ticker||!updated)return;
+ if(!busanWeatherData21118.length){stage.innerHTML='<div class="home-weather-error21118">天氣暫時無法更新，可稍後按「更新」或查看官方天氣。</div>';ticker.textContent="天氣資料暫時無法取得";return}
+ const perPage=innerWidth<=600?2:4,pages=Math.ceil(busanWeatherData21118.length/perPage);busanWeatherPage21118=((busanWeatherPage21118%pages)+pages)%pages;const rows=busanWeatherData21118.slice(busanWeatherPage21118*perPage,busanWeatherPage21118*perPage+perPage);
+ stage.classList.add("flipping");setTimeout(()=>{stage.innerHTML=rows.map(x=>{const [ico,cond]=weatherLabel21118(x.code);return `<div class="home-weather-card21118" title="${escapeAttr(x.k)}"><span class="district">${ico} ${escapeHTML(x.n)}</span><span class="temp">${Math.round(x.temp)}°</span><span class="cond">${escapeHTML(cond)}｜${Math.round(x.low)}–${Math.round(x.high)}°</span><span class="rain">☔ 今日降雨 ${Math.round(x.rain||0)}%</span></div>`}).join("");stage.classList.remove("flipping")},180);
+ const t=busanWeatherData21118.map(x=>{const [ico,cond]=weatherLabel21118(x.code);return `${ico} ${x.n} ${Math.round(x.temp)}° ${cond}・降雨 ${Math.round(x.rain||0)}%`}).join("　｜　");ticker.textContent=t+"　｜　"+t;
+ updated.textContent=`各區代表位置 · ${weatherTime21118(busanWeatherData21118[0].updated)} 更新`;
+}
+function startBusanWeatherFlip21118(){clearInterval(busanWeatherFlipTimer21118);busanWeatherFlipTimer21118=setInterval(()=>{if(document.visibilityState!=="visible"||!document.getElementById("dashboard")?.classList.contains("show"))return;busanWeatherPage21118++;renderBusanWeather21118()},4500)}
+async function loadBusanWeather21118(force=false){
+ const stage=document.getElementById("homeWeatherStage21118");if(!stage||busanWeatherLoading21118)return;
+ let cached=null;try{cached=JSON.parse(localStorage.getItem(BUSAN_WEATHER_CACHE_KEY_21118)||"null")}catch(_){cached=null}
+ if(!force&&cached?.data?.length&&Date.now()-Number(cached.ts||0)<15*60*1000){busanWeatherData21118=cached.data;renderBusanWeather21118();startBusanWeatherFlip21118();return}
+ if(!busanWeatherData21118.length)stage.innerHTML='<div class="home-weather-loading21118">正在取得各區天氣…</div>';
+ busanWeatherLoading21118=true;
+ try{
+  const lat=BUSAN_WEATHER_DISTRICTS_21118.map(x=>x.lat).join(","),lon=BUSAN_WEATHER_DISTRICTS_21118.map(x=>x.lon).join(",");
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FSeoul&forecast_days=1`;
+  const res=await fetch(url,{cache:"no-store"});if(!res.ok)throw new Error(`weather ${res.status}`);let raw=await res.json();if(!Array.isArray(raw))raw=[raw];const now=Date.now();
+  const data=BUSAN_WEATHER_DISTRICTS_21118.map((d,i)=>{const r=raw[i]||{};return {...d,temp:Number(r.current?.temperature_2m),code:Number(r.current?.weather_code),high:Number(r.daily?.temperature_2m_max?.[0]),low:Number(r.daily?.temperature_2m_min?.[0]),rain:Number(r.daily?.precipitation_probability_max?.[0]||0),updated:now}}).filter(x=>Number.isFinite(x.temp)&&Number.isFinite(x.high)&&Number.isFinite(x.low));
+  if(!data.length)throw new Error("weather empty");busanWeatherData21118=data;busanWeatherPage21118=0;try{localStorage.setItem(BUSAN_WEATHER_CACHE_KEY_21118,JSON.stringify({ts:now,data}))}catch(_){}renderBusanWeather21118();startBusanWeatherFlip21118();
+ }catch(e){console.warn("Busan weather",e);if(cached?.data?.length){busanWeatherData21118=cached.data;renderBusanWeather21118();document.getElementById("homeWeatherUpdated21118").textContent="顯示最近一次天氣"}else{busanWeatherData21118=[];renderBusanWeather21118()}}
+ finally{busanWeatherLoading21118=false}
+ clearInterval(busanWeatherRefreshTimer21118);busanWeatherRefreshTimer21118=setInterval(()=>loadBusanWeather21118(true),15*60*1000);
+}
+
+function renderHome211(){loadBusanWeather21118(false);const d=Number(saved.ui?.todayDay||1),items=dayItems(d);document.getElementById("dashboardTitle").textContent=`${CITY.name||"我的"}旅行`;document.getElementById("dashboardSub").textContent=`Day ${d} · ${items.length} 個行程`;const picker=document.getElementById("homeTodaySelect211");if(picker){picker.innerHTML=Array.from({length:DAY_COUNT},(_,i)=>`<option value="${i+1}">Day ${i+1}</option>`).join("");picker.value=String(d)}document.getElementById("dashboardTodayTitle").textContent=`Day ${d}｜${items.length} 個行程`;document.getElementById("dashboardTodayMeta").textContent=items.length?`第一站｜${byId[items[0]?.id]?.display||items[0]?.id||""}`:"尚未安排行程";const box=document.getElementById("homeTodayList211");if(box)box.innerHTML=items.length?items.slice(0,5).map((x,i)=>{const p=byId[x.id]||{};return `<div class="home211-stop"><time>${escapeHTML(x.time||`${i+1}`)}</time><b>${escapeHTML(p.display||x.id)}</b><button data-home-spot="${x.id}">地圖</button></div>`}).join(""):'<div class="home211-stop"><time>—</time><b>尚未安排行程</b><button id="homeEmptyFind211">找景點</button></div>';const wish=ALL_RECORDS.filter(p=>poiState(p.id).status==="wish").length,itinSet=new Set();for(let dd=1;dd<=DAY_COUNT;dd++)dayItems(dd).forEach(x=>itinSet.add(x.id));document.getElementById("homeWish211").textContent=wish;document.getElementById("homeItin211").textContent=itinSet.size;document.querySelectorAll("[data-home-spot]").forEach(b=>b.onclick=()=>{hideDashboard();openExploreView();setTimeout(()=>focusAndInfo(b.dataset.homeSpot),90)});document.getElementById("homeEmptyFind211")?.addEventListener("click",()=>openExploreView());renderTripRail211()}
 
 dashboardStats=function(){renderHome211()};
 showDashboard=function(){closeSheets();closePoiInfo();document.getElementById("spotsMobile211")?.classList.remove("show");renderHome211();document.getElementById("dashboard").classList.add("show");moreMenu.classList.remove("show");setBottomNav("home")};
