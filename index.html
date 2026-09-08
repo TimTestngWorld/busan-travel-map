@@ -876,6 +876,15 @@ body.spots-saved-mode211 .place-search-form{border-bottom:1px solid var(--b211-l
 .payment-guide-cards strong{font-size:20px!important;line-height:1.2!important}
 .payment-guide-cards span{font-size:12px!important;line-height:1.55!important}
 .payment-guide-cards article>a{display:inline-flex;margin-top:9px;padding:6px 9px;border-radius:8px;background:#eef4f8;color:#245678;text-decoration:none;font-size:11px;font-weight:900}
+/* ===== Beta 2.11.17 — card cap-at-a-glance ===== */
+.card-cap2117{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px!important;margin-top:9px!important}
+.card-cap2117 em{font-style:normal;border-radius:10px;padding:7px 8px;background:#f2f7fa;color:#31586f;font-size:11px;line-height:1.4}
+.card-cap2117 em b{display:block!important;font-size:10px!important;color:#6d7e89!important;margin-bottom:2px!important}
+.card-cap2117 em strong{display:block!important;font-size:13px!important;color:#184e71!important;margin:0!important;line-height:1.35!important}
+.cap-note2117{font-size:11.5px!important;line-height:1.55!important;color:#5f707b!important;margin-top:7px!important}
+.cap-summary2117{border:1px solid #b9d8e9;background:#f4faff;border-radius:14px;padding:12px;margin:10px 0 12px}
+.cap-summary2117 b{font-size:13px;color:#245b7d}.cap-summary2117 span{display:block;margin-top:4px;font-size:12.5px;line-height:1.55;color:#5c6f7c}
+@media(max-width:760px){.card-cap2117{grid-template-columns:1fr!important}.card-cap2117 em{padding:8px 9px}}
 .travel-check-grid label{font-size:12px!important;line-height:1.5!important}
 .airport-details2111{border:1px solid #ddd6cb;border-radius:12px;background:#fff;overflow:hidden}
 .airport-details2111>summary{cursor:pointer;padding:13px 15px;font-size:14px;font-weight:900;color:#2c4b60;background:#f7f9fa}
@@ -1052,6 +1061,17 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   .trip-rail-head211 small{font-size:12px!important}
 }
 
+
+/* ===== Beta 2.11.17｜final readability gate ===== */
+.result-meta,.result-tags,.external-place-card p,.spot-main211 small,.filter-accordion>summary,.filter-grid select{font-size:12px!important;line-height:1.5!important}
+.map-utility-bar button,.link-btn,.state-btn,.external-place-actions button{font-size:12px!important}
+.airport-source{font-size:11px!important;line-height:1.55!important}
+@media(max-width:900px){
+  .airport-head small{font-size:12px!important}.airport-head button,.airport-head a{font-size:12px!important}
+  .airport-tab{font-size:12px!important}.airport-note,.airport-table{font-size:12px!important}
+  .map-title small{font-size:11px!important}.map-utility-bar button{font-size:12px!important}
+  .spots-mobile211 .spots-quick211 button{font-size:12px!important}
+}
 </style>
 </head>
 <body>
@@ -1402,7 +1422,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
        <div class="airport-flow-card"><b>② Q-CODE 看症狀與當期地區</b><p>2026/9/7 起依 KDCA 最新檢疫地區公告辦理；不是所有台灣旅客都一律必填。若有疑似檢疫傳染病症狀，依現場與官方規定申報。</p></div>
        <div class="airport-flow-card"><b>③ 退稅門檻</b><p>一般退稅單筆滿 ₩15,000 起；即時退稅單筆低於 ₩1,000,000、旅程累計不超過 ₩5,000,000。</p></div>
       </div>
-      <div class="airport-actions"><a class="green" href="https://qcode.kdca.go.kr/qco/index.do" target="_blank" rel="noopener">Q-CODE 官方</a><a class="blue" href="https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=489&vcontsId=248765" target="_blank" rel="noopener">韓國退稅指南</a></div>
+      <div class="airport-actions"><a class="green" href="https://qcode.kdca.go.kr/qco/index.do" target="_blank" rel="noopener">Q-CODE 官方</a><a class="blue" href="https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=489&vcontsId=248768" target="_blank" rel="noopener">韓國退稅指南</a></div>
      </div>
 
      <details class="airport-details2111" style="grid-column:1/-1">
@@ -1429,29 +1449,30 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
      <h3>💳 2026/09 韓國刷卡重點</h3>
      <div class="airport-note airport-warn"><b>回饋基準：</b>以下依 2026/09/08 可查到的官方權益整理。信用卡名目回饋通常仍會有海外交易服務費；刷卡機若問 TWD / KRW，原則選 <b>KRW</b> 避免 DCC。活動名額、店櫃、請款與銀行最終判定仍以付款當下官方頁面為準。</div>
      <div class="no-brainer2113">
-      <div><b>一般韓國實體直刷</b><strong>依持卡條件選，不綁單一卡</strong><span>可先比較 uniopen 最高 11%、富邦 J 最高 6%、星展 eco 最高 5%、Richart 玩旅刷最高 3.3%、CUBE 固定回饋海外實體 2.5%；其餘卡片也有各自條件或特店優勢，詳見下方九張卡速查。</span></div>
-      <div><b>指定店／指定支付</b><strong>特店優惠常比一般直刷高</strong><span>例如 LINE Pay＋DAWAY 在韓國指定店最高 26.5%，Unicard Mastercard 在 OLIVE YOUNG／新羅免稅店有門檻式回饋。付款前先看「店家＋支付方式＋卡片條件」，再決定是否改用特案。</span></div>
+      <div><b>一般韓國實體直刷</b><strong>先看「高回饋能刷到哪裡」</strong><span>回饋率只是第一層。更實用的是知道加碼何時封頂、封頂後剩多少：例如 uniopen 約前 NT$6,250/月可吃滿 11% 段，eco 約前 NT$15,000/帳單週期可吃滿 5% 段。</span></div>
+      <div><b>指定店／指定支付</b><strong>特店活動要看門檻與分層上限</strong><span>LINE Pay＋DAWAY、Unicard Mastercard 等屬活動型回饋；不要把「最高 26.5%」理解成整月所有消費都固定 26.5%。下方會把「封頂方式」與「封頂後」分開寫。</span></div>
      </div>
      <div class="card-decision2112">
       <div class="card-decision-item2112 top"><b>LINE Pay 指定吃喝店</b><strong>DAWAY（如持有）可優先比較</strong><span>CU、7-ELEVEN、emart24、EDIYA 等目前列入 LINE Pay 韓國吃喝補給活動；符合各層活動時最高 26.5%。高回饋各層有月上限／總量。</span></div>
-      <div class="card-decision-item2112 top"><b>韓國 TWQR 店</b><strong>悠遊付最高 12%</strong><span>9/1–12/31 每筆 10.5% 悠遊付回饋金，另免 1.5% 海外交易手續費；每一活動階段每會員回饋上限 600 元。</span></div>
+      <div class="card-decision-item2112 top"><b>韓國 TWQR 店</b><strong>悠遊付最高 12%</strong><span>9/1–12/31 每筆 10.5% 悠遊付回饋金，另免 1.5% 海外交易手續費；每一活動階段每會員回饋上限 600 元；以 10.5% 回饋金倒推，約 NT$5,714 合格消費可吃滿單階段回饋金（未把免 1.5% 手續費當成現金回饋）。</span></div>
       <div class="card-decision-item2112"><b>一般信用卡直刷</b><strong>九張卡各有不同門檻</strong><span>高回饋不等於一定最好：需同時看登錄、回饋上限、指定支付、帳戶等級與海外交易服務費。下方九張卡速查改為公開參考，不假設每位旅客持有相同卡片。</span></div>
       <div class="card-decision-item2112"><b>OLIVE YOUNG／免稅店大額</b><strong>先看 Mastercard／銀行特店活動</strong><span>Unicard Mastercard 完成指定海外平台登錄後，OLIVE YOUNG、新羅免稅店等有門檻式現金回饋；不符合時再回到一般海外直刷卡比較。</span></div>
      </div>
 
      <div class="airport-box card-public-reference2117" style="margin-top:12px">
       <h3>🪪 9 張信用卡韓國速查｜公開參考</h3>
-      <div class="airport-note airport-good"><b>使用方式：</b>這份表不是限定某一位旅客的持卡清單，而是整理九張常見卡在 2026/09 韓國旅遊的可用場景。實際回饋需依持卡版本、權益等級、登錄狀態、消費日與銀行最終認列為準。</div>
+      <div class="airport-note airport-good"><b>使用方式：</b>每張卡都補上「高回饋大約能刷多少」與「封頂後怎麼算」。有些卡是無上限型，有些是資格／特店活動型，沒有一個合理的固定封頂金額；這種情況會直接標示「無單一封頂」，不硬湊數字。</div>
+      <div class="cap-summary2117"><b>高回饋能刷多少：</b><span>uniopen 11% 約 NT$6,250/月｜J 卡 6% 加碼段約 NT$33,333/季｜eco 5% 約 NT$15,000/帳單週期｜DAWAY＋LINE Pay 吃喝最高 26.5% 約前 NT$2,000/月、旅遊購物 9.5% 約前 NT$5,000/月｜幣倍符合任務的海外實體 6% 約 NT$20,000/帳單週期｜吉鶴韓國加碼刷到約 NT$48,334/月可吃滿 NT$1,000 加碼。各卡細節與門檻請看下方。</span></div>
       <div class="payment-guide-cards credit-card-guide2111 personal-credit-cards2112">
-       <article data-rank="高回饋直刷"><b>中信 uniopen</b><strong>海外實體最高 11%</strong><span>國外一般 2% 無上限；海外實體合計 3% 無上限，再加碼 8% 每月上限 500 OPENPOINT。適合多數韓國面對面刷卡，但條碼／第三方支付不算 11% 實體加碼。</span><a href="https://mkt.ctbcbank.com/long/creditcard/uniopen-op-app/index.html" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="日韓泰"><b>富邦 J 卡</b><strong>日韓泰最高 6%</strong><span>日韓泰最高 3% 無上限＋實體單筆滿 NT$1,000 加碼 3%；加碼需登錄且有上限。2026/9 月登錄自 9/20 16:00 起，適合登錄成功後的較大額實體消費。</span><a href="https://www.fubon.com/banking/JF/" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="條件單純"><b>星展 eco 永續卡</b><strong>韓國最高 5%</strong><span>國外一般 1% 無上限＋韓國等指定地區 4% 加碼，每期帳單加碼上限 600 點。適合不想頻繁切方案、登錄活動的旅客。</span><a href="https://www.dbs.com.tw/personal-zh/cards/dbs-credit-cards/eco-ez" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="海外方案"><b>台新 Richart 卡</b><strong>玩旅刷最高 3.3%</strong><span>切換「玩旅刷」後，海外消費可享最高 3.3%，需完成指定任務／權益等級條件；部分第三方支付不適用加碼，使用前應確認當日方案。</span><a href="https://www.taishinbank.com.tw/TSB/personal/credit/intro/overview/future/ab46dfa7-5d88-11f1-b50f-0050568c09e3" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="固定回饋"><b>國泰 CUBE</b><strong>海外實體 2.5%</strong><span>切換「固定回饋」後，海外實體消費 2.5% 小樹點；2026/12/31 前切入後權益切換受限制，適合願意鎖定固定回饋方案者。</span><a href="https://www.cathaybk.com.tw/cathaybk/promo/event/credit-card/product/CUBE_rights/index.html?Type=11" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="LINE Pay 特店"><b>永豐 DAWAY</b><strong>一般國外 2.5%／韓國 LINE Pay 指定店最高 26.5%</strong><span>一般國外消費基礎 2.5% LINE POINTS；韓國指定吃喝補給／旅遊購物店以 LINE Pay 綁 DAWAY 可疊加活動。高回饋有各層月上限與總量。</span><a href="https://bank.sinopac.com/sinopacBT/personal/credit-card/introduction/bankcard/DAWAY.html" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="雙幣"><b>永豐幣倍卡</b><strong>國外 2% 無上限</strong><span>2026/7–12 國外一般消費 2% 現金回饋無上限，須以永豐外幣帳戶自動扣繳外幣帳款；另有指定通路／Apple Pay、Google Pay 條件式加碼。</span><a href="https://bank.sinopac.com/sinopacBT/personal/credit-card/introduction/bankcard/dual-currency-card.html" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="特店優惠"><b>玉山 Unicard</b><strong>韓國 Mastercard 指定店特案</strong><span>一般回饋依 Unicard 當期方案與百大消費設定；若為 Mastercard 並完成海外回饋平台登錄，OLIVE YOUNG 單筆滿 KRW 90,000 回 KRW 10,000，新羅免稅店等亦有指定門檻回饋。</span><a href="https://event.esunbank.com.tw/credit/unicard/campaign.html" target="_blank" rel="noopener">官方權益</a></article>
-       <article data-rank="條件式"><b>聯邦吉鶴卡</b><strong>韓國一般 1%／指定海外活動另有加碼</strong><span>非日幣國外一般消費 1% 無上限；2026 下半年聯邦另有韓國等指定國家海外實體活動，單月滿 NT$15,000 且完成登錄後，超過門檻的金額可有額外加碼，需留意名額與認列方式。</span><a href="https://activity.ubot.com.tw/2026JiHoCard/index.htm" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="高回饋直刷"><b>中信 uniopen</b><strong>海外實體最高 11%</strong><span>國外實體合計 3% 無上限，再加碼 8% 每月上限 500 OPENPOINT；條碼／第三方 QR 支付不算海外實體 11% 加碼。</span><span class="card-cap2117"><em><b>高回饋刷到頂</b><strong>約 NT$6,250／月</strong></em><em><b>封頂後</b><strong>海外實體 3% 繼續</strong></em></span><span class="cap-note2117">計算：500 ÷ 8% ≈ 6,250；前 6,250 元若完整認列，11% 名目回饋約 688 點（實際依銀行進位／認列）。</span><a href="https://mkt.ctbcbank.com/long/creditcard/uniopen-op-app/index.html" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="日韓泰"><b>富邦 J 卡</b><strong>日韓泰最高 6%</strong><span>日韓泰最高 3% 無上限＋實體單筆滿 NT$1,000 再加碼 3%；額外 3% 每季上限 NT$1,000，且需依活動規則完成登錄。</span><span class="card-cap2117"><em><b>6% 加碼段約可刷</b><strong>NT$33,333／季</strong></em><em><b>封頂後</b><strong>回到原日韓泰基本回饋</strong></em></span><span class="cap-note2117">計算：1,000 ÷ 3% ≈ 33,333；每筆還要符合 NT$1,000 門檻。2026 Q3 的 9 月登錄自 9/20 16:00 起，名額與認列仍看活動頁。</span><a href="https://www.fubon.com/banking/JF/" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="條件單純"><b>星展 eco 永續卡</b><strong>韓國最高 5%</strong><span>1% 國外一般回饋無上限＋韓國等指定地區 4% 加碼；4% 加碼每期帳單上限 600 點。</span><span class="card-cap2117"><em><b>5% 加碼段約可刷</b><strong>NT$15,000／帳單週期</strong></em><em><b>封頂後</b><strong>1% 繼續</strong></em></span><span class="cap-note2117">計算：600 ÷ 4% = 15,000；完整吃滿 5% 段時，15,000 元名目回饋約 750 點。</span><a href="https://www.dbs.com.tw/personal-zh/cards/dbs-credit-cards/eco-ez" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="海外方案"><b>台新 Richart 卡</b><strong>玩旅刷最高 3.3%</strong><span>海外消費需切換「玩旅刷」；LEVEL2（設定台新帳戶自動扣繳並生效）最高 3.3%，LEVEL1 的切換刷加碼通路最高 1.3%。限實體信用卡／Apple Pay／Google 錢包／Samsung Pay 等方案認列方式，LINE Pay 不適用玩旅刷加碼。</span><span class="card-cap2117"><em><b>3.3% 刷到頂</b><strong>官網未列單一金額封頂</strong></em><em><b>主要門檻</b><strong>LEVEL2＋切對「玩旅刷」</strong></em></span><span class="cap-note2117">這張的重點是「權益資格」而非加碼池封頂；若未完成 LEVEL2，海外玩旅刷不是 3.3%。個別 Mastercard／特店活動若另有上限，依各活動頁。</span><a href="https://mkp.taishinbank.com.tw/TsCms/marketing/expose/WM_20260624144101784/index.html" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="固定回饋"><b>國泰 CUBE</b><strong>固定回饋｜海外實體 2.5%</strong><span>2026/8/3–12/31 可變更至「固定回饋」一次；切換後海外實體 2.5% 小樹點、一般消費 1.2%。</span><span class="card-cap2117"><em><b>2.5% 刷到頂</b><strong>官方頁未列加碼金額上限</strong></em><em><b>主要限制</b><strong>切換後一路固定至 12/31</strong></em></span><span class="cap-note2117">它的代價不是「刷滿就掉回饋」，而是切換後無法再每日切其他 CUBE 權益；因此適合希望海外直刷簡單固定的人。</span><a href="https://www.cathaybk.com.tw/cathaybk/promo/event/credit-card/product/CUBE_rights/index.html?Type=11" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="LINE Pay 特店"><b>永豐 DAWAY</b><strong>一般國外 2.5%／韓國 LINE Pay 吃喝最高 26.5%</strong><span>吃喝補給最高 26.5%＝基礎 2.5%＋DAWAY GO 1.5%＋店家活動 5%＋Visa 10%＋DAWAY 7.5%；旅遊購物最高 9.5%＝2.5%＋1.5%＋Visa 3%＋DAWAY 2.5%。各加碼池都有限量。</span><span class="card-cap2117"><em><b>吃喝 26.5% 完整段</b><strong>約前 NT$2,000／月</strong></em><em><b>旅遊購物 9.5% 完整段</b><strong>約前 NT$5,000／月</strong></em></span><span class="cap-note2117">吃喝三個韓國活動加碼分別上限 100／200／150 點，皆約在 2,000 元消費先吃滿；DAWAY GO 1.5% 上限 300 點／帳單週期，可撐約 20,000 元。旅遊購物的 3%／2.5% 加碼各上限 150／125 點，約 5,000 元先吃滿；之後到約 20,000 元仍可剩 2.5%＋1.5%=4%，再往後主要剩基礎 2.5%。實際仍受每月活動總額度、DAWAY GO 資格與店家名單影響。</span><a href="https://bank.sinopac.com/sinopacBT/personal/credit-card/introduction/bankcard/DAWAY.html" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="雙幣"><b>永豐幣倍卡</b><strong>海外實體符合任務最高 6%／新申辦指定行動支付最高 8%</strong><span>基本國外 2% 無上限；2026/7–12 完成「臺外幣帳戶自扣＋電子帳單」及資產／大戶條件後，國外實體等精選通路再加 4%，上限 NT$800／帳單週期。新申辦再用 Apple Pay／Google Pay 可加 2%，上限 NT$200／消費月份。</span><span class="card-cap2117"><em><b>6% 段約可刷</b><strong>NT$20,000／帳單週期</strong></em><em><b>新申辦 8% 疊加段</b><strong>約前 NT$10,000／月*</strong></em></span><span class="cap-note2117">4% 加碼：800 ÷ 4%=20,000；新申辦 2%：200 ÷ 2%=10,000。若兩個週期與資格同時成立，前約 10,000 元可到 8%、再到 20,000 元可維持約 6%，之後回基本 2%。*帳單週期與消費月份不同，實際請依入帳及活動認列。</span><a href="https://bank.sinopac.com/sinopacBT/personal/credit-card/introduction/bankcard/dual-currency-card.html" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="特店優惠"><b>玉山 Unicard</b><strong>韓國累積加碼最高 1.5%＋Mastercard 特店</strong><span>2026/7–9 完成登錄後，日本／韓國實體累積 4萬起加碼 0.5%、8萬起 0.8%、16萬起 1.5%，整檔加碼上限 3,000 點；若為 Mastercard，另有韓國指定店現金回饋。</span><span class="card-cap2117"><em><b>1.5% 加碼刷到頂</b><strong>約 NT$200,000／活動期</strong></em><em><b>OLIVE YOUNG 特案</b><strong>KRW 90,000 回 10,000</strong></em></span><span class="cap-note2117">1.5% × 200,000＝3,000 點，才會把活動加碼上限吃滿；因此一般短程韓國旅行未必是小額直刷主力。Mastercard 特案則是單筆型：OLIVE YOUNG 滿 KRW 90,000 回 KRW 10,000，門檻點的特案回饋約 11.1%；新羅免稅店等也另有門檻。</span><a href="https://event.esunbank.com.tw/credit/unicard/campaign.html" target="_blank" rel="noopener">官方權益</a></article>
+       <article data-rank="條件式"><b>聯邦吉鶴卡</b><strong>韓國一般 1%／達檻後超額部分再加 3%</strong><span>非日幣國外一般消費 1% 無上限；2026/7–12 韓國等指定國家海外實體，單月一般消費滿 NT$15,000 且當月完成登錄後，<b>超過 15,000 元的金額</b>再加碼 3%，每戶每月加碼上限 NT$1,000、每月限量 1,350 名。</span><span class="card-cap2117"><em><b>3% 加碼吃滿時總消費</b><strong>約 NT$48,334／月</strong></em><em><b>封頂後</b><strong>一般海外 1% 繼續</strong></em></span><span class="cap-note2117">計算：先跨過 15,000 門檻，再需要約 33,334 元 × 3% ≈ 1,000 元加碼，因此總消費約 48,334 元可吃滿加碼。注意不是「整筆 48,334 都有 4%」；只有超過 15,000 的部分多 3%。</span><a href="https://activity.ubot.com.tw/aws_act/2026/20260607overseas/index.htm" target="_blank" rel="noopener">官方權益</a></article>
       </div>
      </div>
     </div>
@@ -1549,9 +1570,9 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
       <div><b>台新 Richart</b><span>海外消費前確認已切換「玩旅刷」並符合指定任務／權益等級；第三方支付是否適用需依方案規則判斷。</span></div>
       <div><b>國泰 CUBE</b><span>若要使用海外實體 2.5% 固定回饋，先確認是否願意切換「固定回饋」；切換後至 2026/12/31 的權益切換會受到限制。</span></div>
       <div><b>永豐 DAWAY＋LINE Pay</b><span>要吃韓國 LINE Pay 指定店高回饋，先將 DAWAY 綁定 LINE Pay、確認相關設定與定位；一般國外基礎回饋為 2.5%。</span></div>
-      <div><b>永豐幣倍卡</b><span>需有對應永豐外幣帳戶並設定外幣帳款自動扣繳；一般國外 2% 無上限，指定通路／Apple Pay、Google Pay 加碼另有任務條件。</span></div>
-      <div><b>玉山 Unicard</b><span>若是 <b>Mastercard</b> 且要使用韓國指定店特案，先到 Mastercard 海外消費回饋平台註冊／啟用；OLIVE YOUNG、新羅免稅店等有指定門檻。</span></div>
-      <div><b>聯邦吉鶴卡</b><span>韓國一般屬非日幣國外消費；若參加聯邦 2026 下半年指定海外活動，需在消費當月完成登錄並確認單月門檻／名額。</span></div>
+      <div><b>永豐幣倍卡</b><span>基本國外 2% 無上限；若要海外實體最高 6%，需完成臺外幣帳戶自扣＋電子帳單，並符合資產／大戶條件。新申辦再用 Apple Pay／Google Pay 另有 2% 加碼。</span></div>
+      <div><b>玉山 Unicard</b><span>韓國累積加碼活動與 Mastercard 特店優惠都需先確認登錄。一般韓國累積需 4 萬元以上才開始有額外 0.5% 加碼；OLIVE YOUNG／新羅免稅店等則看 Mastercard 指定單筆門檻。</span></div>
+      <div><b>聯邦吉鶴卡</b><span>韓國一般 1% 無上限；指定海外活動要在消費當月登錄，單月先滿 15,000 元，超額部分才加 3%，每月加碼上限 1,000 元且有限量名額。</span></div>
       <div><b>悠遊付</b><span>APP 更新至最新版，準備悠遊付錢包餘額或連結銀行帳戶；到韓國付款碼右上切換「韓國」。店家有 TWQR 時即可嘗試付款。</span></div>
      </div></div>
     </details>
@@ -4142,7 +4163,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.16";
+const beta211Version="2.11.17";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.

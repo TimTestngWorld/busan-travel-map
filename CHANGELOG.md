@@ -1,3 +1,25 @@
+# Beta 2.11.17 — 2026-09-08
+- 九張信用卡全面補上「高回饋刷到哪裡／封頂後」：uniopen 約 NT$6,250／月、富邦 J 約 NT$33,333／季、eco 約 NT$15,000／帳單週期。
+- DAWAY 多層韓國 LINE Pay 回饋拆開計算：吃喝 26.5% 完整疊加約前 NT$2,000／月；旅遊購物 9.5% 完整疊加約前 NT$5,000／月；DAWAY GO 約可延伸至 NT$20,000／帳單週期。
+- 更正並補完整永豐幣倍：基本國外 2% 無上限；完成任務後海外實體最高 6%，約 NT$20,000／帳單週期吃滿 4% 加碼；新申辦 Apple Pay／Google Pay 若條件同時成立，約前 NT$10,000 可到 8%。
+- 玉山 Unicard 補上韓國／日本累積加碼級距與 3,000 點上限：1.5% 級距下約 NT$200,000 可吃滿活動加碼；保留 Mastercard 韓國特店門檻。
+- 聯邦吉鶴補上精確門檻：先滿 NT$15,000，再對超額部分加 3%，約總消費 NT$48,334 可吃滿每月 NT$1,000 加碼；不是整筆消費都 4%。
+- Richart／CUBE 以「現行官方頁未列單一加碼金額封頂」呈現，不自行推導不存在的上限。
+- 悠遊付韓國 10.5% 回饋金每階段上限 NT$600，換算約 NT$5,714 合格消費吃滿單階段回饋金。
+- 重新核對 K-ETA、Q-CODE、金海機場巴士、行動電源與退稅資訊；修正舊版退稅官方連結。
+- 延續 2.11.16 手機搜尋鍵盤修正，並再提高景點次資訊、地圖操作、支付與行動版小字最低可讀尺寸。
+- 執行 2.11 最終 Gate：版本、85 筆景點、DOM、JS、搜尋／收藏、More、Day、住宿、支付、旅行資訊、部署包與 Supabase hash 全域重檢。
+
+# Beta 2.11.16 — 2026-09-08
+- 修正手機點景點搜尋欄時，鍵盤彈出後立刻收起、輸入框失去焦點的問題。
+- 根因為鍵盤改變 viewport 高度觸發 resize，舊 responsive mount 重插搜尋 DOM；新版只在跨越手機／桌機 breakpoint 時重掛。
+- 搜尋欄加入行動端 16px 最小字級與 enterkeyhint=search。
+
+# Beta 2.11.15 — 2026-09-08
+- 進行全域一致性掃描，移除正式 UI 中殘留的開發／後端技術文案與舊入口說明。
+- 原始手機導覽 HTML 直接改為首頁／景點／行程／更多四鍵，避免慢載入時閃出舊版五鍵。
+- 清理 More 舊定位規則與部署包歷代冗餘檔案。
+
 # Beta 2.11.14 — 2026-09-08
 
 - 修正桌機 More dropdown 因 legacy `top:auto!important` 導致跑位／超出視窗的問題。
@@ -17,14 +39,6 @@
 - 桌機頂部取消大面積藍色導覽帶，改為白色緊湊單列。
 - 主導覽與住宿／出國／支付／分帳／更多合併在同一操作區，不再分成三段。
 - 統一桌機按鈕尺寸與視覺層級；手機版維持原操作。
-# Beta 2.11.12 — 2026-09-08
-
-- Desktop top navigation regrouped into primary navigation and right-side travel utilities.
-- Moved More into the travel utility cluster.
-- Anchored the More dropdown directly below its trigger.
-- Removed the detached far-right dropdown behavior and the accidental heavy focus outline.
-- Beta 2.11.10 quick user guide and all travel data retained.
-
 # Beta 2.11.10 — 2026-09-08
 - 重寫 App 內使用教學，以一般旅客的實際操作流程為主。
 - 教學由 8 大段縮為 5 個情境：找景點、排行程、旅行當天、支付加值、其他功能。
