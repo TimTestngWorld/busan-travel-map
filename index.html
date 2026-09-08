@@ -1097,56 +1097,54 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 
 
-/* ===== Beta 2.11.19｜mobile layout / lodging / search-map sync ===== */
-.search-result-pin21119{width:30px;height:30px;border-radius:50%;border:3px solid #fff;background:#ef5c55;color:#fff;display:grid;place-items:center;font:900 12px/1 system-ui,sans-serif;box-shadow:0 4px 13px #17354a45;cursor:pointer;padding:0}
-.search-result-pin21119.active{background:#1769aa;transform:scale(1.15)}
-.external-place-card.search-active21119{border-color:#62a2cb!important;box-shadow:0 0 0 3px #d9eefb,0 7px 20px #17354a14!important}
-.search-distance21119{display:inline-flex;margin-left:7px;padding:2px 7px;border-radius:999px;background:#eef6fb;color:#2c6688;font-size:11px;font-weight:900}
+/* ===== Beta 2.11.20｜搜尋結果地圖同步 + mobile layout / airport readability ===== */
+.search-result-pin2120{cursor:pointer!important}
+.external-place-card.search-focus2120{border-color:#e45b62!important;box-shadow:0 0 0 2px rgba(228,91,98,.12),0 8px 20px rgba(28,62,82,.10)!important}
+.kakao-search-pin2120{width:22px;height:22px;border:3px solid #fff;border-radius:50%;background:#e74f5b;box-shadow:0 3px 10px #0005;cursor:pointer;padding:0}
+.official-checked2120{border:1px solid #b9ddc8;background:#f1faf5;color:#285c42;border-radius:12px;padding:11px 12px;margin:0 0 10px;font-size:14px;line-height:1.55}
+.official-current2120{border-left:5px solid #3c86b5!important;background:#f7fbfe!important}
+.tutorial-section li{margin:5px 0}.tutorial-section b{color:#244f69}.tutorial-guide .tutorial-tip{font-size:14px!important;line-height:1.6!important}
 @media(max-width:900px){
- .home211-side{grid-template-columns:1fr!important}.home211-side .home211-action{grid-column:1/-1!important}.home211-metrics{grid-column:1/-1!important;grid-template-columns:1fr 1fr!important}
- .airport-hub{padding:0!important}.airport-card{width:100vw!important;max-width:none!important;height:100dvh!important;max-height:none!important;border-radius:0!important}
- .airport-body{overflow-y:auto!important;overflow-x:hidden!important;padding:10px 12px 104px!important;-webkit-overflow-scrolling:touch;touch-action:pan-y pinch-zoom}
- .airport-pane,.airport-grid,.route-card{min-width:0!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important}
- .lodging-shortcuts2118{position:static!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;padding:0 0 10px!important;width:100%!important}
- .lodging-shortcuts2118 button{width:100%!important;min-width:0!important;white-space:normal!important;line-height:1.3!important;padding:10px 8px!important;font-size:13px!important}
- .inline-diagram{overflow:hidden!important;max-width:100%!important;padding:4px!important;touch-action:pan-y pinch-zoom}
- .inline-diagram svg{min-width:0!important;width:100%!important;max-width:100%!important;height:auto!important}
- .route-method{grid-template-columns:1fr!important;gap:3px!important;padding:9px 0!important}.route-method>b{font-size:14px!important}.route-method>div{font-size:14px!important}
- .airport-pane[data-airpane="contacts"] .contact-list{display:grid!important;grid-template-columns:1fr!important;gap:9px!important}
- .airport-pane[data-airpane="contacts"] .contact-item{font-size:15px!important;line-height:1.6!important;padding:12px!important}
- .airport-pane[data-airpane="contacts"] .airport-box p,.airport-pane[data-airpane="contacts"] .airport-source,.airport-pane[data-airpane="contacts"] .tw-source a,.airport-pane[data-airpane="contacts"] .airport-actions a{font-size:14px!important;line-height:1.6!important}
- .airport-pane[data-airpane="contacts"] h3{font-size:20px!important}
- .tutorial-section h3{font-size:18px!important}.tutorial-section li{font-size:15px!important;line-height:1.75!important}.tutorial-section ol{padding-left:24px!important}
-}
-@media(max-width:600px){
- .home211-top{margin-bottom:12px!important}.home211-hero{gap:10px!important}.home211-side{gap:9px!important}.home211-action{min-height:90px!important}
- .home-weather21118{min-height:108px!important}.home-weather-stage21118{min-height:105px!important}
-}
+  /* Home: every primary action is a deliberate full-width row; metrics/tools keep two-column rhythm. */
+  .dashboard{overflow-y:auto!important;overflow-x:hidden!important;min-height:100dvh!important;padding:14px 12px 100px!important}
+  .dashboard-shell{width:100%!important;max-width:100%!important;min-width:0!important}
+  .home211-top{grid-template-columns:1fr!important;gap:10px!important;width:100%!important}
+  .home211-hero{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;width:100%!important}
+  .home211-today{width:100%!important;min-width:0!important}
+  .home211-side{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;width:100%!important}
+  .home211-side .home211-action,.home211-side .home211-action:first-child{grid-column:1/-1!important;width:100%!important;min-width:0!important}
+  .home211-metrics{grid-column:1/-1!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important}
+  .home211-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important}
+  .home211-tools button{min-width:0!important;width:100%!important}
 
-
-/* ===== Beta 2.11.19｜mobile final polish ===== */
-@media(max-width:900px){
-html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!important}.dashboard-shell{width:100%!important;max-width:none!important}
-.home211-top{display:block!important;margin:0 0 10px!important}.home211-heading{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px 10px!important;align-items:center!important;padding:4px 2px 0!important}
-.home211-kicker{grid-column:1/-1;font-size:10px!important}.home211-title{font-size:25px!important;margin:0!important;line-height:1.15!important}.home211-sub{font-size:13px!important;line-height:1.45!important;margin-top:3px!important}
-.home211-head-actions{grid-column:2;grid-row:2/4;display:grid!important;gap:6px!important;margin:0!important}.home211-head-actions button{min-width:92px!important;font-size:11px!important;padding:8px 9px!important}
-.home-weather21118{margin-top:10px!important;min-height:100px!important;border-radius:16px!important}.home-weather-stage21118{grid-template-columns:repeat(2,minmax(0,1fr))!important;min-height:92px!important}
-.home211-hero{display:block!important}.home211-today{margin-bottom:10px!important}.home211-side{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
-.home211-side .home211-action{grid-column:auto!important;min-height:94px!important}.home211-side .home211-action:first-child{grid-column:1/-1!important}.home211-metrics{grid-column:1/-1!important;grid-template-columns:1fr 1fr!important}
-.home211-tools{margin-top:10px!important;gap:8px!important}.home211-tools button{min-height:98px!important;padding:12px!important}.home-tool-copy b{font-size:14px!important}.home-tool-copy small{font-size:11px!important;line-height:1.4!important}
-.airport-hub{padding:0!important;overflow:hidden!important}.airport-card{width:100%!important;height:100dvh!important;max-width:none!important;max-height:none!important;border-radius:0!important;overflow:hidden!important}
-.airport-head,.airport-tabs,.airport-body{width:100%!important;max-width:100%!important;box-sizing:border-box!important}.airport-body{overflow-y:auto!important;overflow-x:hidden!important;padding:10px 10px 104px!important;touch-action:pan-y pinch-zoom!important}
-.airport-body *{box-sizing:border-box;max-width:100%}.airport-grid{display:block!important;width:100%!important;min-width:0!important}.airport-box,.route-card{width:100%!important;min-width:0!important;margin:0 0 10px!important;padding:12px!important}
-.lodging-shortcuts2118{position:static!important;inset:auto!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin:0 0 10px!important;padding:0!important;width:100%!important;transform:none!important}
-.lodging-shortcuts2118 button{position:static!important;width:100%!important;min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important;font-size:13px!important;line-height:1.35!important;padding:11px 8px!important}
-.arrival-plan2119{font-size:14px!important;line-height:1.65!important}.arrival-plan2119 span{display:block!important}.inline-diagram{width:100%!important;max-width:100%!important;overflow:hidden!important;margin:8px 0!important;touch-action:pan-y pinch-zoom!important}
-.inline-diagram svg{display:block!important;width:100%!important;height:auto!important;max-width:100%!important;min-width:0!important}.route-method{width:100%!important;overflow-wrap:anywhere!important}.route-method>b,.route-method>div{font-size:14px!important;line-height:1.65!important}
-.airport-pane[data-airpane="contacts"] .airport-grid{display:block!important}.airport-pane[data-airpane="contacts"] .airport-box{padding:13px!important}.airport-pane[data-airpane="contacts"] h3{font-size:21px!important;line-height:1.35!important}
-.airport-pane[data-airpane="contacts"] .contact-list{display:grid!important;grid-template-columns:1fr!important;gap:9px!important}.airport-pane[data-airpane="contacts"] .contact-item{font-size:15px!important;line-height:1.6!important;padding:12px!important}
-.airport-pane[data-airpane="contacts"] p,.airport-pane[data-airpane="contacts"] li,.airport-pane[data-airpane="contacts"] a,.airport-pane[data-airpane="contacts"] .airport-source{font-size:14px!important;line-height:1.65!important}
-.tutorial-guide{padding-right:0!important}.tutorial-section{padding:14px!important}.tutorial-section h3{font-size:19px!important}.tutorial-section ol,.tutorial-section ul{padding-left:22px!important}.tutorial-section li{font-size:15px!important;line-height:1.75!important;margin-bottom:5px!important}
+  /* Airport/lodging: the page itself never becomes wider than the phone. */
+  .airport-hub{padding:0!important}
+  .airport-card{width:100vw!important;max-width:100vw!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;touch-action:pan-x pan-y pinch-zoom!important}
+  .airport-head{padding:10px 11px!important;gap:8px!important}
+  .airport-head strong{font-size:18px!important;line-height:1.35!important}
+  .airport-head small{font-size:13px!important;line-height:1.5!important;width:100%!important}
+  .airport-head button,.airport-head a{font-size:13px!important;min-height:42px!important;padding:9px 11px!important}
+  .airport-tabs{padding:8px 9px!important;gap:7px!important;scroll-padding-inline:10px!important}
+  .airport-tab{font-size:14px!important;padding:9px 12px!important}
+  .airport-body{width:100%!important;max-width:100%!important;padding:10px 10px 92px!important;overflow-x:hidden!important;touch-action:pan-y pinch-zoom!important}
+  .airport-pane,.airport-grid,.route-card,.airport-box,.tw-exp{width:100%!important;max-width:100%!important;min-width:0!important}
+  .airport-pane h3{font-size:20px!important;line-height:1.4!important}
+  .airport-pane p,.airport-pane li,.airport-pane .route-method div,.airport-pane .airport-note,.airport-pane .airport-source,.contact-item{font-size:15px!important;line-height:1.7!important;overflow-wrap:anywhere!important;word-break:normal!important}
+  .contact-item b{font-size:16px!important}.contact-list{gap:9px!important}
+  .airport-actions a,.airport-actions button,.route-actions a,.route-actions button{font-size:14px!important;min-height:42px!important;padding:10px 11px!important;white-space:normal!important;text-align:center!important}
+  .tw-source a{font-size:12px!important;line-height:1.35!important;padding:6px 8px!important}
+  .route-method{grid-template-columns:1fr!important;gap:3px!important;padding:10px 0!important}.route-method>b{font-size:15px!important}
+  .inline-diagram{width:100%!important;max-width:100%!important;overflow:hidden!important;padding:5px!important;touch-action:pan-y pinch-zoom!important}
+  .inline-diagram svg{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;height:auto!important}
+  .lodging-shortcuts2118{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;width:100%!important;padding:8px 0 10px!important;position:sticky!important;top:0!important}
+  .lodging-shortcuts2118 button{width:100%!important;min-width:0!important;font-size:14px!important;line-height:1.35!important;white-space:normal!important;padding:10px 8px!important}
+  .official-checked2120{font-size:15px!important}
+  .tutorial-guide{max-height:70dvh!important}.tutorial-section{padding:14px!important}.tutorial-section h3{font-size:19px!important}.tutorial-section ol,.tutorial-section ul{font-size:15px!important;line-height:1.7!important;padding-left:23px!important}
 }
-@media(max-width:420px){.home211-heading{grid-template-columns:1fr!important}.home211-head-actions{grid-column:1!important;grid-row:auto!important;grid-template-columns:1fr 1fr!important}.home211-head-actions button{width:100%!important}.home211-side{grid-template-columns:1fr!important}.home211-side .home211-action:first-child{grid-column:auto!important}.home211-metrics{grid-column:auto!important}}
+@media(max-width:430px){
+  .home211-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}.home211-tools .home-tool-copy b{font-size:14px!important}
+  .lodging-shortcuts2118{grid-template-columns:1fr 1fr!important}
+}
 
 </style>
 </head>
@@ -1402,13 +1400,13 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
   <h2>🧭 快速使用教學</h2>
   <div class="sub">第一次使用只要記得：找景點 → 收藏或加進 Day → 排行程 → 出發。</div>
   <div class="tutorial-guide">
-   <div class="tutorial-section"><h3>① 找景點、看位置、收藏</h3><ol><li>點底部或上方的「景點」。</li><li>在搜尋框輸入店名、景點或地址，按「搜尋」。</li><li>搜尋到多間分店時，地圖會同步出現編號圓點；點清單會移到該圓點，點圓點也會回到對應結果。</li><li>想比較距離時按「📍 離我最近」；允許定位後，搜尋結果與既有景點會依目前位置排序。</li><li>決定後按「♡ 收藏」，或直接按「＋ 加入 Day X」。要回看自己的景點就切「我的收藏」。</li></ol></div>
-   <div class="tutorial-section"><h3>② 排 Day 行程</h3><ol><li>點「行程」，先選要編輯的 Day。</li><li>按「＋ 找景點」會回到景點頁，找到地點後按「＋ 加入 Day X」。</li><li>回到「行程」，長按／拖曳景點可改順序。</li><li>點景點可修改時間、停留時間、備註，或移到其他 Day。</li><li>完成後按「查看 Day 地圖」確認分布與順序；需要分享時再輸出 Day 行程圖。</li></ol></div>
-   <div class="tutorial-section"><h3>③ 旅行當天</h3><ol><li>回「首頁」，在「今天是」選擇實際旅程 Day。</li><li>首頁會顯示當天行程與第一站；點行程中的「地圖」可直接定位景點。</li><li>要前往景點時開景點資訊，按「Naver 導航」。</li><li>臨時想找便利商店、咖啡廳或分店：進「景點」搜尋 → 按「離我最近」 → 選最近結果。</li></ol></div>
-   <div class="tutorial-section"><h3>④ 住宿、機場與回程</h3><ol><li>首頁點「住宿」。</li><li>先選「Marianne Hotel」或「黃老師海景民宿」。</li><li>閱讀最上方「抵達後最直覺走法」；需要導航時點 Naver 的「機場 → 住宿」路線。</li><li>回程前點「出國」→「金海回程」查看報到、退稅、安檢與登機流程。</li><li>若要確認機場電話、入境政策或官方連結，切到「官方資訊」；班次與月台以出發當日 KAC 公告為準。</li></ol></div>
-   <div class="tutorial-section"><h3>⑤ 換錢、T-money、WOWPASS、刷卡</h3><ol><li>首頁點「支付・加值」。</li><li>上方切換「換錢所／T-money／WOWPASS」；人在外面時按「📍 搜尋我附近」。</li><li>換錢：地圖會保留金海機場 MONEY BOX 等可驗證點，也會搜尋目前地圖附近候選。</li><li>T-money：優先找最近地鐵／輕軌站或便利商店，不把地圖候選當成全釜山完整清單。</li><li>WOWPASS：附近候選可先看；要找完整機台位置按官方機台地圖。</li><li>信用卡與行動支付回饋：點「出國」→「刷卡・支付」，先看店家，再比較卡片／LINE Pay／悠遊付與回饋上限。</li></ol></div>
-   <div class="tutorial-section"><h3>⑥ 分帳、分享、手動新增與設定</h3><ol><li>「分帳」：新增旅伴 → 新增消費 → 選付款人 → 勾選分攤對象 → 儲存。</li><li>「分享旅行」：選要分享的 Day → 產生 Day 行程圖或分享碼 → 再傳給旅伴。</li><li>搜尋真的找不到景點時才用「更多」→「手動新增」，補名稱、地址或座標後儲存。</li><li>「更多」→「外觀主題」可切換主題；「使用教學」可重新打開本頁。</li><li>換手機或清除瀏覽器資料前，先使用備份／匯出功能保存旅程資料。</li></ol></div>
-  </div></div>
+   <div class="tutorial-section"><h3>① 找景點｜搜尋、看分布、收藏</h3><ol><li>底部點「📍 景點」。</li><li>在搜尋框輸入店名、景點或地址，例如 <b>olive young</b>，再按「搜尋」。</li><li>搜尋到幾筆，地圖就會同步顯示幾個紅色圓點；點圓點可對應到該筆結果。</li><li>要找離自己最近的分店，按「📍 附近」並允許定位；結果會依距離由近到遠排序。</li><li>確定地點後按「♡ 收藏」，或按「＋ 加入 Day X」直接排行程。</li></ol><div class="tutorial-tip">找不到時：先補「分店／行政區／韓文原名」再搜；仍找不到才用「手動新增」。</div></div>
+   <div class="tutorial-section"><h3>② 排行程｜加入 Day、調順序、補時間</h3><ol><li>底部點「📅 行程」，選擇要編輯的 Day。</li><li>從景點搜尋結果按「＋ 加入 Day X」，或在行程頁按「＋ 新增景點」。</li><li>長按／拖曳行程卡調整先後順序；點行程卡可修改時間、停留時間、備註與交通方式。</li><li>按「✨ 順路排序」可依地理位置協助重排；完成後仍可手動微調。</li><li>按「🗺️ 查看 Day 地圖」確認當天景點分布與順序。</li></ol></div>
+   <div class="tutorial-section"><h3>③ 旅行當天｜設定今天、看位置、直接導航</h3><ol><li>首頁「今天是」選擇實際旅行 Day；首頁會同步顯示該日行程。</li><li>點今日行程中的「地圖」或進「行程 → 查看 Day 地圖」，確認下一站位置。</li><li>點景點卡開啟詳情，再按「🧭 Naver 導航」開始實際移動。</li><li>臨時想去附近分店：到「景點」搜尋後按「附近」，系統會定位並把最近結果排最前面。</li><li>回住宿或前往機場時，從首頁直接進「住宿」或「出國」，不用重新搜尋交通資料。</li></ol></div>
+   <div class="tutorial-section"><h3>④ 換錢、T-money、WOWPASS 與刷卡</h3><ol><li>首頁點「💳 支付・加值」。</li><li>上方切換「換錢所／T-money／WOWPASS」，地圖與清單會切到對應候選地點。</li><li>人在外面時按「📍 搜尋我附近」；允許定位後，地圖會回到你附近並重新查詢。</li><li>需要比較信用卡時：首頁「✈️ 出國資訊」→「刷卡・支付」，查看本次旅程卡片排序、回饋與封頂。</li><li>實際刷卡前仍以銀行 App／活動登錄狀態為準；交通卡或機台是否可用則以現場為準。</li></ol></div>
+   <div class="tutorial-section"><h3>⑤ 住宿、機場與官方資訊</h3><ol><li>首頁點「🏨 住宿」，上方可直接切 Marianne Hotel／黃老師海景民宿。</li><li>住宿頁會列出機場巴士、輕軌＋地鐵與 Naver 導航入口；手機版內容會自動縮排成單欄，不需要左右拖頁面。</li><li>首頁點「✈️ 出國資訊」查看入境、回程、交通、行李、退稅與「官方資訊」。</li><li>進「ℹ️ 官方資訊」後，可按「🔄 檢查最新資訊」重新檢查 KAC／釜山市官方來源。</li><li>班次、櫃檯、臨時停駛等高變動資訊，出發當日再按官方連結做最後確認。</li></ol></div>
+   <div class="tutorial-section"><h3>⑥ 分帳、分享與資料備份</h3><ol><li>手機底部「☰ 更多」→「💰 旅行分帳」；新增旅伴後輸入消費、付款人、參與者與幣別，再按「儲存消費」。</li><li>「📤 分享旅行」可輸出 Day 行程圖，或產生分享碼給同行者。</li><li>「🎨 外觀主題」可切換 FNC 五團主題。</li><li>換手機、清除瀏覽器資料或重新部署前，先在「更多」備份旅程狀態；匯入前也先保留舊資料。</li></ol><div class="tutorial-tip">第一次使用只要完成：找景點 → 收藏／加 Day → 排順序 → 設定今天，就已經能直接旅行。</div></div>
+  </div>
   <div class="onboard-actions">
    <label><input type="checkbox" id="dontShowTutorial" checked> 下次不要自動顯示</label>
    <button id="tutorialOpenPanel">前往景點</button>
@@ -1447,7 +1445,7 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
  <div class="airport-card">
   <div class="airport-head">
    <strong>✈ 出國注意事項及刷卡指南｜金海機場 PUS</strong>
-   <small id="airportDataStatus">重點資訊整理至 2026-09-08｜班次、櫃檯與優惠仍以出發當日官方公告為準</small>
+   <small id="airportDataStatus">重點資訊重新核對至 2026-09-09｜交通班次、櫃檯與營運仍以出發當日官方公告為準</small>
    <button class="airport-official" id="airportRefreshStatus">🔄 檢查最新資訊</button>
    <button class="airport-nav" id="airportNaverNav">🧭 Naver 導航到機場</button>
    <button class="airport-official" id="airportCenterMap">📍 地圖置中</button>
@@ -1831,7 +1829,7 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
 
    <section class="airport-pane" data-airpane="transport">
     <div class="airport-grid">
-     <div class="airport-box" style="grid-column:1/-1"><h3>🚌 海雲台／機張機場巴士</h3><p><b>國際線 1F 3 號乘車處</b>；成人 ₩9,500、僅信用卡，機場端首班 07:10、末班 21:40。部分班次不到機張，出發當日再看 KAC 時刻表。</p><div class="airport-actions"><a class="blue" href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?CONTENTS_NO=1&MENU_ID=110" target="_blank" rel="noopener">KAC 公共交通</a></div></div>
+     <div class="airport-box" style="grid-column:1/-1"><h3>🚌 海雲台／機張機場巴士</h3><p>成人 ₩9,500；可預約或以交通卡／信用卡現場搭乘（現金不收）。機場 1F Gate 4 附近設售票機；機場端最早 07:10、最晚 21:40。部分班次不到機張，出發當日再看釜山市／現場站牌。</p><div class="airport-actions"><a class="blue" href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?CONTENTS_NO=1&MENU_ID=110" target="_blank" rel="noopener">KAC 公共交通</a></div></div>
      <div class="airport-box">
       <h3>🚈 輕軌／地鐵</h3>
       <p><b>機場站（Busan-Gimhae Light Rail）</b>是公共運輸主幹。</p>
@@ -2022,28 +2020,27 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
    <section class="airport-pane" data-airpane="contacts">
     <div class="airport-grid">
      <div class="airport-box">
-      <h3>☎️ 金海機場官方聯絡｜2026/9/9 核對</h3>
+      <h3>☎️ 常用聯絡</h3>
+      <div class="official-checked2120">✅ <b>2026/09/09 已重新核對 KAC／釜山市官方頁面</b><br>客服、出入境、海關、警察、行李服務與機場巴士資訊已依目前官方頁更新。</div>
       <div class="contact-list">
-       <div class="contact-item"><b>KAC 金海機場客服</b><br>1661-2626</div>
-       <div class="contact-item"><b>出入境管理｜國際線</b><br>入境 1F：+82-51-979-1333<br>出境 2F：+82-51-979-1353</div>
-       <div class="contact-item"><b>金海海關｜國際線 1F</b><br>+82-51-899-7200<br><span class="muted">海關失物：+82-51-899-7245</span></div>
-       <div class="contact-item"><b>機場警察｜國際線</b><br>+82-51-974-2432</div>
-       <div class="contact-item"><b>KAC Lost &amp; Found</b><br>+82-51-974-3776</div>
-       <div class="contact-item"><b>金海國際機場檢疫所｜國際線 1F</b><br>+82-51-973-6525</div>
+       <div class="contact-item"><b>KAC 機場客服</b><br>1661-2626<br><span class="muted">每日 06:00～23:00</span></div>
+       <div class="contact-item"><b>出入境（國際線）</b><br>入境 1F｜+82-51-979-1349<br>出境 2F｜+82-51-979-1359</div>
+       <div class="contact-item"><b>金海海關</b><br>入境 1F｜+82-51-899-7200<br>出境 2F｜+82-51-899-7254</div>
+       <div class="contact-item"><b>機場警察</b><br>國際線｜+82-51-974-2432</div>
+       <div class="contact-item"><b>ZimCarry</b><br>國際線 3F／國內線 2F<br>1544-8215</div>
+       <div class="contact-item"><b>KAC Lost & Found</b><br>+82-51-974-3776</div>
       </div>
-      <div class="airport-source"><span class="badge-official">KAC 官方</span> 聯絡資料依金海機場官方設施／聯絡頁於 2026/9/9 重新核對。電話與樓層仍可能調整，現場以 KAC 最新公告為準。</div>
+      <div class="airport-note"><b>出入境電話提醒：</b>KAC 韓文與英文官方頁目前列出的出入境分機不同；本站以韓文官方頁 051-979-1349／1359 為主。若現場聯絡不上，直接撥 KAC 1661-2626 請客服轉接最穩妥。</div>
      </div>
      
-     <div class="airport-box">
-      <h3>🛂 2026 入境重點｜官方快速確認</h3>
-      <ul>
-       <li><b>e-Arrival Card：</b>官方免費，可於抵韓前 3 天內提交；持有效 K-ETA 者屬免填對象之一。</li>
-       <li><b>台灣 K-ETA：</b>暫免延長至 2026/12/31；若自願申請並持有效 K-ETA，可享免填入境卡等相關便利。</li>
-       <li><b>Q-CODE：</b>依 KDCA 當期檢疫管理地區判斷；本站採 2026/9/7 最新公告，不把所有台灣旅客寫成必填。</li>
-      </ul>
-      <div class="airport-actions"><a class="green" href="https://www.e-arrivalcard.go.kr/" target="_blank" rel="noopener">e-Arrival Card 官方</a><a class="blue" href="https://www.k-eta.go.kr/" target="_blank" rel="noopener">K-ETA 官方</a><a class="blue" href="https://qcode.kdca.go.kr/qco/index.do" target="_blank" rel="noopener">Q-CODE 官方</a></div>
-      <div class="airport-source">官方資料檢查：2026/9/9。出發前若遇疫情、簽證或入境政策變動，優先以韓國法務部／KDCA 官方頁為準。</div>
+     <div class="airport-box official-current2120">
+      <h3>🚌 2026 機場巴士官方重點</h3>
+      <p><b>Airport Limousine 1（海雲台・機張）</b>：成人 ₩9,500。2026/1/5 起採現行路線；機場端依班次分為萇山／機張終點，首班 07:10、最晚 21:40。</p>
+      <p><b>付款：</b>可事先預約，或現場使用交通卡／信用卡（有空位時）；<b>不收現金</b>。機場 1F Gate 4 附近設售票機，實際乘車處以現場灰色 Busan Airport Limousine 站牌為準。</p>
+      <div class="airport-source">資料：釜山市 2026/1/5 改線公告與現行「김해공항리무진」官方頁；本站 2026/09/09 再核對。</div>
+      <div class="airport-actions"><a class="blue" href="https://www.busan.go.kr/depart/khairportlm" target="_blank" rel="noopener">釜山市現行路線／班表</a><a class="green" href="https://www.busan.go.kr/eng/bsnews01/1714674" target="_blank" rel="noopener">2026 改線公告</a></div>
      </div>
+
      <div class="airport-box">
       <h3>🇹🇼 台灣繁中實戰來源索引</h3>
       <p>本站刻意把「官方規則」與「台灣旅客實際體感」分開：官方決定能不能做，社群回答好不好找、會不會排隊、值不值得買。</p>
@@ -2063,7 +2060,7 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
        <a class="blue" href="https://www.airport.co.kr/gimhae/" target="_blank" rel="noopener">金海機場首頁／航班</a>
        <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frFacCon/facilityMapList.do?MENU_ID=220&acd=A1102&listGbn=2" target="_blank" rel="noopener">機場設施地圖</a>
        <a class="blue" href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?CONTENTS_NO=2&MENU_ID=110" target="_blank" rel="noopener">公共交通</a>
-       <a class="blue" href="https://www.airport.co.kr/gimhaeeng/cms/frCon/index.do?MENU_ID=190" target="_blank" rel="noopener">機場聯絡資訊</a>
+       <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=310" target="_blank" rel="noopener">機場聯絡資訊</a>
        <a class="blue" href="https://www.airport.co.kr/gimhae/cms/frCon/index.do?MENU_ID=940" target="_blank" rel="noopener">禁帶物</a>
        <a class="green" href="https://www.immigration.go.kr/immigration_eng/1859/subview.do" target="_blank" rel="noopener">SES</a>
       </div>
@@ -2094,7 +2091,7 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
        </svg>
       </div>
 
-      <div class="route-method"><b>首選｜機場巴士</b><div><b>Airport Limousine 1／공항리무진1</b>（海雲台・機張線）→ <b>海雲台溫泉十字路口（해운대온천사거리）</b>下車 → 步行約 4 分鐘／約 240m 至飯店。成人 ₩9,500，KAC 英文頁目前標示僅信用卡；國際線 1F <b>Platform 3</b>，首班 07:10、末班 21:40。官方不同語言頁面偶有月台號更新不同步，出發當日仍以現場站牌與最新 KAC 英文頁為準。</div></div>
+      <div class="route-method"><b>首選｜機場巴士</b><div><b>Airport Limousine 1／공항리무진1</b>（海雲台・機張線）→ <b>海雲台溫泉十字路口（해운대온천사거리）</b>下車 → 步行約 4 分鐘／約 240m 至飯店。成人 ₩9,500；可預約或於現場使用交通卡／信用卡，現金不收。機場 1F Gate 4 附近設售票機；乘車處請依現場灰色 Busan Airport Limousine 站牌。機場端最早 07:10、最晚 21:40（依萇山／機張班次不同）。</div></div>
       <div class="route-method"><b>便宜｜307</b><div>金海機場 → 海雲台海水浴場，近期路線工具約 1 小時 40～50 分、約 ₩2,000 左右。優點便宜、缺點時間長且一般公車帶大行李不如機場巴士舒服。</div></div>
       <div class="route-method"><b>穩定｜輕軌＋2號線</b><div>機場站搭 Busan-Gimhae Light Rail → 沙上站轉地鐵 2 號線 → 海雲台站，再步行至飯店。近期路線工具估約 58 分鐘（含轉乘）。</div></div>
       <div class="route-method"><b>深夜／多人</b><div>計程車最省力；金海機場官方參考值到海雲台約 70 分、一般計程車約 ₩25,000。實際仍會受塞車、夜間與叫車費影響。</div></div>
@@ -2149,8 +2146,8 @@ html,body{overflow-x:hidden!important}.dashboard{padding:12px 10px 92px!importan
 
      <div class="route-card route-alt">
       <h3>🚌 2026 機場巴士重點</h3>
-      <div class="route-method"><b>海雲台線</b><div>공항리무진1｜成人 ₩9,500，官方目前標示僅信用卡。金海機場往海雲台／機張首班 07:10、末班 21:40；部分班次只到萇山，部分續行機張。</div></div>
-      <div class="route-method"><b>購票</b><div>國際線 1F 機場巴士乘車區依現場指示搭乘；KAC 官方頁目前標示 <b>Only credit card</b>。班表與月台可能異動，當日以官方頁／站牌為準。</div></div>
+      <div class="route-method"><b>海雲台線</b><div>공항리무진1｜成人 ₩9,500，官方現行資訊：可預約，或有空位時使用交通卡／信用卡現場搭乘；不收現金。機場端最早 07:10、最晚 21:40；部分班次只到萇山，部分續行機張。</div></div>
+      <div class="route-method"><b>購票</b><div>國際線 1F Gate 4 附近有售票機；也可事先預約，或有空位時直接使用交通卡／信用卡搭乘。<b>不收現金</b>；實際乘車處依灰色 Busan Airport Limousine 站牌。</div></div>
       <div class="route-method"><b>班表</b><div>官方提醒時刻可能依營運狀況變更；出發當日再確認，比記固定售票機／月台更可靠。</div></div>
       <div class="route-method"><b>Marianne Hotel 下車站</b><div>KAC 現行海雲台／機張線依序停靠海雲台海水浴場與 <b>海雲台溫泉十字路口（해운대온천사거리）</b>。後者距 Marianne Hotel 約 240m、步行約 4 分鐘，建議以此站為主要下車點。</div></div>
      </div>
@@ -3316,7 +3313,7 @@ function locateMe(){
    state.currentLocation={lat:pos.coords.latitude,lon:pos.coords.longitude,accuracy:pos.coords.accuracy};
    if(myMarker)map.removeLayer(myMarker);
    myMarker=L.circleMarker([state.currentLocation.lat,state.currentLocation.lon],{radius:8,color:"#1769aa",fillColor:"#4da3e3",fillOpacity:.95,weight:3}).addTo(map).bindPopup(`我的位置<br>精度約 ${Math.round(pos.coords.accuracy)} m`);
-   state.sort="distance";syncFilterControls();applyFilters(false);sortExternalResultsByDistance21119?.();map.setView([state.currentLocation.lat,state.currentLocation.lon],14);myMarker.openPopup();if(state.mapEngine==="kakao")setTimeout(()=>{try{syncKakaoFromLeaflet();syncKakaoCurrentLocation()}catch(e){}},80);toast("已取得目前位置，結果已依距離排序")
+   state.sort="distance";syncFilterControls();applyFilters(false);map.setView([state.currentLocation.lat,state.currentLocation.lon],14);myMarker.openPopup();if(state.mapEngine==="kakao")setTimeout(()=>{try{syncKakaoFromLeaflet();syncKakaoCurrentLocation()}catch(e){}},80);toast("已取得目前位置，結果已依距離排序")
  },err=>{
    let msg="無法取得目前位置";
    if(location.protocol==="file:"||location.protocol==="content:")msg+="。本機 HTML 可能被手機瀏覽器限制定位；之後放到 HTTPS／PWA 會穩定很多。";
@@ -4251,7 +4248,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.19";
+const beta211Version="2.11.20";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4289,7 +4286,7 @@ function buildShell211(){
   const side=document.querySelector(".side");
   let head=document.getElementById("spotsHead211");
   if(!head){
-    head=document.createElement("div");head.id="spotsHead211";head.className="spots-head211";head.innerHTML=`<div class="spots-title211"><strong>景點</strong><button id="manualPlace211">手動新增</button></div><div class="spots-tabs211"><button class="active" data-spots-mode="explore">搜尋景點</button><button data-spots-mode="saved">我的收藏</button></div><div class="spots-quick211"><button id="spotsFilter211">⚙ 篩選</button><button data-quick211="wish">★ 想去</button><button data-quick211="餐廳">🍽 餐廳</button><button data-quick211="咖啡廳">☕ 咖啡</button><button id="spotsLocate211">📍 離我最近</button></div>`;side.insertBefore(head,side.firstChild);
+    head=document.createElement("div");head.id="spotsHead211";head.className="spots-head211";head.innerHTML=`<div class="spots-title211"><strong>景點</strong><button id="manualPlace211">手動新增</button></div><div class="spots-tabs211"><button class="active" data-spots-mode="explore">搜尋景點</button><button data-spots-mode="saved">我的收藏</button></div><div class="spots-quick211"><button id="spotsFilter211">⚙ 篩選</button><button data-quick211="wish">★ 想去</button><button data-quick211="餐廳">🍽 餐廳</button><button data-quick211="咖啡廳">☕ 咖啡</button><button id="spotsLocate211">📍 附近</button></div>`;side.insertBefore(head,side.firstChild);
   }
   if(!document.getElementById("spotsTarget211")){const b=document.createElement("div");b.id="spotsTarget211";b.className="spots-target211";b.innerHTML=`<span id="spotsTargetText211"></span><button id="spotsTargetCancel211">取消</button>`;head.insertAdjacentElement("afterend",b)}
   const hub=document.getElementById("placeSearchHub");side.insertBefore(hub,document.querySelector(".filters"));
@@ -4299,7 +4296,7 @@ function buildShell211(){
 
   // Mobile Places bottom sheet uses the same search and results DOM.
   if(!document.getElementById("spotsMobile211")){
-    const sm=document.createElement("section");sm.id="spotsMobile211";sm.className="spots-mobile211";sm.innerHTML=`<div class="spots-mobile-handle211" id="spotsMobileHandle211"></div><div class="spots-mobile-head211"><strong>景點</strong><button id="spotsMobileExpand211">展開</button></div><div class="spots-tabs211 spots-tabs-mobile211"><button class="active" data-spots-mode="explore">搜尋景點</button><button data-spots-mode="saved">我的收藏</button></div><div id="spotsSearchMountMobile211" class="spots-search-mount-mobile211"></div><div class="spots-quick211" id="spotsQuickMobile211"><button id="spotsFilterMobile211">⚙ 篩選</button><button data-quick211="wish">★ 想去</button><button data-quick211="餐廳">🍽 餐廳</button><button data-quick211="咖啡廳">☕ 咖啡</button><button id="spotsLocateMobile211">📍 離我最近</button><button id="spotsManualMobile211">＋ 新增</button></div><div class="spots-target211" id="spotsTargetMobile211"><span id="spotsTargetMobileText211"></span><button id="spotsTargetMobileCancel211">取消</button></div><div class="spots-mobile-scroll211" id="spotsMobileScroll211"><div class="result-head211"><span id="spotsMobileCount211">景點結果</span></div><div id="spotsResultsMountMobile211"></div></div>`;document.body.appendChild(sm);
+    const sm=document.createElement("section");sm.id="spotsMobile211";sm.className="spots-mobile211";sm.innerHTML=`<div class="spots-mobile-handle211" id="spotsMobileHandle211"></div><div class="spots-mobile-head211"><strong>景點</strong><button id="spotsMobileExpand211">展開</button></div><div class="spots-tabs211 spots-tabs-mobile211"><button class="active" data-spots-mode="explore">搜尋景點</button><button data-spots-mode="saved">我的收藏</button></div><div id="spotsSearchMountMobile211" class="spots-search-mount-mobile211"></div><div class="spots-quick211" id="spotsQuickMobile211"><button id="spotsFilterMobile211">⚙ 篩選</button><button data-quick211="wish">★ 想去</button><button data-quick211="餐廳">🍽 餐廳</button><button data-quick211="咖啡廳">☕ 咖啡</button><button id="spotsLocateMobile211">📍 附近</button><button id="spotsManualMobile211">＋ 新增</button></div><div class="spots-target211" id="spotsTargetMobile211"><span id="spotsTargetMobileText211"></span><button id="spotsTargetMobileCancel211">取消</button></div><div class="spots-mobile-scroll211" id="spotsMobileScroll211"><div class="result-head211"><span id="spotsMobileCount211">景點結果</span></div><div id="spotsResultsMountMobile211"></div></div>`;document.body.appendChild(sm);
   }
 
   // More is grouped; main navigation does not duplicate these tools.
@@ -4661,35 +4658,65 @@ enhanceShell2118=function(){
 };
 
 
+// ============================================================
+// BETA 2.11.20 — search result map sync / distance ordering / mobile fixes
+// ============================================================
+const externalSearchLayer2120=L.layerGroup().addTo(map);
+let kakaoExternalSearchOverlays2120=[];
+function clearKakaoExternalSearchPins2120(){for(const o of kakaoExternalSearchOverlays2120){try{o.setMap(null)}catch(e){}}kakaoExternalSearchOverlays2120=[]}
+function clearExternalSearchPins2120(){externalSearchLayer2120.clearLayers();clearKakaoExternalSearchPins2120();document.querySelectorAll('#placeSearchResults .external-place-card').forEach(x=>x.classList.remove('search-focus2120'))}
+function highlightExternalResult2120(i){document.querySelectorAll('#placeSearchResults .external-place-card').forEach((card,n)=>card.classList.toggle('search-focus2120',n===i));const card=document.querySelectorAll('#placeSearchResults .external-place-card')[i];if(card)card.scrollIntoView({block:'nearest',behavior:'smooth'})}
+function externalSearchBounds2120(){const pts=(externalPlaceResults||[]).filter(p=>validGeo(Number(p.lat),Number(p.lon))).slice(0,20).map(p=>[Number(p.lat),Number(p.lon)]);if(state.currentLocation&&validGeo(Number(state.currentLocation.lat),Number(state.currentLocation.lon))&&externalSearchActive2118)pts.push([Number(state.currentLocation.lat),Number(state.currentLocation.lon)]);return pts}
+async function syncKakaoExternalSearchPins2120(){clearKakaoExternalSearchPins2120();if(state.mapEngine!=='kakao'||!externalSearchActive2118||!externalPlaceResults?.length)return;try{await ensureKakaoMap();const bounds=new kakao.maps.LatLngBounds();externalPlaceResults.slice(0,20).forEach((p,i)=>{if(!validGeo(Number(p.lat),Number(p.lon)))return;const pos=new kakao.maps.LatLng(Number(p.lat),Number(p.lon));bounds.extend(pos);const el=document.createElement('button');el.type='button';el.className='kakao-search-pin2120';el.title=p.name||`搜尋結果 ${i+1}`;el.setAttribute('aria-label',p.name||`搜尋結果 ${i+1}`);el.onclick=e=>{e.preventDefault();e.stopPropagation();try{kakao.maps.event.preventMap()}catch(_){}highlightExternalResult2120(i);showSearchPreviewCard2105(i)};const o=new kakao.maps.CustomOverlay({position:pos,content:el,xAnchor:.5,yAnchor:.5,zIndex:12});o.setMap(kakaoMap);kakaoExternalSearchOverlays2120.push(o)});if(externalPlaceResults.length>1)kakaoMap.setBounds(bounds);else if(externalPlaceResults.length===1){const p=externalPlaceResults[0];kakaoMap.setCenter(new kakao.maps.LatLng(Number(p.lat),Number(p.lon)));kakaoMap.setLevel(4)}}catch(e){console.warn('Kakao external search markers',e)}}
+function renderExternalSearchPins2120({fit=true}={}){clearExternalSearchPins2120();if(!externalSearchActive2118||!externalPlaceResults?.length)return;const pts=[];externalPlaceResults.slice(0,20).forEach((p,i)=>{if(!validGeo(Number(p.lat),Number(p.lon)))return;pts.push([Number(p.lat),Number(p.lon)]);const mk=L.circleMarker([Number(p.lat),Number(p.lon)],{radius:8,weight:3,color:'#fff',fillColor:'#e74f5b',fillOpacity:.96,pane:'markerPane',className:'search-result-pin2120'}).addTo(externalSearchLayer2120);mk.bindTooltip(p.name||`搜尋結果 ${i+1}`,{direction:'top',offset:[0,-7]});mk.on('click',()=>{highlightExternalResult2120(i);showSearchPreviewCard2105(i)})});document.querySelectorAll('#placeSearchResults .external-place-card').forEach((card,i)=>{card.dataset.searchIndex=String(i)});if(fit&&pts.length){const bounds=L.latLngBounds(pts);if(state.currentLocation&&validGeo(Number(state.currentLocation.lat),Number(state.currentLocation.lon)))bounds.extend([Number(state.currentLocation.lat),Number(state.currentLocation.lon)]);const mobile=window.innerWidth<=900;map.fitBounds(bounds,{paddingTopLeft:[28,28],paddingBottomRight:mobile?[28,Math.min(390,Math.round(window.innerHeight*.42))]:[28,28],maxZoom:15,animate:true})}syncKakaoExternalSearchPins2120()}
 
-// ===== Beta 2.11.19｜search results on map + list/marker sync + mobile UX =====
-const searchResultsLayer21119=L.layerGroup().addTo(map);
-let kakaoSearchResultOverlays21119=[],activeSearchResult21119=-1,suppressSearchFit21119=false;
-function clearKakaoSearchResults21119(){for(const o of kakaoSearchResultOverlays21119){try{o.setMap(null)}catch(_){}}kakaoSearchResultOverlays21119=[]}
-function clearSearchResultMarkers21119(){searchResultsLayer21119.clearLayers();clearKakaoSearchResults21119();activeSearchResult21119=-1}
-function searchResultDistance21119(p){if(!state.currentLocation||!validGeo(p.lat,p.lon))return null;return haversine(state.currentLocation.lat,state.currentLocation.lon,p.lat,p.lon)}
-function setSearchResultActive21119(i){activeSearchResult21119=i;document.querySelectorAll('#placeSearchResults .external-place-card').forEach((c,n)=>c.classList.toggle('search-active21119',n===i));document.querySelectorAll('[data-search-result-pin21119]').forEach(el=>el.classList.toggle('active',Number(el.dataset.searchResultPin21119)===i))}
-function focusSearchResult21119(i,{scroll=true,zoom=15}={}){const p=externalPlaceResults[i];if(!p)return;setSearchResultActive21119(i);map.flyTo([p.lat,p.lon],zoom,{duration:.45});if(state.mapEngine==='kakao')setTimeout(async()=>{try{await ensureKakaoMap();kakaoMap.panTo(new kakao.maps.LatLng(p.lat,p.lon));kakaoMap.setLevel(4)}catch(_){}},20);showSearchPreviewCard2105(i);if(scroll){const card=document.querySelectorAll('#placeSearchResults .external-place-card')[i];card?.scrollIntoView({behavior:'smooth',block:'center'})}}
-function decorateSearchResultCards21119(){document.querySelectorAll('#placeSearchResults .external-place-card').forEach((card,i)=>{card.dataset.searchIndex21119=String(i);card.style.cursor='pointer';const p=externalPlaceResults[i],d=searchResultDistance21119(p);if(d!=null&&!card.querySelector('.search-distance21119')){const h=card.querySelector('h4');h?.insertAdjacentHTML('beforeend',`<span class="search-distance21119">${d<1?`${Math.round(d*1000)} m`:`${d.toFixed(1)} km`}</span>`)}card.addEventListener('click',e=>{if(e.target.closest('button,a'))return;focusSearchResult21119(i,{scroll:false})})})}
-async function renderSearchResultMarkers21119(){clearSearchResultMarkers21119();const pts=[];externalPlaceResults.forEach((p,i)=>{if(!validGeo(p.lat,p.lon))return;pts.push([p.lat,p.lon]);const icon=L.divIcon({className:'',html:`<button type="button" class="search-result-pin21119" data-search-result-pin21119="${i}" aria-label="搜尋結果 ${i+1}：${escapeAttr(p.name)}">${i+1}</button>`,iconSize:[30,30],iconAnchor:[15,15]});const mk=L.marker([p.lat,p.lon],{icon,zIndexOffset:950}).addTo(searchResultsLayer21119);mk.on('click',()=>focusSearchResult21119(i));});if(pts.length&&!suppressSearchFit21119){if(pts.length===1)map.flyTo(pts[0],15,{duration:.4});else map.fitBounds(L.latLngBounds(pts),{padding:[45,45],maxZoom:15})}
- try{await ensureKakaoMap();clearKakaoSearchResults21119();const kb=new kakao.maps.LatLngBounds();externalPlaceResults.forEach((p,i)=>{if(!validGeo(p.lat,p.lon))return;const el=document.createElement('button');el.type='button';el.className='search-result-pin21119';el.dataset.searchResultPin21119=String(i);el.textContent=String(i+1);el.title=p.name;el.onclick=e=>{e.preventDefault();e.stopPropagation();focusSearchResult21119(i)};const pos=new kakao.maps.LatLng(p.lat,p.lon);kb.extend(pos);const o=new kakao.maps.CustomOverlay({position:pos,content:el,xAnchor:.5,yAnchor:.5,zIndex:22});kakaoSearchResultOverlays21119.push(o);if(state.mapEngine==='kakao')o.setMap(kakaoMap)});if(state.mapEngine==='kakao'&&externalPlaceResults.length&&!suppressSearchFit21119){if(externalPlaceResults.length===1){kakaoMap.setCenter(new kakao.maps.LatLng(externalPlaceResults[0].lat,externalPlaceResults[0].lon));kakaoMap.setLevel(4)}else kakaoMap.setBounds(kb)}}catch(e){console.warn('search marker kakao',e)}}
-const renderExternalPlaceResults21119Base=renderExternalPlaceResults;
-renderExternalPlaceResults=function(items,provider='搜尋結果'){renderExternalPlaceResults21119Base(items,provider);decorateSearchResultCards21119();renderSearchResultMarkers21119();const meta=document.getElementById('searchSwitchMeta2118');if(meta&&externalPlaceResults.length)meta.textContent=`${externalPlaceResults.length} 個搜尋結果｜已同步標在地圖`};
-window.previewExternalPlace=function(i){focusSearchResult21119(i,{scroll:false,zoom:16})};
-function sortExternalResultsByDistance21119(){if(!state.currentLocation||!externalPlaceResults.length)return;externalPlaceResults.sort((a,b)=>searchResultDistance21119(a)-searchResultDistance21119(b));suppressSearchFit21119=true;try{renderExternalPlaceResults(externalPlaceResults,externalPlaceProvider2105||'搜尋結果')}finally{suppressSearchFit21119=false}}
-const clearOnlineSearch21119Base=clearOnlineSearch2118;
-clearOnlineSearch2118=function(opts={}){clearSearchResultMarkers21119();return clearOnlineSearch21119Base(opts)};
-const setSpotsMode21119Base=setSpotsMode211;
-setSpotsMode211=function(mode){if(mode==='saved')clearSearchResultMarkers21119();return setSpotsMode21119Base(mode)};
-function setupUX21119(){
- const nearDesk=document.getElementById('spotsLocate211'),nearMobile=document.getElementById('spotsLocateMobile211');
- if(nearDesk){nearDesk.textContent='📍 離我最近';nearDesk.onclick=locateMe}
- if(nearMobile){nearMobile.textContent='📍 離我最近';nearMobile.onclick=locateMe}
- const dash=document.getElementById('dashboard');const showBase=showDashboard;showDashboard=function(){showBase();if(dash)dash.scrollTop=0};
+const renderUnifiedResults2120Base=renderUnifiedResults2108;
+renderUnifiedResults2108=function(bucket){renderUnifiedResults2120Base(bucket);if(externalSearchActive2118)renderExternalSearchPins2120({fit:true})};
+const renderExternalPlaceResults2120Base=renderExternalPlaceResults;
+renderExternalPlaceResults=function(items,provider='搜尋結果'){renderExternalPlaceResults2120Base(items,provider);if(externalSearchActive2118)renderExternalSearchPins2120({fit:true})};
+const clearOnlineSearch2120Base=clearOnlineSearch2118;
+clearOnlineSearch2118=function(opts={}){clearExternalSearchPins2120();return clearOnlineSearch2120Base(opts)};
+const setSpotsMode2120Base=setSpotsMode211;
+setSpotsMode211=function(mode){if(mode==='saved')clearExternalSearchPins2120();return setSpotsMode2120Base(mode)};
+
+function locateAndSortNearby2120(){
+ if(!navigator.geolocation){toast('這個瀏覽器不支援定位');return}
+ toast('正在取得目前位置…');
+ navigator.geolocation.getCurrentPosition(pos=>{
+  state.currentLocation={lat:pos.coords.latitude,lon:pos.coords.longitude,accuracy:pos.coords.accuracy};
+  if(myMarker)map.removeLayer(myMarker);
+  myMarker=L.circleMarker([state.currentLocation.lat,state.currentLocation.lon],{radius:8,color:'#1769aa',fillColor:'#4da3e3',fillOpacity:.95,weight:3}).addTo(map).bindPopup(`我的位置<br>精度約 ${Math.round(pos.coords.accuracy)} m`);
+  state.sort='distance';syncFilterControls();applyFilters(false);
+  if(externalSearchActive2118&&externalPlaceResults?.length){
+    externalPlaceResults.sort((a,b)=>haversine(state.currentLocation.lat,state.currentLocation.lon,a.lat,a.lon)-haversine(state.currentLocation.lat,state.currentLocation.lon,b.lat,b.lon));
+    renderUnifiedResults2108([...externalPlaceResults]);
+    const cards=document.querySelectorAll('#placeSearchResults .external-place-card');cards.forEach((card,i)=>{const p=externalPlaceResults[i],d=haversine(state.currentLocation.lat,state.currentLocation.lon,p.lat,p.lon);let meta=card.querySelector('.distance-meta2120');if(!meta){meta=document.createElement('p');meta.className='distance-meta2120';card.querySelector('h4')?.insertAdjacentElement('afterend',meta)}meta.textContent=`📍 距你約 ${fmtDist(d)}`});
+    const m=document.getElementById('searchSwitchMeta2118');if(m)m.textContent=`已定位 · ${externalPlaceResults.length} 筆依距離排序`;
+    toast('已定位，搜尋結果已依距離由近到遠排序');
+  }else{
+    map.setView([state.currentLocation.lat,state.currentLocation.lon],14);myMarker.openPopup();toast('已取得目前位置，景點已依距離排序');
+  }
+  if(state.mapEngine==='kakao')setTimeout(()=>{try{syncKakaoFromLeaflet();syncKakaoCurrentLocation();syncKakaoExternalSearchPins2120()}catch(e){}},80);
+ },()=>toast('無法取得目前位置，請確認瀏覽器定位權限'),{enableHighAccuracy:true,timeout:10000,maximumAge:60000})
 }
+locateMe=locateAndSortNearby2120;
+['locateBtn','mobileLocate'].forEach(id=>{const el=document.getElementById(id);if(el)el.onclick=locateAndSortNearby2120});
+// Dynamic Places buttons are created by buildShell211(), so bind them after the shell exists.
+const enhanceShell2120Base=enhanceShell2118;
+enhanceShell2118=function(){
+ enhanceShell2120Base();
+ ['spotsLocate211','spotsLocateMobile211'].forEach(id=>{const b=document.getElementById(id);if(b){b.title='取得目前位置，並把最近的景點／搜尋結果排在前面';b.onclick=locateAndSortNearby2120}});
+ // These handlers are assigned by the base shell enhancer, so wrap them only after that work is complete.
+ const q=document.getElementById('placeSearchQuery');if(q){const baseInput=q.oninput;q.oninput=e=>{if(baseInput)baseInput.call(q,e);if(!q.value.trim())clearExternalSearchPins2120()}}
+ const legacyClear=document.getElementById('clearPlaceSearch');if(legacyClear)legacyClear.onclick=()=>{externalPlaceResults=[];clearExternalSearchPins2120();setExternalSearchState2118(false);placeSearchResults.innerHTML='<div class="place-search-empty">輸入名稱後按「搜尋」。</div>'};
+};
+
+// Keep search pins synchronized when switching map engines.
+const setMapEngine2120Base=setMapEngine;
+setMapEngine=function(engine){const r=setMapEngine2120Base(engine);setTimeout(()=>{if(externalSearchActive2118)renderExternalSearchPins2120({fit:false})},120);return r};
+
 
 buildShell211();enhanceShell2118();renderHome211();renderTripRail211();
-setupUX21119();
 
 
 })();
