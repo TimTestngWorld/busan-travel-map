@@ -1,4 +1,4 @@
-// Beta 2.11.13 frontend configuration.
+// Beta 2.11.15 frontend configuration.
 // These are browser-safe Supabase identifiers, NOT your Google API key.
 window.BUSAN_CONFIG = {
   supabaseUrl: "https://bkqmkmygxhvcvybqswbf.supabase.co",

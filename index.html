@@ -952,7 +952,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 
 
-/* ===== Beta 2.11.13 | Desktop navigation coherence fix ===== */
+/* ===== Beta 2.11.15 | Global consistency audit ===== */
 /* ===== Beta 2.11.9 | Human-first utility map + airport arrival ===== */
 .exchange-head strong{font-size:18px!important}.exchange-head small{font-size:12px!important}.exchange-head button{font-size:13px!important;min-height:40px!important}
 .exchange-tools button,.exchange-tools a{font-size:13px!important;min-height:40px!important}.exchange-note{font-size:14px!important;line-height:1.65!important}.exchange-item h4{font-size:16px!important}.exchange-item p,.exchange-extra{font-size:13px!important;line-height:1.55!important}.exchange-item .actions button,.exchange-item .actions a{font-size:12px!important;min-height:38px!important}.payment-warning{font-size:12px!important;line-height:1.5!important}
@@ -960,7 +960,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 .arrival-plan2119{display:grid;gap:7px;border:1px solid #cfe1ea;background:#f3f9fc;border-radius:13px;padding:12px 14px;margin:10px 0 14px}.arrival-plan2119 b{font-size:15px;color:#244f68}.arrival-plan2119 span{font-size:14px;line-height:1.55;color:#41555f}
 @media(max-width:900px){.exchange-head strong{font-size:16px!important}.exchange-head small{font-size:11px!important}.exchange-note,.payment-context2119{font-size:13px!important}.exchange-item h4{font-size:15px!important}.exchange-item p,.exchange-extra{font-size:12px!important}.arrival-plan2119 span{font-size:13px}}
 
-/* ===== Beta 2.11.13 — desktop navigation coherence ===== */
+/* ===== Beta 2.11.15 — desktop navigation coherence ===== */
 @media(min-width:901px){
   /* Primary navigation stays left; travel shortcuts + More form one utility cluster on the right. */
   .desktop-quick2118{margin-left:auto!important;display:flex!important;gap:8px!important;align-items:center!important}
@@ -975,7 +975,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 }
 
 
-/* ===== Beta 2.11.13 — compact single-zone desktop navigation ===== */
+/* ===== Beta 2.11.15 — compact single-zone desktop navigation ===== */
 @media(min-width:901px){
   /* Desktop does not need a full-height blue banner. Keep every action in one compact strip. */
   .toolbar{
@@ -1005,11 +1005,10 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   }
   .desktop-quick2118 button:hover,.desktop-quick2118 #moreBtn:hover{background:#eaf2f7!important}
   .desktop-quick2118 #moreBtn:focus-visible{outline:2px solid #1769aa!important;outline-offset:2px!important}
-  .more-menu{top:auto!important}
 }
 
 
-/* ===== Beta 2.11.13 — Home secondary actions keep meaningful visual weight ===== */
+/* ===== Beta 2.11.15 — Home secondary actions keep meaningful visual weight ===== */
 @media(min-width:761px){
   .home211-tools{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin-top:16px!important;width:100%!important}
   .home211-tools button{min-width:0!important;min-height:112px!important;padding:15px 16px!important;border-radius:17px!important;display:grid!important;grid-template-columns:46px minmax(0,1fr)!important;gap:12px!important;align-items:center!important;text-align:left!important;background:#fff!important;border:1px solid var(--b211-line)!important;box-shadow:0 5px 16px #28485d0b!important;color:#1d4058!important;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important}
@@ -1027,6 +1026,25 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   .home211-tools .home-tool-copy b{display:block;font-size:13px!important;line-height:1.2;color:#17324a}
   .home211-tools .home-tool-copy small{display:none}
 }
+
+/* ===== Beta 2.11.15 — anchored More menu + calmer Day rail ===== */
+@media(min-width:901px){
+  /* More is a popover attached to the trigger. Inline !important coordinates are set by JS. */
+  #moreMenu.more-menu{
+    position:fixed!important;right:auto!important;bottom:auto!important;
+    margin:0!important;transform:none!important;z-index:9000!important;
+    max-height:min(68vh,460px)!important;overflow:auto!important;
+    box-shadow:0 14px 36px #17354a26!important;border:1px solid #d7e1e8!important;
+  }
+  /* The Day rail should show the useful horizon, not fourteen empty rows at once. */
+  .trip-days-more21114{
+    width:100%;border:1px dashed #c9d8e2;border-radius:11px;background:#fff;color:#3b6179;
+    padding:9px 10px;font-size:12px;font-weight:900;cursor:pointer;text-align:center;
+  }
+  .trip-days-more21114:hover{background:#f0f6fa;border-color:#adc7d8}
+  .trip-rail-head211 small{font-size:12px!important}
+}
+
 </style>
 </head>
 <body>
@@ -1049,7 +1067,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   <div class="dashboard-grid">
    <button class="dashboard-card" id="dashItinerary"><span class="ico">🗓️</span><strong>我的行程</strong><span>管理 Day 行程、想去與已去的景點。</span><span class="tag">開啟我的行程 →</span></button>
    <button class="dashboard-card" id="dashExplore"><span class="ico">🗺️</span><strong>探索景點</strong><span>地圖、分類、區域與狀態篩選整合在同一頁。</span><span class="tag">開啟景點地圖 →</span></button>
-   <button class="dashboard-card" id="dashCustom"><span class="ico">➕</span><strong>我的景點</strong><span>用地點名稱或 Naver Map 連結查找；選定候選後再儲存。</span><span class="tag">新增／修改景點 →</span></button>
+   <button class="dashboard-card" id="dashCustom"><span class="ico">➕</span><strong>我的景點</strong><span>直接搜尋店名或景點；找不到時再使用手動新增。</span><span class="tag">新增／修改景點 →</span></button>
   </div>
   <div class="dashboard-feature-row">
    <button class="dashboard-feature" id="dashWishList"><span class="ico">⭐</span><strong>想去清單</strong><span>只看已標記「想去」的景點，排 Day 前可以快速整理候選。</span><span class="tag">查看想去景點 →</span></button>
@@ -1192,7 +1210,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 <div class="app-sheet" id="quickAddSheet">
  <div class="sheet-head"><span>＋ 新增</span><button class="sheet-close" data-app-sheet-close>完成</button></div>
  <div class="sheet-body app-action-list">
-  <button id="quickCustomPlace">📌 搜尋／新增我的景點<small>直接搜尋 Kakao／Google／OpenStreetMap，也可貼 Naver 連結。</small></button>
+  <button id="quickCustomPlace">📌 搜尋／新增景點<small>輸入店名或景點名稱，找到後即可收藏或加入 Day。</small></button>
   <button id="quickSearchPlace" style="display:none" aria-hidden="true"></button>
   <button id="quickExpense">💰 新增消費<small>開啟旅行分帳，記錄旅行花費與分帳。</small></button>
  </div>
@@ -1204,7 +1222,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   <button id="appMoreExchange">💳 支付・加值<small>換錢、T-money 與 WOWPASS 加值點。</small></button>
   <button id="appMoreAirport">✈️ 出國注意事項・刷卡指南<small>行李清單、入境、支付回饋與金海機場。</small></button>
   <button id="appMoreShare">📤 分享旅行<small>Day 行程圖、旅伴分享碼與手機分享。</small></button>
-  <button id="appMoreCustom">📌 我的景點<small>搜尋新地點、貼 Naver 連結，並管理自己新增的景點。</small></button>
+  <button id="appMoreCustom">📌 手動新增<small>一般先用景點搜尋；找不到時再手動補上資料。</small></button>
   <button id="appMoreTheme">🎨 外觀主題<small>CNBLUE 藍色預設，也可自訂主色與背景。</small></button>
   <button id="appMoreTutorial">❓ 使用教學<small>重新查看手把手操作說明。</small></button>
  </div>
@@ -1214,10 +1232,9 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 <nav class="app-bottom-nav" id="appBottomNav" aria-label="主要功能">
  <button class="app-nav-btn active" data-nav="home"><span class="nav-ico">🏠</span>首頁</button>
- <button class="app-nav-btn" data-nav="explore"><span class="nav-ico">🗺️</span>探索</button>
- <button class="app-nav-btn add" data-nav="add"><span class="nav-ico">＋</span>新增</button>
+ <button class="app-nav-btn" data-nav="explore"><span class="nav-ico">📍</span>景點</button>
  <button class="app-nav-btn" data-nav="itinerary"><span class="nav-ico">📅</span>行程</button>
- <button class="app-nav-btn" data-nav="more"><span class="nav-ico">•••</span>更多</button>
+ <button class="app-nav-btn" data-nav="more"><span class="nav-ico">☰</span>更多</button>
 </nav>
 
 
@@ -1229,23 +1246,12 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
  <div class="gphoto-full-credit" id="gphotoFullCredit"></div>
 </div>
 
-<div class="photo-settings" id="photoSettings">
+<div class="photo-settings" id="photoSettings" aria-hidden="true">
  <div class="photo-settings-card">
-  <h2>📷 實景照片｜Google Places × Supabase</h2>
-  <p>實景照片由後端安全連接 Google Places；Google API Key 不會顯示在瀏覽器或 GitHub。</p>
-  <ul>
-   <li>GitHub Pages 只保存 Supabase Project URL / Publishable Key；它們不是 Google 密鑰。</li>
-   <li>Google Places API Key 放在 Supabase Secret：<code>GOOGLE_MAPS_API_KEY</code>。</li>
-   <li>照片 URI 只即時取得，不寫入 GitHub / localStorage。</li>
-   <li>Google Place ID 仍可留在 localStorage，避免每次都重新 Text Search。</li>
-  </ul>
-  <div class="photo-settings-actions">
-   <button class="photo-test" id="testGooglePlacesBackend">測試照片後端</button>
-   <button class="photo-clear" id="clearGooglePlaceCache">清除 Place ID 快取</button>
-   <button class="photo-close" id="closePhotoSettings">關閉</button>
-  </div>
-  <div class="photo-status" id="photoSettingsStatus">正在檢查設定…</div>
-
+  <button id="testGooglePlacesBackend" type="button" hidden></button>
+  <button id="clearGooglePlaceCache" type="button" hidden></button>
+  <button id="closePhotoSettings" type="button" hidden></button>
+  <div id="photoSettingsStatus" hidden></div>
  </div>
 </div>
 
@@ -1258,8 +1264,8 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   <div class="place-search-head"><div><strong>🔎 搜尋並新增景點</strong><br><small>輸入店名／景點名，一次搜尋後直接加入我的景點或今天 Day</small></div><button id="closePlaceSearch" type="button" hidden></button></div>
   <div class="place-search-form">
    <div class="place-search-row"><input id="placeSearchQuery" placeholder="輸入韓文／中文／英文店名、景點、餐廳、咖啡廳…"><button id="runPlaceSearch">搜尋</button></div>
-   <div class="place-search-subactions"><button id="googlePrecisePlaceSearch" type="button">🎯 Google 備援</button><button id="osmFallbackPlaceSearch" type="button">🌍 OSM 備援</button><button id="clearPlaceSearch" type="button">清除結果</button></div>
-   <div class="place-search-note" id="placeSearchStatus">依序使用 Kakao、Google Places、OpenStreetMap 自動補查；不需要再開第二層搜尋視窗。</div>
+   <div class="place-search-subactions"><button id="googlePrecisePlaceSearch" type="button">其他來源</button><button id="osmFallbackPlaceSearch" type="button">其他來源</button><button id="clearPlaceSearch" type="button">清除結果</button></div>
+   <div class="place-search-note" id="placeSearchStatus">會自動補查可用地圖來源；直接選最符合的結果即可。</div>
   </div>
   <div class="place-search-results" id="placeSearchResults"><div class="place-search-empty">輸入名稱後按「搜尋」。<br>找到結果後可直接「加入我的景點」或「加入今天 Day」。</div></div><div class="search-switch2118" id="searchSwitch2118"><span id="searchSwitchMeta2118">搜尋結果</span><button id="viewSaved2118" type="button">♥ 查看我的收藏</button><button id="clearOnlineSearch2118" type="button">回到目前景點</button></div>
  </div>
@@ -1297,7 +1303,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
    <div class="tutorial-section"><h3>② 排行程</h3><ul><li>點「行程」，先選 Day。</li><li>拖曳景點就能調整順序，也可設定時間與停留多久。</li><li>想看當天位置分布，按「查看 Day 地圖」。</li></ul></div>
    <div class="tutorial-section"><h3>③ 旅行當天</h3><ul><li>首頁會顯示目前 Day 與今天的行程，可自行切換「今天是 Day 幾」。</li><li>點景點即可看位置，再用 Naver Map 導航。</li><li>需要回住宿、搭機場巴士或看入境資訊，可直接開「住宿」或「出國」。</li></ul></div>
    <div class="tutorial-section"><h3>④ 換錢、交通卡與支付</h3><ul><li>點「支付・加值」查看換錢所、T-money、WOWPASS 與韓國支付資訊。</li><li>在外面找附近地點時，可使用「搜尋我附近」。</li><li>刷卡與行動支付回饋會整理在「出國 → 刷卡・支付」。</li></ul></div>
-   <div class="tutorial-section"><h3>⑤ 其他功能</h3><ul><li>「更多」裡有分帳、分享、手動新增、外觀主題與使用教學。</li><li>搜尋不到景點時，再使用「手動新增」。</li><li>換手機或清除瀏覽器資料前，先備份旅程資料。</li></ul></div>
+   <div class="tutorial-section"><h3>⑤ 其他功能</h3><ul><li>桌機可直接從上方開啟「分帳」；手機則從「更多」進入。分享、手動新增、外觀主題與使用教學也集中在「更多」。</li><li>搜尋不到景點時，再使用「手動新增」。</li><li>換手機或清除瀏覽器資料前，先備份旅程資料。</li></ul></div>
   </div>
   <div class="onboard-actions">
    <label><input type="checkbox" id="dontShowTutorial" checked> 下次不要自動顯示</label>
@@ -2696,7 +2702,7 @@ function renderGooglePhotos(p,place){
  const box=document.getElementById("gphoto_"+p.id);if(!box)return;
  const photos=(place?.photos||[]).slice(0,2);
  if(!photos.length){
-   box.innerHTML=`<div class="gphoto-error">📷 Google Places 目前沒有回傳這個地點的照片。<br>可以改按下方「在 Naver Map 查看」。</div>`;
+   box.innerHTML=`<div class="gphoto-error">📷 目前沒有可用的實景照片。<br>可改用下方「Naver Map 查看」。</div>`;
    return;
  }
  const items=photos.map((ph,i)=>{
@@ -2729,7 +2735,7 @@ async function loadGooglePlacePhotos(p){
    const place=await callPlacePhotosBackend(p);
    if(token!==currentPhotoRequestToken)return;
    if(!place?.placeId){
-     box.innerHTML=`<div class="gphoto-error">找不到足夠接近的 Google Places 地點，為避免放錯圖，本景點不顯示照片。</div>`;
+     box.innerHTML=`<div class="gphoto-error">目前無法確認正確的實景照片，為避免放錯圖，本景點暫不顯示照片。</div>`;
      return;
    }
    renderGooglePhotos(p,place);
@@ -4129,7 +4135,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.13";
+const beta211Version="2.11.15";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4406,6 +4412,65 @@ function enhanceShell2118(){
 }
 
 
+
+// ===== Beta 2.11.15 — anchored More menu + compact empty-Day rail =====
+let tripRailExpanded21114=false;
+function defaultRailCount21114(){
+ let highest=0;
+ for(let d=1;d<=DAY_COUNT;d++)if(dayItems(d).length)highest=d;
+ const today=Math.max(1,Number(saved.ui?.todayDay||1));
+ return Math.min(DAY_COUNT,Math.max(6,highest,today));
+}
+renderTripRail211=function(){
+ const box=document.getElementById("tripDays211");if(!box)return;
+ const today=Math.max(1,Number(saved.ui?.todayDay||1));
+ const shown=tripRailExpanded21114?DAY_COUNT:defaultRailCount21114();
+ const buttons=Array.from({length:shown},(_,i)=>i+1).map(d=>{
+  const items=dayItems(d);
+  return `<button class="trip-day211 ${d===today?"today":""}" data-rail-day="${d}"><span><b>Day ${d}${d===today?" · 今天":""}</b><span>${items.length?escapeHTML((byId[items[0]?.id]?.display||items[0]?.id||"")+(items.length>1?` ＋${items.length-1}`:"")):"尚未安排"}</span></span><em>${items.length}</em></button>`;
+ }).join("");
+ const hidden=Math.max(0,DAY_COUNT-shown);
+ const toggle=(hidden>0||tripRailExpanded21114)?`<button type="button" class="trip-days-more21114" id="tripDaysMore21114">${tripRailExpanded21114?"收起空白 Day":`顯示其餘 ${hidden} 天`}</button>`:"";
+ box.innerHTML=buttons+toggle;
+ box.querySelectorAll("[data-rail-day]").forEach(b=>b.onclick=()=>openItinerary(Number(b.dataset.railDay)));
+ const t=document.getElementById("tripDaysMore21114");if(t)t.onclick=()=>{tripRailExpanded21114=!tripRailExpanded21114;renderTripRail211()};
+};
+const setSpotsMode211Base21114=setSpotsMode211;
+setSpotsMode211=function(mode){
+ setSpotsMode211Base21114(mode);
+ const run=document.getElementById("runPlaceSearch");if(run)run.textContent="搜尋";
+};
+const enhanceShell2118Base21114=enhanceShell2118;
+enhanceShell2118=function(){
+ enhanceShell2118Base21114();
+ const more=document.getElementById("moreBtn"),menu=document.getElementById("moreMenu");
+ function positionMoreMenu21114(){
+  if(!more||!menu||window.innerWidth<=900||!menu.classList.contains("show"))return;
+  const r=more.getBoundingClientRect();
+  menu.style.setProperty("position","fixed","important");
+  menu.style.setProperty("right","auto","important");
+  menu.style.setProperty("bottom","auto","important");
+  menu.style.setProperty("transform","none","important");
+  const w=Math.max(250,Math.min(290,menu.offsetWidth||270));
+  const h=menu.offsetHeight||220;
+  const left=Math.max(10,Math.min(window.innerWidth-w-10,r.right-w));
+  const preferredTop=r.bottom+7;
+  const top=Math.max(8,Math.min(window.innerHeight-h-10,preferredTop));
+  menu.style.setProperty("left",Math.round(left)+"px","important");
+  menu.style.setProperty("top",Math.round(top)+"px","important");
+ }
+ if(more&&menu){
+  more.onclick=e=>{e.preventDefault();e.stopPropagation();const opening=!menu.classList.contains("show");menu.classList.toggle("show",opening);if(opening)requestAnimationFrame(positionMoreMenu21114)};
+  if(!window.__moreAnchor21114){
+   window.__moreAnchor21114=true;
+   window.addEventListener("resize",()=>{if(menu.classList.contains("show"))positionMoreMenu21114()});
+   window.addEventListener("scroll",()=>{if(menu.classList.contains("show"))positionMoreMenu21114()},true);
+   document.addEventListener("keydown",e=>{if(e.key==="Escape")menu.classList.remove("show")});
+  }
+ }
+};
+
+
 buildShell211();enhanceShell2118();renderHome211();renderTripRail211();
 
 
@@ -4433,6 +4498,9 @@ const paymentKakaoDirect2119=paymentKakaoDirect2105;
 paymentKakaoDirect2105=async function(mode){const cfg=paymentConfig(mode),c=map.getCenter(),items=await searchKakaoDirect2105(cfg.queries,{lat:Number(c.lat),lon:Number(c.lng),radius:30000});return items.map(x=>({...x,source:"kakao"}))};
 const paymentNearMe2119=document.getElementById("paymentNearMe");
 if(paymentNearMe2119)paymentNearMe2119.onclick=()=>{if(!navigator.geolocation){toast("此瀏覽器不支援定位");return}paymentNearMe2119.disabled=true;paymentNearMe2119.textContent="定位中…";navigator.geolocation.getCurrentPosition(async pos=>{const lat=pos.coords.latitude,lon=pos.coords.longitude;map.setView([lat,lon],15);try{if(state.mapEngine==="kakao"){await ensureKakaoMap();kakaoMap.setCenter(new kakao.maps.LatLng(lat,lon));kakaoMap.setLevel(4)}}catch(e){}await loadPaymentMode(paymentMode,true);paymentNearMe2119.disabled=false;paymentNearMe2119.textContent="📍 搜尋我附近"},()=>{toast("無法取得目前位置");paymentNearMe2119.disabled=false;paymentNearMe2119.textContent="📍 搜尋我附近"},{enableHighAccuracy:true,timeout:9000,maximumAge:60000})};
+
+
+
 </script>
 </body>
 </html>
