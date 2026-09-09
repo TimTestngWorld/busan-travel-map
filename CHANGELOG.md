@@ -1,3 +1,16 @@
+# Beta 2.12.4｜PWA 更新鎖定與手機拖曳修正版（2026-09-09）
+
+- 修正 GitHub 已部署新檔，但桌機／手機仍停在舊 Beta 的問題：Service Worker 導航與核心檔改成 network-first + `cache: no-store`，新版本預快取也強制 `cache: reload`，避免舊 HTTP cache 再被灌進新 PWA cache。
+- Service Worker 註冊改成版本化 URL (`sw.js?v=2.12.4`) + `updateViaCache: none`；發現 waiting worker 時會主動 `SKIP_WAITING`，controller 切換後只自動 reload 一次。
+- 新增啟動時 `sw.js` no-store 版本探測；後續若伺服器 SW 與目前頁面版本不一致，會明確提示更新。
+- 修正手機景點面板拖曳事件互相衝突：移除舊版 handle `onclick`，不再同時綁 Pointer + Touch 兩套事件；支援 Pointer 的瀏覽器只走 Pointer，舊瀏覽器才用 Touch fallback。
+- 手勢拖曳高度直接用 inline `height !important` 跟隨手指，放開後再吸附 27% / 46% / 78%；並修正拖完後 synthetic click 又把面板切回原高度的問題。
+- 灰色拖曳區加高至 42px，文字改為「拖曳調整地圖 / 清單」，Android Chrome 更容易抓到。
+- 實際以 Chromium Android touch event 模擬驗證：46% → 上拖 → 78% PASS；78% → 下拖 → 46% PASS。
+- Supabase `place-photos` 不變，不需重新部署。
+
+---
+
 # Beta 2.12.3｜手機地圖與拖曳面板修正版（2026-09-09）
 
 - 修正 Android Chrome 進入「景點」時 Kakao 地圖可能只剩空白底色／控制列、地圖磚未重新排版的問題。
