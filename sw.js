@@ -1,5 +1,5 @@
-/* 釜山旅行地圖 Beta 2.12.2 PWA Service Worker */
-const VERSION = '2.12.2';
+/* 釜山旅行地圖 Beta 2.12.3 PWA Service Worker */
+const VERSION = '2.12.3';
 const CORE_CACHE = `busan-travel-core-${VERSION}`;
 const RUNTIME_CACHE = `busan-travel-runtime-${VERSION}`;
 const CORE_ASSETS = [

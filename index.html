@@ -1252,21 +1252,24 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 
 
-/* ===== Beta 2.12.2｜Mobile Places draggable bottom sheet ===== */
+/* ===== Beta 2.12.3｜Mobile map recovery + draggable Places bottom sheet ===== */
 @media(max-width:900px){
- .spots-mobile211{--spots-sheet-height:52vh;height:var(--spots-sheet-height)!important;min-height:0!important;touch-action:auto}
- .spots-mobile211.expanded{--spots-sheet-height:82vh}
- .spots-mobile211.compact2122{--spots-sheet-height:30vh}
- .spots-mobile211.dragging2122{transition:transform .28s cubic-bezier(.2,.8,.2,1),height 0s!important;user-select:none}
- .spots-mobile-handle211,.spots-mobile-head211{touch-action:none}
- .spots-mobile-handle211{cursor:ns-resize;position:relative}
- .spots-mobile-handle211:after{content:'上下拖曳';position:absolute;margin-top:18px;font-size:9px;font-weight:800;color:#98a4ac;opacity:.78}
+ /* Keep the map canvas at a real mobile viewport height. 100dvh follows Chrome's address bar. */
+ .viewer{height:calc(100dvh - var(--b211-nav-h))!important;min-height:calc(100dvh - var(--b211-nav-h))!important}
+ #map,#kakaoMap{width:100%!important;height:100%!important}
+ .spots-mobile211{--spots-sheet-height:46dvh;height:var(--spots-sheet-height)!important;min-height:0!important;max-height:calc(100dvh - 112px)!important;touch-action:auto;overscroll-behavior:contain}
+ .spots-mobile211.expanded{--spots-sheet-height:78dvh}
+ .spots-mobile211.compact2122{--spots-sheet-height:27dvh}
+ .spots-mobile211.dragging2122{transition:transform .28s cubic-bezier(.2,.8,.2,1),height 0s!important;user-select:none;-webkit-user-select:none}
+ .spots-mobile-handle211,.spots-mobile-head211{touch-action:none;-webkit-user-select:none;user-select:none}
+ .spots-mobile-handle211{height:30px!important;cursor:ns-resize;position:relative}
+ .spots-mobile-handle211:after{content:'上下拖曳';position:absolute;margin-top:20px;font-size:9px;font-weight:800;color:#98a4ac;opacity:.78;pointer-events:none}
  .spots-mobile211.compact2122 .spots-quick211{display:none}
  .spots-mobile211.compact2122 .spots-tabs-mobile211{margin-top:2px}
  .spots-mobile211.compact2122 .place-search-results{max-height:92px!important}
 }
 
-/* ===== Beta 2.12.2｜PWA install / offline / standalone ===== */
+/* ===== Beta 2.12.3｜PWA install / offline / standalone ===== */
 .pwa-offline-banner2121{display:none;position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);z-index:12000;width:min(720px,calc(100% - 20px));border:1px solid #e2b95e;border-radius:12px;background:#fff6d8;color:#665021;padding:9px 12px;box-shadow:0 6px 22px #42320f24;font-size:12px;font-weight:850;line-height:1.45;text-align:center}
 .pwa-offline-banner2121.show{display:block}
 .pwa-hub2121{display:none;position:fixed;inset:0;z-index:11500;background:#13212b88;padding:18px;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
@@ -1468,7 +1471,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 <div class="pwa-offline-banner2121" id="pwaOfflineBanner2121" role="status">📴 目前離線：已保存的行程／收藏／分帳仍在；即時搜尋、外部地圖底圖與實景照片需要網路。</div>
 <div class="pwa-hub2121" id="pwaHub2121" aria-hidden="true">
  <section class="pwa-card2121" role="dialog" aria-modal="true" aria-labelledby="pwaTitle2121">
-  <div class="pwa-head2121"><img src="icons/icon-192.png" alt=""><div class="pwa-head-copy2121"><h2 id="pwaTitle2121">📲 安裝釜山旅行地圖</h2><p>Beta 2.12.2 PWA｜加入主畫面、核心離線、資料保護與版本更新。</p></div><button class="pwa-close2121" id="pwaClose2121" type="button" aria-label="關閉">×</button></div>
+  <div class="pwa-head2121"><img src="icons/icon-192.png" alt=""><div class="pwa-head-copy2121"><h2 id="pwaTitle2121">📲 安裝釜山旅行地圖</h2><p>Beta 2.12.3 PWA｜手機地圖復原、可拖曳景點面板、核心離線與資料保護。</p></div><button class="pwa-close2121" id="pwaClose2121" type="button" aria-label="關閉">×</button></div>
   <div class="pwa-status2121" id="pwaStatus2121">正在檢查這台裝置的 PWA 狀態…</div>
   <div class="pwa-grid2121">
    <div class="pwa-box2121"><b>✅ 離線仍保留</b><span>App 介面、85 筆基準景點、Day 行程、收藏／已去、自訂景點、備註與分帳資料。資料仍使用原本 IndexedDB＋localStorage，不會因 PWA 更新改掉儲存 Key。</span></div>
@@ -4399,7 +4402,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.12.2";
+const beta211Version="2.12.3";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -5258,71 +5261,112 @@ if(paymentNearMe2119)paymentNearMe2119.onclick=()=>{if(!navigator.geolocation){t
 
 
 
-// ===== Beta 2.12.2｜Google-Maps-like draggable mobile Places sheet =====
+// ===== Beta 2.12.3｜Mobile map recovery + robust draggable Places sheet =====
 (()=>{
  const getSheet=()=>document.getElementById('spotsMobile211');
  const getBtn=()=>document.getElementById('spotsMobileExpand211');
+ const getViewer=()=>document.getElementById('viewer');
  function viewportH(){return Math.max(480,Math.round(window.visualViewport?.height||window.innerHeight||800))}
- function snapHeights(){const h=viewportH();return {compact:Math.max(230,Math.round(h*.30)),normal:Math.max(340,Math.round(h*.52)),expanded:Math.min(Math.round(h*.82),h-125)}}
+ function snapHeights(){const h=viewportH();return {compact:Math.max(210,Math.round(h*.27)),normal:Math.max(320,Math.round(h*.46)),expanded:Math.min(Math.round(h*.78),h-108)}}
  function stateOf(sm){return sm?.classList.contains('expanded')?'expanded':sm?.classList.contains('compact2122')?'compact':'normal'}
- function applyState(state,{animate=true}={}){
+ let mapRefreshTimer2123=0;
+ async function refreshMobileMap2123(delay=0){
+   clearTimeout(mapRefreshTimer2123);
+   mapRefreshTimer2123=setTimeout(async()=>{
+     if(window.innerWidth>900)return;
+     const viewer=getViewer(),rect=viewer?.getBoundingClientRect?.();
+     if(!rect||rect.width<10||rect.height<10)return;
+     try{map?.invalidateSize?.({pan:false,debounceMoveend:true})}catch(_){ }
+     if(state?.mapEngine==='kakao'){
+       try{
+         await ensureKakaoMap();
+         kakaoMapEl?.classList.add('show');
+         document.getElementById('map')?.classList.add('kakao-hidden');
+         try{kakaoMap?.relayout?.()}catch(_){ }
+         try{syncKakaoFromLeaflet?.()}catch(_){ }
+         try{scheduleKakaoMarkers?.()}catch(_){ }
+         try{syncKakaoCurrentLocation?.()}catch(_){ }
+         try{syncKakaoExternalSearchPins2120?.()}catch(_){ }
+         setTimeout(()=>{try{kakaoMap?.relayout?.();syncKakaoFromLeaflet?.()}catch(_){}},180);
+       }catch(e){
+         console.warn('Mobile Kakao recovery failed',e);
+         try{await setMapEngine('osm')}catch(_){ }
+       }
+     }else{
+       setTimeout(()=>{try{map?.invalidateSize?.({pan:false});renderOverlay?.()}catch(_){}},80);
+     }
+   },delay);
+ }
+ window.refreshMobileMap2123=refreshMobileMap2123;
+ function applyState(stateName,{animate=true}={}){
    const sm=getSheet();if(!sm)return;
-   sm.classList.toggle('dragging2122',!animate);sm.style.removeProperty('height');sm.style.removeProperty('--spots-sheet-height');
+   sm.classList.toggle('dragging2122',!animate);
+   sm.style.removeProperty('--spots-sheet-height');
    sm.classList.remove('expanded','compact2122');
-   if(state==='expanded')sm.classList.add('expanded');else if(state==='compact')sm.classList.add('compact2122');
-   const b=getBtn();if(b)b.textContent=state==='expanded'?'縮小':state==='compact'?'放大':'展開';
+   if(stateName==='expanded')sm.classList.add('expanded');else if(stateName==='compact')sm.classList.add('compact2122');
+   const b=getBtn();if(b)b.textContent=stateName==='expanded'?'縮小':stateName==='compact'?'放大':'展開';
    setTimeout(()=>sm.classList.remove('dragging2122'),20);
-   try{map?.invalidateSize?.()}catch(_){ }
+   refreshMobileMap2123(30);
  }
  window.setSpotsSheetState2122=applyState;
  const baseShow=window.showSpotsMobile211;
- if(typeof baseShow==='function')window.showSpotsMobile211=function(){baseShow();requestAnimationFrame(()=>applyState('normal'))};
- const baseToggle=window.toggleSpotsMobile211;
+ if(typeof baseShow==='function')window.showSpotsMobile211=function(){baseShow();requestAnimationFrame(()=>{applyState('normal');refreshMobileMap2123(20)})};
  window.toggleSpotsMobile211=function(){const sm=getSheet();if(!sm)return;const st=stateOf(sm);applyState(st==='expanded'?'normal':st==='compact'?'normal':'expanded')};
  function bind(){
    const sm=getSheet(),handle=document.getElementById('spotsMobileHandle211'),head=sm?.querySelector('.spots-mobile-head211');
-   if(!sm||!handle||sm.dataset.drag2122==='1')return;sm.dataset.drag2122='1';
-   let active=false,startY=0,startH=0,pid=null,moved=false;
-   const begin=e=>{
-     if(window.innerWidth>900||!sm.classList.contains('show'))return;
-     if(e.target?.closest?.('button'))return;
-     active=true;moved=false;pid=e.pointerId;startY=e.clientY;startH=sm.getBoundingClientRect().height;
-     sm.classList.add('dragging2122');sm.style.height=startH+'px';sm.style.setProperty('--spots-sheet-height',startH+'px');
-     try{e.currentTarget.setPointerCapture?.(pid)}catch(_){ }
+   if(!sm||!handle||sm.dataset.drag2123==='1')return;sm.dataset.drag2123='1';
+   let active=false,startY=0,startH=0,moved=false,pointerId=null,mode='';
+   const setLiveHeight=(h)=>{sm.style.setProperty('--spots-sheet-height',Math.round(h)+'px');};
+   const begin=(y,kind,id=null)=>{
+     if(window.innerWidth>900||!sm.classList.contains('show'))return false;
+     active=true;moved=false;mode=kind;pointerId=id;startY=y;startH=sm.getBoundingClientRect().height;
+     sm.classList.add('dragging2122');setLiveHeight(startH);return true;
    };
-   const move=e=>{
-     if(!active||e.pointerId!==pid)return;const d=e.clientY-startY;if(Math.abs(d)>3)moved=true;
-     const hs=snapHeights(),min=hs.compact,max=hs.expanded;const next=Math.max(min,Math.min(max,startH-d));
-     sm.style.height=next+'px';sm.style.setProperty('--spots-sheet-height',next+'px');
-     if(moved)e.preventDefault();
+   const moveTo=y=>{
+     if(!active)return;const d=y-startY;if(Math.abs(d)>4)moved=true;
+     const hs=snapHeights(),next=Math.max(hs.compact,Math.min(hs.expanded,startH-d));setLiveHeight(next);
    };
-   const end=e=>{
-     if(!active||e.pointerId!==pid)return;active=false;
-     const h=sm.getBoundingClientRect().height,hs=snapHeights();
-     const candidates=[['compact',hs.compact],['normal',hs.normal],['expanded',hs.expanded]];
-     candidates.sort((a,b)=>Math.abs(h-a[1])-Math.abs(h-b[1]));
-     applyState(candidates[0][0]);
+   const finish=()=>{
+     if(!active)return;active=false;const h=sm.getBoundingClientRect().height,hs=snapHeights();
+     const candidates=[['compact',hs.compact],['normal',hs.normal],['expanded',hs.expanded]].sort((a,b)=>Math.abs(h-a[1])-Math.abs(h-b[1]));
+     applyState(candidates[0][0]);mode='';pointerId=null;
    };
-   [handle,head].forEach(el=>{el?.addEventListener('pointerdown',begin);el?.addEventListener('pointermove',move,{passive:false});el?.addEventListener('pointerup',end);el?.addEventListener('pointercancel',end)});
+   const pointerDown=e=>{if(e.target?.closest?.('button'))return;if(!begin(e.clientY,'pointer',e.pointerId))return;try{e.currentTarget.setPointerCapture?.(e.pointerId)}catch(_){}e.preventDefault()};
+   const pointerMove=e=>{if(!active||mode!=='pointer'||e.pointerId!==pointerId)return;moveTo(e.clientY);if(moved)e.preventDefault()};
+   const pointerEnd=e=>{if(!active||mode!=='pointer'||e.pointerId!==pointerId)return;finish()};
+   const touchStart=e=>{if(e.target?.closest?.('button')||!e.touches?.length)return;if(begin(e.touches[0].clientY,'touch'))e.preventDefault()};
+   const touchMove=e=>{if(!active||mode!=='touch'||!e.touches?.length)return;moveTo(e.touches[0].clientY);e.preventDefault()};
+   const touchEnd=()=>{if(active&&mode==='touch')finish()};
+   [handle,head].forEach(el=>{
+     if(!el)return;
+     el.addEventListener('pointerdown',pointerDown,{passive:false});
+     el.addEventListener('touchstart',touchStart,{passive:false});
+   });
+   window.addEventListener('pointermove',pointerMove,{passive:false});window.addEventListener('pointerup',pointerEnd);window.addEventListener('pointercancel',pointerEnd);
+   window.addEventListener('touchmove',touchMove,{passive:false});window.addEventListener('touchend',touchEnd);window.addEventListener('touchcancel',touchEnd);
    const btn=getBtn();if(btn)btn.onclick=()=>window.toggleSpotsMobile211?.();
-   handle.onclick=()=>window.toggleSpotsMobile211?.();
-   // A drag generates a synthetic click on many mobile browsers; suppress that click only after real movement.
-   handle.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopImmediatePropagation();moved=false}} ,true);
+   handle.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopImmediatePropagation();moved=false;return}window.toggleSpotsMobile211?.()},true);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,0),{once:true});else setTimeout(bind,0);
- // Online search should start at normal height, not force 82vh over most of the map.
+ const baseOpen=window.openExploreView;
+ if(typeof baseOpen==='function')window.openExploreView=function(...args){const r=baseOpen.apply(this,args);refreshMobileMap2123(110);setTimeout(()=>refreshMobileMap2123(0),450);return r};
  if(typeof window.setExternalSearchState2118==='function'){
    const base=window.setExternalSearchState2118;
-   window.setExternalSearchState2118=function(on,meta){const r=base(on,meta);if(on&&window.innerWidth<=900)requestAnimationFrame(()=>applyState('normal'));return r};
+   window.setExternalSearchState2118=function(on,meta){const r=base(on,meta);if(on&&window.innerWidth<=900)requestAnimationFrame(()=>applyState('normal'));refreshMobileMap2123(80);return r};
  }
+ const vv=window.visualViewport;
+ vv?.addEventListener('resize',()=>refreshMobileMap2123(90));
+ window.addEventListener('orientationchange',()=>{refreshMobileMap2123(120);setTimeout(()=>refreshMobileMap2123(0),500)});
+ window.addEventListener('pageshow',()=>refreshMobileMap2123(120));
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshMobileMap2123(100)});
 })();
 
 </script>
 
 <script>
-// ===== Beta 2.12.2 PWA shell =====
+// ===== Beta 2.12.3 PWA shell =====
 (()=>{
- const PWA_VERSION='2.12.2';
+ const PWA_VERSION='2.12.3';
  const hub=document.getElementById('pwaHub2121'),statusEl=document.getElementById('pwaStatus2121'),offlineBanner=document.getElementById('pwaOfflineBanner2121');
  let deferredInstallPrompt=window.__busanPwaInstallPrompt2122||null,swRegistration=null;
  const standalone=()=>window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone===true;

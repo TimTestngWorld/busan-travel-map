@@ -1,3 +1,42 @@
+# Beta 2.12.3｜手機地圖與拖曳面板修正版（2026-09-09）
+
+- 修正 Android Chrome 進入「景點」時 Kakao 地圖可能只剩空白底色／控制列、地圖磚未重新排版的問題。
+- 手機景點頁在開啟、返回前景、旋轉、瀏覽器網址列高度變化時，會同步刷新 Leaflet 與 Kakao map viewport。
+- 景點底部面板拖曳改成 Pointer Events＋Touch Events 雙路徑，Android Chrome 可從灰色把手或「景點」標題區連續上下拖曳。
+- 面板改為 27%／46%／78% 三段吸附，預設 46%，比 2.12.2 留出更多地圖視野。
+- 面板高度改用 dynamic viewport（dvh），避免 Chrome 地址列收合／展開後高度失真。
+- PWA Service Worker cache 版本同步升為 2.12.3，部署後會淘汰 2.12.2 核心快取。
+- Supabase place-photos 後端不變，無需重新部署。
+
+---
+
+# Beta 2.12.2｜2026-09-09
+
+- PWA 安裝事件改為在 `<head>` 最早階段捕捉 `beforeinstallprompt`，避免大型單頁 App 在底部才綁定監聽器時錯過 Chromium 安裝事件。
+- 安裝中心新增 HTTPS / Manifest / Service Worker 三項即時診斷；Chrome 尚未提供原生 prompt 時改顯示明確的瀏覽器選單安裝方式，不再像按鈕失效。
+- `manifest.webmanifest` 明確加入 `prefer_related_applications: false`，保留 192 / 512 / maskable icons 與 standalone 模式。
+- 手機「景點」Bottom Sheet 改成可手勢上下拖曳：拖曳時高度即時跟著手指，放開後吸附到 30% / 52% / 82% 三段。
+- 線上搜尋完成後預設回到 52% 高度，不再強制展開遮住大半地圖；需要看更多結果時可往上拖，需要看地圖時往下拖。
+- 既有 20 → 40 → 60 搜尋、附近排序、搜尋照片 Lazy Load、收藏最多 3 張照片與 PWA 離線策略均保留。
+
+---
+
+# Beta 2.12.1｜2026-09-09
+
+- 正式加入 PWA：新增 `manifest.webmanifest`、192/512/maskable App icon、Apple touch icon 與 `sw.js`。
+- Android / Chrome / Edge 可使用「安裝 App」；iPhone / iPad 提供 Safari「分享 → 加入主畫面」操作指引。
+- 新增核心離線 App shell：`index.html`、`app-config.js`、85 筆基準景點與城市設定可由 Service Worker 離線回退。
+- 保留原本 IndexedDB + localStorage 儲存 Key，不因 PWA 升級重建行程、收藏、自訂景點或分帳資料。
+- 新增 StorageManager 持久儲存檢查，使用者可手動要求瀏覽器降低自動清除本站資料的機率。
+- 新增離線狀態提示：斷網時明確告知即時搜尋、外部地圖底圖、Google Places 實景照片、天氣／匯率仍需網路。
+- Service Worker 明確不永久快取 Google Places 照片、Supabase API、Kakao／OSM 地圖磚與官方即時來源。
+- 新增 App 更新檢查；核心快取以版本命名，啟用新 Service Worker 時自動清除舊 `busan-travel-*` cache。
+- 手機 standalone 模式補上 safe-area（瀏海／Home Indicator）處理與底部導覽列安全距離。
+- 延續 Beta 2.12.0 的 20→40→60 搜尋分批顯示、完整結果池附近排序、Lazy Load 搜尋照片與 3 張收藏相簿。
+- Supabase `place-photos` 沿用 Beta 2.11.22，無需重新部署。
+
+---
+
 ## Beta 2.12.0 — 2026-09-09
 - 2.12 第一階段正式開始：線上景點搜尋由固定最多 20 筆，改為「先顯示 20 筆，再載入到 40／60 筆」。
 - 初次搜尋只把前 20 筆放到清單與地圖，結果超過 20 筆時底部出現「再顯示 20 筆」；每次加載後清單與地圖編號同步擴充。
