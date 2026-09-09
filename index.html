@@ -1255,7 +1255,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 
 
 
-/* ===== Beta 2.12.6｜Mobile map-safe draggable Places bottom sheet ===== */
+/* ===== Beta 2.12.7｜Mobile map-safe draggable Places bottom sheet ===== */
 @media(max-width:900px){
  /* Restore the proven 2.12.1 map layout: the earlier absolute inset owns the map size. */
  .viewer{height:auto!important;min-height:0!important}
@@ -1278,7 +1278,21 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
  .spots-mobile211.compact2122 .spots-tabs-mobile211{margin-top:2px}
  .spots-mobile211.compact2122 .place-search-results{max-height:92px!important}
 }
-/* ===== Beta 2.12.6｜PWA install / offline / self-healing update ===== */
+/* ===== Beta 2.12.7｜Mobile viewport + touch-first sheet stabilization ===== */
+@media(max-width:900px){
+ body.explore-mobile2127 .viewer{position:fixed!important;left:0!important;right:0!important;top:0!important;bottom:calc(var(--b211-nav-h) + env(safe-area-inset-bottom))!important;width:auto!important;height:auto!important;min-height:260px!important;display:block!important;visibility:visible!important;opacity:1!important;z-index:10!important;overflow:hidden!important;background:#dce3e5!important}
+ body.explore-mobile2127 #map,body.explore-mobile2127 #kakaoMap,body.explore-mobile2127 #overlay{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important}
+ body.explore-mobile2127 .map-title{display:block!important;visibility:visible!important;opacity:1!important;z-index:620!important}
+ body.explore-mobile2127 .map-utility-bar{display:flex!important;visibility:visible!important;opacity:1!important;z-index:730!important}
+ .spots-mobile211{touch-action:pan-y!important}
+ .spots-mobile-handle211,.spots-mobile-head211{touch-action:none!important}
+ .spots-mobile-handle211{height:54px!important;flex-basis:54px!important}
+ .spots-mobile-handle211:after{content:'拖曳調整地圖 / 清單';top:31px!important}
+ .spots-mobile211.dragging2127{transition:none!important;will-change:height;user-select:none!important;-webkit-user-select:none!important}
+ body.spots-dragging2127{overflow:hidden!important;touch-action:none!important}
+}
+
+/* ===== Beta 2.12.7｜PWA install / offline / self-healing update ===== */
 .pwa-offline-banner2121{display:none;position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);z-index:12000;width:min(720px,calc(100% - 20px));border:1px solid #e2b95e;border-radius:12px;background:#fff6d8;color:#665021;padding:9px 12px;box-shadow:0 6px 22px #42320f24;font-size:12px;font-weight:850;line-height:1.45;text-align:center}
 .pwa-offline-banner2121.show{display:block}
 .pwa-hub2121{display:none;position:fixed;inset:0;z-index:11500;background:#13212b88;padding:18px;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
@@ -1480,7 +1494,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 <div class="pwa-offline-banner2121" id="pwaOfflineBanner2121" role="status">📴 目前離線：已保存的行程／收藏／分帳仍在；即時搜尋、外部地圖底圖與實景照片需要網路。</div>
 <div class="pwa-hub2121" id="pwaHub2121" aria-hidden="true">
  <section class="pwa-card2121" role="dialog" aria-modal="true" aria-labelledby="pwaTitle2121">
-  <div class="pwa-head2121"><img src="icons/icon-192.png" alt=""><div class="pwa-head-copy2121"><h2 id="pwaTitle2121">📲 安裝釜山旅行地圖</h2><p>Beta 2.12.6 PWA｜更新自修復、手機地圖復原、可拖曳景點面板、核心離線與資料保護。</p></div><button class="pwa-close2121" id="pwaClose2121" type="button" aria-label="關閉">×</button></div>
+  <div class="pwa-head2121"><img src="icons/icon-192.png" alt=""><div class="pwa-head-copy2121"><h2 id="pwaTitle2121">📲 安裝釜山旅行地圖</h2><p>Beta 2.12.7 PWA｜更新自修復、手機地圖復原、可拖曳景點面板、核心離線與資料保護。</p></div><button class="pwa-close2121" id="pwaClose2121" type="button" aria-label="關閉">×</button></div>
   <div class="pwa-status2121" id="pwaStatus2121">正在檢查這台裝置的 PWA 狀態…</div>
   <div class="pwa-grid2121">
    <div class="pwa-box2121"><b>✅ 離線仍保留</b><span>App 介面、85 筆基準景點、Day 行程、收藏／已去、自訂景點、備註與分帳資料。資料仍使用原本 IndexedDB＋localStorage，不會因 PWA 更新改掉儲存 Key。</span></div>
@@ -4411,7 +4425,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.12.6";window.__BUSAN_BUILD__="2.12.6-20260909-r1";
+const beta211Version="2.12.7";window.__BUSAN_BUILD__="2.12.7-20260909-r1";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4666,7 +4680,7 @@ function setExternalSearchState2118(on,meta="搜尋結果"){
  externalSearchActive2118=!!on;
  document.body.classList.toggle("spots-external-active2118",externalSearchActive2118);
  const m=document.getElementById("searchSwitchMeta2118");if(m)m.textContent=meta;
- if(on&&innerWidth<=900){const sm=document.getElementById("spotsMobile211");sm?.classList.add("expanded");const b=document.getElementById("spotsMobileExpand211");if(b)b.textContent="縮小"}
+ if(on&&innerWidth<=900){if(typeof window.setSpotsSheetState2127==='function')window.setSpotsSheetState2127('normal');else{const sm=document.getElementById("spotsMobile211");sm?.classList.remove("expanded","compact2122");const b=document.getElementById("spotsMobileExpand211");if(b)b.textContent="展開"}}
 }
 function clearOnlineSearch2118({clearQuery=false}={}){
  externalPlaceResults=[];setExternalSearchState2118(false);
@@ -5270,84 +5284,87 @@ if(paymentNearMe2119)paymentNearMe2119.onclick=()=>{if(!navigator.geolocation){t
 
 
 
-// ===== Beta 2.12.6｜Mobile map-safe draggable Places sheet =====
+// ===== Beta 2.12.7｜Mobile map recovery + touch-first draggable Places sheet =====
 (()=>{
  const sheet=()=>document.getElementById('spotsMobile211');
  const expandBtn=()=>document.getElementById('spotsMobileExpand211');
  const viewportH=()=>Math.max(480,Math.round(window.visualViewport?.height||window.innerHeight||800));
  const snaps=()=>{const h=viewportH(),max=Math.max(360,h-104);return {compact:Math.max(220,Math.min(max,Math.round(h*.27))),normal:Math.max(330,Math.min(max,Math.round(h*.46))),expanded:Math.max(420,Math.min(max,Math.round(h*.78)))}};
  const currentState=sm=>sm?.classList.contains('expanded')?'expanded':sm?.classList.contains('compact2122')?'compact':'normal';
- let mapTimer=0;
- function refreshMap(delay=0){
-  clearTimeout(mapTimer);mapTimer=setTimeout(()=>{
-   if(innerWidth>900)return;
-   try{map?.invalidateSize?.({pan:false,debounceMoveend:true})}catch(_){ }
-   if(state?.mapEngine==='kakao'){
-    try{kakaoMap?.relayout?.()}catch(_){ }
-    try{syncKakaoFromLeaflet?.()}catch(_){ }
-    try{scheduleKakaoMarkers?.()}catch(_){ }
-    try{syncKakaoCurrentLocation?.()}catch(_){ }
-    try{syncKakaoExternalSearchPins2120?.()}catch(_){ }
-   }else{try{renderOverlay?.()}catch(_){ }}
-  },delay);
+ let mapRepairSeq=0;
+ async function repairMap(){
+  if(innerWidth>900)return;
+  const viewer=document.getElementById('viewer');if(!viewer)return;
+  document.body.classList.add('explore-mobile2127');
+  // The viewer is fixed on mobile so it cannot collapse when dashboard / keyboard / address bar changes layout.
+  const r=viewer.getBoundingClientRect();
+  if(r.width<200||r.height<260){viewer.style.setProperty('position','fixed','important');viewer.style.setProperty('inset','0 0 calc(var(--b211-nav-h) + env(safe-area-inset-bottom)) 0','important')}
+  try{map?.invalidateSize?.({pan:false,debounceMoveend:true})}catch(_){ }
+  try{renderOverlay?.()}catch(_){ }
+  if(state?.mapEngine==='kakao'){
+   try{
+    await ensureKakaoMap?.();
+    requestAnimationFrame(()=>{
+     try{kakaoMap?.relayout?.()}catch(_){ }
+     try{syncKakaoFromLeaflet?.()}catch(_){ }
+     try{scheduleKakaoMarkers?.()}catch(_){ }
+     try{syncKakaoCurrentLocation?.()}catch(_){ }
+     try{syncKakaoExternalSearchPins2120?.()}catch(_){ }
+    });
+   }catch(err){
+    console.warn('Kakao mobile repair fallback',err);
+    // Never leave the user with a blank canvas: expose the already-loaded OSM layer as fallback.
+    try{kakaoMapEl?.classList?.remove('show')}catch(_){ }
+    try{document.getElementById('map')?.classList?.remove('kakao-hidden')}catch(_){ }
+    try{map?.invalidateSize?.({pan:false})}catch(_){ }
+    try{renderOverlay?.()}catch(_){ }
+   }
+  }
  }
- window.refreshMobileMap2126=refreshMap;
+ function scheduleRepair(){const seq=++mapRepairSeq;[0,100,320,760].forEach(ms=>setTimeout(()=>{if(seq===mapRepairSeq)repairMap()},ms))}
+ window.refreshMobileMap2127=scheduleRepair;
  function setState(name){
   const sm=sheet();if(!sm)return;
-  sm.classList.remove('expanded','compact2122','dragging2126');
+  sm.classList.remove('expanded','compact2122','dragging2127');
   sm.style.removeProperty('height');sm.style.removeProperty('--spots-sheet-height');
   if(name==='expanded')sm.classList.add('expanded');else if(name==='compact')sm.classList.add('compact2122');
-  sm.dataset.sheetState2126=name;
+  sm.dataset.sheetState2127=name;
   const b=expandBtn();if(b)b.textContent=name==='expanded'?'縮小':name==='compact'?'放大':'展開';
-  requestAnimationFrame(()=>refreshMap(30));
+  requestAnimationFrame(scheduleRepair);
  }
- window.setSpotsSheetState2126=setState;
+ window.setSpotsSheetState2127=setState;
  window.toggleSpotsMobile211=()=>{const sm=sheet();if(!sm)return;const st=currentState(sm);setState(st==='expanded'?'normal':st==='compact'?'normal':'expanded')};
- let drag=null,suppressClickUntil=0;
  function setLiveHeight(sm,h){const hs=snaps(),v=Math.max(hs.compact,Math.min(hs.expanded,Math.round(h)));sm.style.setProperty('height',v+'px','important');sm.style.setProperty('--spots-sheet-height',v+'px');return v}
- function canStart(e,sm){
-  if(!sm||innerWidth>900||!sm.classList.contains('show'))return false;
-  const t=e.target instanceof Element?e.target:null;if(!t)return false;
-  if(t.closest('button,input,select,a,textarea,label'))return false;
-  const r=sm.getBoundingClientRect(),withinTop=(Number(e.clientY)-r.top)<=150;
-  return !!t.closest('#spotsMobileHandle211,.spots-mobile-head211')||withinTop;
+ function snapFromHeight(sm){const h=sm.getBoundingClientRect().height,hs=snaps();const best=[['compact',hs.compact],['normal',hs.normal],['expanded',hs.expanded]].sort((a,b)=>Math.abs(h-a[1])-Math.abs(h-b[1]))[0][0];setState(best)}
+ let drag=null;
+ function validStartTarget(t){if(!(t instanceof Element))return false;if(t.closest('button,input,select,a,textarea,label'))return false;return !!t.closest('#spotsMobileHandle211,.spots-mobile-head211')}
+ function start(y,id,type){const sm=sheet();if(!sm||innerWidth>900||!sm.classList.contains('show')||!Number.isFinite(y))return false;drag={sm,startY:y,startH:sm.getBoundingClientRect().height,id,type};sm.classList.add('dragging2127');document.body.classList.add('spots-dragging2127');setLiveHeight(sm,drag.startH);return true}
+ function move(y,id){if(!drag||!Number.isFinite(y))return;if(drag.id!=null&&id!=null&&drag.id!==id)return;setLiveHeight(drag.sm,drag.startH-(y-drag.startY))}
+ function finish(id){if(!drag)return;if(drag.id!=null&&id!=null&&drag.id!==id)return;const sm=drag.sm;drag=null;document.body.classList.remove('spots-dragging2127');sm.classList.remove('dragging2127');snapFromHeight(sm)}
+ // Samsung / Android: prefer native Touch Events. The touch target remains stable for the entire gesture.
+ if(('ontouchstart' in window)||navigator.maxTouchPoints>0){
+  document.addEventListener('touchstart',e=>{if(!validStartTarget(e.target))return;const t=e.changedTouches?.[0];if(!t)return;if(start(Number(t.clientY),t.identifier,'touch')){e.preventDefault();e.stopPropagation()}},{capture:true,passive:false});
+  document.addEventListener('touchmove',e=>{if(!drag||drag.type!=='touch')return;const ts=[...(e.touches||[])];const t=ts.find(x=>x.identifier===drag.id)||ts[0];if(!t)return;move(Number(t.clientY),t.identifier);e.preventDefault()},{capture:true,passive:false});
+  document.addEventListener('touchend',e=>{if(!drag||drag.type!=='touch')return;const ts=[...(e.changedTouches||[])];const t=ts.find(x=>x.identifier===drag.id)||ts[0];finish(t?.identifier);e.preventDefault()},{capture:true,passive:false});
+  document.addEventListener('touchcancel',()=>{if(drag?.type==='touch')finish(drag.id)},{capture:true,passive:false});
+ }else{
+  document.addEventListener('pointerdown',e=>{if(!validStartTarget(e.target)||e.isPrimary===false)return;if(start(Number(e.clientY),e.pointerId,'pointer')){try{e.target.setPointerCapture?.(e.pointerId)}catch(_){ }e.preventDefault()}},{capture:true,passive:false});
+  document.addEventListener('pointermove',e=>{if(!drag||drag.type!=='pointer')return;move(Number(e.clientY),e.pointerId);e.preventDefault()},{capture:true,passive:false});
+  document.addEventListener('pointerup',e=>{if(drag?.type==='pointer')finish(e.pointerId)},{capture:true});
+  document.addEventListener('pointercancel',e=>{if(drag?.type==='pointer')finish(e.pointerId)},{capture:true});
  }
- function begin(e){
-  const sm=sheet();if(!canStart(e,sm)||e.isPrimary===false)return;
-  const y=Number(e.clientY);if(!Number.isFinite(y))return;
-  drag={sm,startY:y,startH:sm.getBoundingClientRect().height,id:e.pointerId,moved:false};
-  sm.classList.add('dragging2126');document.body.classList.add('spots-dragging2126');setLiveHeight(sm,drag.startH);
-  try{sm.setPointerCapture?.(e.pointerId)}catch(_){ }
-  e.preventDefault();e.stopPropagation();
- }
- function move(e){
-  if(!drag)return;if(e.pointerId!=null&&drag.id!=null&&e.pointerId!==drag.id)return;
-  const y=Number(e.clientY);if(!Number.isFinite(y))return;const dy=y-drag.startY;
-  if(Math.abs(dy)>4){drag.moved=true;suppressClickUntil=Date.now()+700}
-  setLiveHeight(drag.sm,drag.startH-dy);e.preventDefault();
- }
- function finish(e){
-  if(!drag)return;if(e?.pointerId!=null&&drag.id!=null&&e.pointerId!==drag.id)return;
-  const sm=drag.sm,h=sm.getBoundingClientRect().height,hs=snaps();drag=null;document.body.classList.remove('spots-dragging2126');sm.classList.remove('dragging2126');
-  const best=[['compact',hs.compact],['normal',hs.normal],['expanded',hs.expanded]].sort((a,b)=>Math.abs(h-a[1])-Math.abs(h-b[1]))[0][0];setState(best);
- }
- // Event delegation survives DOM remounts and avoids the binding race that affected Samsung Chrome.
- document.addEventListener('pointerdown',e=>{if(e.target?.closest?.('#spotsMobile211'))begin(e)},{capture:true,passive:false});
- document.addEventListener('pointermove',move,{capture:true,passive:false});
- document.addEventListener('pointerup',finish,{capture:true});document.addEventListener('pointercancel',finish,{capture:true});
- document.addEventListener('click',e=>{if(Date.now()<suppressClickUntil&&e.target?.closest?.('#spotsMobileHandle211')){e.preventDefault();e.stopPropagation()}},{capture:true});
- // Explicit button fallback always remains available.
- document.addEventListener('click',e=>{const b=e.target?.closest?.('#spotsMobileExpand211');if(!b)return;e.preventDefault();e.stopPropagation();window.toggleSpotsMobile211()},{capture:true});
- const baseShow=window.showSpotsMobile211;if(typeof baseShow==='function')window.showSpotsMobile211=function(){baseShow();requestAnimationFrame(()=>{setState('normal');refreshMap(30)})};
- const baseOpen=window.openExploreView;if(typeof baseOpen==='function')window.openExploreView=function(...args){const r=baseOpen.apply(this,args);refreshMap(100);setTimeout(()=>refreshMap(0),420);return r};
- window.visualViewport?.addEventListener('resize',()=>refreshMap(100));window.addEventListener('orientationchange',()=>setTimeout(()=>refreshMap(0),300));window.addEventListener('pageshow',()=>refreshMap(100));
+ // Remove the legacy handle click toggle; the dedicated 展開 / 縮小 button remains as fallback.
+ const oldHandle=document.getElementById('spotsMobileHandle211');if(oldHandle)oldHandle.onclick=null;
+ const baseShow=window.showSpotsMobile211;if(typeof baseShow==='function')window.showSpotsMobile211=function(){baseShow();const h=document.getElementById('spotsMobileHandle211');if(h)h.onclick=null;requestAnimationFrame(()=>{setState('normal');scheduleRepair()})};
+ const baseOpen=window.openExploreView;if(typeof baseOpen==='function')window.openExploreView=function(...args){document.body.classList.add('explore-mobile2127');const r=baseOpen.apply(this,args);scheduleRepair();return r};
+ const baseHome=window.showDashboard;if(typeof baseHome==='function')window.showDashboard=function(...args){document.body.classList.remove('explore-mobile2127');return baseHome.apply(this,args)};
+ window.visualViewport?.addEventListener('resize',()=>{if(document.body.classList.contains('explore-mobile2127'))scheduleRepair()});
+ window.addEventListener('orientationchange',()=>setTimeout(scheduleRepair,280));window.addEventListener('pageshow',()=>{if(document.body.classList.contains('explore-mobile2127'))scheduleRepair()});
 })();
-</script>
 
-<script>
-// ===== Beta 2.12.6 PWA shell + self-healing updates =====
+// ===== Beta 2.12.7 PWA shell + self-healing updates =====
 (()=>{
- const PWA_VERSION='2.12.6';
+ const PWA_VERSION='2.12.7';
  const hub=document.getElementById('pwaHub2121'),statusEl=document.getElementById('pwaStatus2121'),offlineBanner=document.getElementById('pwaOfflineBanner2121');
  let deferredInstallPrompt=window.__busanPwaInstallPrompt2122||null,swRegistration=null;
  const standalone=()=>window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone===true;

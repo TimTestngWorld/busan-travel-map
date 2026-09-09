@@ -1,0 +1,44 @@
+{
+  "id": "./",
+  "name": "釜山旅行地圖",
+  "short_name": "釜山地圖",
+  "description": "釜山景點、Day 行程、住宿、換錢與儲值、刷卡支付、分帳與出國資訊整合旅行 App。",
+  "lang": "zh-Hant",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#f4f7f9",
+  "theme_color": "#1769aa",
+  "categories": [
+    "travel",
+    "navigation",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "prefer_related_applications": false
+}

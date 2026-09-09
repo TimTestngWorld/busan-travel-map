@@ -1,3 +1,11 @@
+## Beta 2.12.7｜2026-09-09
+- 依手機實機錄影確認：版本已正確進入 2.12.6，但手機景點頁仍有「地圖空白」與「拖曳把手無反應」兩個獨立問題。
+- 手機地圖容器改為 explore 模式專用 fixed viewport，避免 Dashboard、Chrome 動態網址列與虛擬鍵盤讓 viewer 尺寸失效。
+- 進入景點頁後會在 0 / 100 / 320 / 760 ms 主動修復 Leaflet / Kakao 尺寸與標記；Kakao 初始化失敗時自動露出 OSM，避免灰白畫面。
+- 手機 Bottom Sheet 拖曳改為 touch-first：Samsung / Android 優先使用 Touch Events，不再依賴 Pointer Event；桌機模擬才用 Pointer fallback。
+- 拖曳只從灰色把手或景點標題區開始，搜尋按鈕、輸入框等互動元件不會被誤攔截。
+- 搜尋完成後不再強制撐到 78%，維持一般 46% 高度，可再手勢調整為 27% / 46% / 78%。
+
 
 ## Beta 2.12.6｜2026-09-09
 - 修正版本標示來源：`data/city.json` 先前仍停在 2.12.2，造成桌機左上角誤顯示舊版；本版同步更新為 2.12.6。
