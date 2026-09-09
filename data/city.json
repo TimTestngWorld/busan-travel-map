@@ -3,8 +3,8 @@
   "id": "busan",
   "name": "釜山",
   "displayTitle": "釜山旅行地圖",
-  "version": "2.11.21",
-  "subtitle": "Numbered search pins・desktop direct navigation・full-app FNC themes・money/payment split・2026-09-09",
+  "version": "2.11.22",
+  "subtitle": "Lazy search photos・3-photo saved-place gallery・numbered search pins・2026-09-09",
   "appName": "travel-map.busan",
   "storageKey": "travelmap_busan_trip_state_v4",
   "legacyStoreKeys": [
