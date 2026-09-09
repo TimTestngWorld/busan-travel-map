@@ -1,3 +1,12 @@
+
+## Beta 2.12.6｜2026-09-09
+- 修正版本標示來源：`data/city.json` 先前仍停在 2.12.2，造成桌機左上角誤顯示舊版；本版同步更新為 2.12.6。
+- 手機地圖回復 2.12.1 已驗證的 absolute-inset 版型，移除會造成 Kakao 空白畫面的強制 viewport 高度。
+- Kakao 圖層下保留 OSM 視覺 fallback；Kakao 載入慢時不再只看到灰底。
+- 景點 Bottom Sheet 改為 document-level Pointer Event delegation，避免 Samsung Chrome DOM remount 後拖曳事件未綁定。
+- 可從把手／標題區與面板頂部 150px 非互動區上下拖曳，放手吸附 27% / 46% / 78%。
+- 手機首頁與景點面板直接顯示 Beta 版本，之後可快速確認實際執行版本。
+- GitHub 部署包重新以「完整根目錄」方式打包，包含 data、icons、manifest、sw、version.json 等所有必要檔案。
 # Beta 2.12.5｜2026-09-09
 
 - 修正 2.12.2 舊 Service Worker / HTTP Cache 可能讓 GitHub 已更新、裝置仍停在舊版的更新鎖死。
