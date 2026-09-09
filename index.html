@@ -1146,6 +1146,64 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   .lodging-shortcuts2118{grid-template-columns:1fr 1fr!important}
 }
 
+
+
+/* ===== Beta 2.11.21｜numbered search pins / desktop direct nav / full themes / payment split ===== */
+/* Search: numbers are the stable bridge between map and the ordered result list. */
+.search-rank2121{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 6px;margin-right:8px;border-radius:999px;background:#e74f5b;color:#fff;font-size:12px;font-weight:950;line-height:1;vertical-align:1px;box-shadow:0 2px 7px #b9283540}
+.external-place-card{cursor:default}.external-place-card .search-rank2121+span{margin-left:0!important}
+.search-map-icon2121{background:transparent!important;border:0!important;overflow:visible!important}
+.search-map-pin2121{position:relative;display:flex;align-items:center;gap:5px;transform:translate(-50%,-50%);white-space:nowrap;filter:drop-shadow(0 3px 5px #0004);pointer-events:auto}
+.search-map-pin2121 b,.kakao-search-pin2121 .pin-num2121{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:3px solid #fff;background:#e74f5b;color:#fff;font-size:12px;font-weight:950;line-height:1;box-sizing:border-box}
+.search-map-pin2121 span,.kakao-search-pin2121 .pin-name2121{max-width:128px;overflow:hidden;text-overflow:ellipsis;border:1px solid #d7e0e5;border-radius:8px;background:#fff;color:#243b4a;padding:4px 7px;font-size:10px;font-weight:850;line-height:1.15;box-shadow:0 3px 8px #0002}
+.kakao-search-pin2121{display:flex;align-items:center;gap:5px;border:0;background:transparent;padding:0;cursor:pointer;white-space:nowrap;filter:drop-shadow(0 3px 5px #0004)}
+.search-map-pin2121:hover span,.search-map-pin2121:focus-within span,.kakao-search-pin2121:hover .pin-name2121,.kakao-search-pin2121:focus .pin-name2121{max-width:190px;background:#fffdf7}
+.external-place-card.search-focus2120 .search-rank2121{background:#b72434;transform:scale(1.06)}
+@media(max-width:900px){.search-map-pin2121 span,.kakao-search-pin2121 .pin-name2121{display:none}.search-map-pin2121 b,.kakao-search-pin2121 .pin-num2121{width:27px;height:27px;font-size:11px}.search-rank2121{min-width:23px;height:23px;font-size:11px;margin-right:6px}}
+
+/* Theme must change the actual app, not only one button. */
+.dashboard{background:linear-gradient(145deg,var(--app-bg) 0%,color-mix(in srgb,var(--app-bg) 35%,#fff) 58%,#fff 100%)!important}
+.home211-kicker{color:var(--app-accent)!important}.home211-title{color:var(--dark)!important}
+.home211-today{background:linear-gradient(135deg,var(--dark),var(--app-accent))!important;box-shadow:0 18px 40px color-mix(in srgb,var(--app-accent) 24%,transparent)!important}
+.home211-today .primary,.home211-stop button{color:var(--app-accent)!important}
+.home211-action,.home211-metric,.home211-tools button,.home211-head-actions button{border-color:color-mix(in srgb,var(--app-accent) 18%,#dce5eb)!important}
+.home211-action:hover,.home211-tools button:hover,.home211-head-actions button:hover{border-color:color-mix(in srgb,var(--app-accent) 45%,#cad7df)!important}
+.home211-tools .home-tool-ico{background:var(--theme-soft)!important;color:var(--dark)!important}
+.home211-tools button:nth-child(n) .home-tool-ico{background:color-mix(in srgb,var(--theme-soft) 82%,#fff)!important}
+.home-weather21118{border-color:color-mix(in srgb,var(--app-accent) 18%,#d8e5ec)!important;background:linear-gradient(135deg,#fff,color-mix(in srgb,var(--app-bg) 72%,#fff))!important}
+.home-weather-title21118 b,.home-weather-card21118 .temp{color:var(--dark)!important}
+.home211-head-actions .tutorial{background:color-mix(in srgb,var(--theme-soft) 65%,#fff)!important;color:var(--dark)!important;border-color:color-mix(in srgb,var(--app-accent) 25%,#ddd)!important}
+@media(min-width:901px){
+ .toolbar{border-bottom-color:color-mix(in srgb,var(--app-accent) 20%,#dce5eb)!important}
+ .brand{color:var(--dark)!important;border-right-color:color-mix(in srgb,var(--app-accent) 18%,#d8e2e9)!important}
+ #homeBtn{background:color-mix(in srgb,var(--theme-soft) 62%,#fff)!important;color:var(--dark)!important}
+ #spotsBtn211,#itineraryBtn,.desktop-quick2118 button{border-color:color-mix(in srgb,var(--app-accent) 16%,#dce6ec)!important}
+ .desktop-quick2118 button:hover{background:color-mix(in srgb,var(--theme-soft) 55%,#fff)!important;color:var(--dark)!important}
+}
+
+/* Desktop: no More bucket. Every useful action is directly reachable. */
+@media(min-width:901px){
+ #moreBtn{display:none!important}.more-menu{display:none!important}
+ .toolbar{overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin!important}
+ .desktop-quick2118{display:flex!important;flex-wrap:nowrap!important;gap:5px!important;min-width:max-content!important}
+ .desktop-quick2118 button{padding:7px 9px!important;font-size:12px!important;min-width:auto!important}
+}
+@media(min-width:901px) and (max-width:1250px){.brand{font-size:14px!important;padding-right:8px!important}.desktop-quick2118 button,#homeBtn,#spotsBtn211,#itineraryBtn{font-size:11px!important;padding:7px 8px!important}}
+
+/* Home gains distinct money/top-up and card/payment entries. */
+@media(min-width:761px){.home211-tools{grid-template-columns:repeat(6,minmax(0,1fr))!important}.home211-tools button{min-height:105px!important;padding:13px!important;grid-template-columns:40px minmax(0,1fr)!important;gap:9px!important}.home211-tools .home-tool-ico{width:40px;height:40px;font-size:20px}.home211-tools .home-tool-copy b{font-size:14px!important}.home211-tools .home-tool-copy small{font-size:11px!important}}
+@media(max-width:760px){.home211-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Payment guide is a standalone tool. Normal airport flow no longer advertises it as an airport tab. */
+#airportTabs [data-airtab="payguide"]{display:none!important}
+.payment-guide-standalone2121 #airportTabs{display:none!important}
+.payment-guide-standalone2121 .airport-head .airport-nav,.payment-guide-standalone2121 .airport-head #airportRefreshStatus,.payment-guide-standalone2121 .airport-head #airportCenterMap,.payment-guide-standalone2121 .airport-head #airportAddTrip,.payment-guide-standalone2121 .airport-head>a{display:none!important}
+.payment-guide-standalone2121 .airport-body{padding-top:14px!important}
+.payment-guide-standalone2121 [data-airpane="payguide"]{display:block!important}
+
+/* Wording clarity for the utility hub. */
+.exchange-head strong{letter-spacing:.01em}
+
 </style>
 </head>
 <body>
@@ -1177,7 +1235,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   </div>
   <div class="dashboard-quick">
    <button id="dashAirport"><b>✈️ 出國注意事項</b><small>行李、入境、刷卡與金海機場資訊</small></button>
-   <button id="dashExchange"><b>💳 支付・加值</b><small>換錢、T-money、WOWPASS</small></button>
+   <button id="dashExchange"><b>💱 換錢與儲值</b><small>換錢、T-money、WOWPASS</small></button>
    <button id="dashTutorial"><b>❓ 使用教學</b><small>第一次使用快速看重點</small></button>
   </div>
  </div>
@@ -1194,7 +1252,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   <button id="locateBtn" class="locate beta29-secondary">📍我的位置</button>
   <button id="airportBtn" class="airport beta29-secondary">✈ 機場</button>
   <button id="travelModeBtn" class="travel beta29-secondary">旅行模式</button>
-  <button id="exchangeBtn" class="beta29-secondary">💳 支付・加值</button>
+  <button id="exchangeBtn" class="beta29-secondary">💱 換錢與儲值</button>
   <button id="itineraryBtn" style="background:#e9def8;color:#553b78">📅 我的行程</button>
   <button id="moreBtn">⋯ 更多</button>
   <button id="layerBtn" class="desktop-extra hide-travel beta29-secondary">底圖：HOT</button>
@@ -1205,8 +1263,8 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
    <button id="moreHome">⌂ 回到首頁</button>
    <button id="moreLabelMode">🏷️ 景點標籤：自動</button>
    <button id="moreLocate">📍 我的目前位置</button>
-   <button id="moreAirport">✈️ 出國注意事項・刷卡指南</button>
-   <button id="moreExchange">💳 支付・加值</button>
+   <button id="moreAirport">✈️ 出國注意事項</button>
+   <button id="moreExchange">💱 換錢與儲值</button>
    <button id="moreFinance">💰 旅行分帳</button>
    <button id="moreShareTrip">📤 分享旅行</button>
    <button id="moreTravel">🧳 旅行模式</button>
@@ -1320,8 +1378,8 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
  <div class="sheet-head"><span>更多工具</span><button class="sheet-close" data-app-sheet-close>完成</button></div>
  <div class="sheet-body app-action-list">
   <button id="appMoreFinance">💰 旅行分帳<small>旅伴、消費、匯率與結算。</small></button>
-  <button id="appMoreExchange">💳 支付・加值<small>換錢、T-money 與 WOWPASS 加值點。</small></button>
-  <button id="appMoreAirport">✈️ 出國注意事項・刷卡指南<small>行李清單、入境、支付回饋與金海機場。</small></button>
+  <button id="appMoreExchange">💱 換錢與儲值<small>換錢、T-money 與 WOWPASS 加值點。</small></button>
+  <button id="appMoreAirport">✈️ 出國注意事項<small>行李清單、入境與金海機場。</small></button>
   <button id="appMoreShare">📤 分享旅行<small>Day 行程圖、旅伴分享碼與手機分享。</small></button>
   <button id="appMoreCustom">📌 手動新增<small>一般先用景點搜尋；找不到時再手動補上資料。</small></button>
   <button id="appMoreTheme">🎨 外觀主題<small>CNBLUE 藍色預設，也可自訂主色與背景。</small></button>
@@ -1403,7 +1461,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
    <div class="tutorial-section"><h3>① 找景點｜搜尋、看分布、收藏</h3><ol><li>底部點「📍 景點」。</li><li>在搜尋框輸入店名、景點或地址，例如 <b>olive young</b>，再按「搜尋」。</li><li>搜尋到幾筆，地圖就會同步顯示幾個紅色圓點；點圓點可對應到該筆結果。</li><li>要找離自己最近的分店，按「📍 附近」並允許定位；結果會依距離由近到遠排序。</li><li>確定地點後按「♡ 收藏」，或按「＋ 加入 Day X」直接排行程。</li></ol><div class="tutorial-tip">找不到時：先補「分店／行政區／韓文原名」再搜；仍找不到才用「手動新增」。</div></div>
    <div class="tutorial-section"><h3>② 排行程｜加入 Day、調順序、補時間</h3><ol><li>底部點「📅 行程」，選擇要編輯的 Day。</li><li>從景點搜尋結果按「＋ 加入 Day X」，或在行程頁按「＋ 新增景點」。</li><li>長按／拖曳行程卡調整先後順序；點行程卡可修改時間、停留時間、備註與交通方式。</li><li>按「✨ 順路排序」可依地理位置協助重排；完成後仍可手動微調。</li><li>按「🗺️ 查看 Day 地圖」確認當天景點分布與順序。</li></ol></div>
    <div class="tutorial-section"><h3>③ 旅行當天｜設定今天、看位置、直接導航</h3><ol><li>首頁「今天是」選擇實際旅行 Day；首頁會同步顯示該日行程。</li><li>點今日行程中的「地圖」或進「行程 → 查看 Day 地圖」，確認下一站位置。</li><li>點景點卡開啟詳情，再按「🧭 Naver 導航」開始實際移動。</li><li>臨時想去附近分店：到「景點」搜尋後按「附近」，系統會定位並把最近結果排最前面。</li><li>回住宿或前往機場時，從首頁直接進「住宿」或「出國」，不用重新搜尋交通資料。</li></ol></div>
-   <div class="tutorial-section"><h3>④ 換錢、T-money、WOWPASS 與刷卡</h3><ol><li>首頁點「💳 支付・加值」。</li><li>上方切換「換錢所／T-money／WOWPASS」，地圖與清單會切到對應候選地點。</li><li>人在外面時按「📍 搜尋我附近」；允許定位後，地圖會回到你附近並重新查詢。</li><li>需要比較信用卡時：首頁「✈️ 出國資訊」→「刷卡・支付」，查看本次旅程卡片排序、回饋與封頂。</li><li>實際刷卡前仍以銀行 App／活動登錄狀態為準；交通卡或機台是否可用則以現場為準。</li></ol></div>
+   <div class="tutorial-section"><h3>④ 換錢、T-money、WOWPASS 與刷卡</h3><ol><li>首頁點「💱 換錢與儲值」。</li><li>上方切換「換錢所／T-money／WOWPASS」，地圖與清單會切到對應候選地點。</li><li>人在外面時按「📍 搜尋我附近」；允許定位後，地圖會回到你附近並重新查詢。</li><li>需要比較信用卡時：首頁「💳 刷卡與支付」，查看本次旅程卡片排序、回饋與封頂。</li><li>實際刷卡前仍以銀行 App／活動登錄狀態為準；交通卡或機台是否可用則以現場為準。</li></ol></div>
    <div class="tutorial-section"><h3>⑤ 住宿、機場與官方資訊</h3><ol><li>首頁點「🏨 住宿」，上方可直接切 Marianne Hotel／黃老師海景民宿。</li><li>住宿頁會列出機場巴士、輕軌＋地鐵與 Naver 導航入口；手機版內容會自動縮排成單欄，不需要左右拖頁面。</li><li>首頁點「✈️ 出國資訊」查看入境、回程、交通、行李、退稅與「官方資訊」。</li><li>進「ℹ️ 官方資訊」後，可按「🔄 檢查最新資訊」重新檢查 KAC／釜山市官方來源。</li><li>班次、櫃檯、臨時停駛等高變動資訊，出發當日再按官方連結做最後確認。</li></ol></div>
    <div class="tutorial-section"><h3>⑥ 分帳、分享與資料備份</h3><ol><li>手機底部「☰ 更多」→「💰 旅行分帳」；新增旅伴後輸入消費、付款人、參與者與幣別，再按「儲存消費」。</li><li>「📤 分享旅行」可輸出 Day 行程圖，或產生分享碼給同行者。</li><li>「🎨 外觀主題」可切換 FNC 五團主題。</li><li>換手機、清除瀏覽器資料或重新部署前，先在「更多」備份旅程狀態；匯入前也先保留舊資料。</li></ol><div class="tutorial-tip">第一次使用只要完成：找景點 → 收藏／加 Day → 排順序 → 設定今天，就已經能直接旅行。</div></div>
   </div>
@@ -1418,7 +1476,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 <div class="exchange-hub" id="exchangeHub">
  <div class="exchange-card">
   <div class="exchange-head">
-   <strong>💳 支付・加值</strong>
+   <strong>💱 換錢與儲值</strong>
    <small id="exchangeStatus">Kakao 地圖資料準備中…</small>
    <button id="exchangeToggleMarkers">隱藏地圖標記</button>
    <button class="close-ex" id="closeExchangeHub">關閉</button>
@@ -1444,7 +1502,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 <div class="airport-hub" id="airportHub">
  <div class="airport-card">
   <div class="airport-head">
-   <strong>✈ 出國注意事項及刷卡指南｜金海機場 PUS</strong>
+   <strong>✈ 出國注意事項｜金海機場 PUS</strong>
    <small id="airportDataStatus">重點資訊重新核對至 2026-09-09｜交通班次、櫃檯與營運仍以出發當日官方公告為準</small>
    <button class="airport-official" id="airportRefreshStatus">🔄 檢查最新資訊</button>
    <button class="airport-nav" id="airportNaverNav">🧭 Naver 導航到機場</button>
@@ -4248,7 +4306,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.11.20";
+const beta211Version="2.11.21";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4274,7 +4332,7 @@ function buildShell211(){
     <section class="home211-today"><div class="home211-today-bar"><small>今日行程</small><label class="home211-day-picker">今天是 <select id="homeTodaySelect211" aria-label="設定今天是第幾天"></select></label></div><h2 id="dashboardTodayTitle">Day 1</h2><p id="dashboardTodayMeta">今天的行程</p><div class="home211-list" id="homeTodayList211"></div><div class="home211-today-actions"><button class="primary" id="dashboardTodayOpen">查看完整行程</button><button class="secondary" id="homeFind211">＋ 找景點</button></div></section>
     <aside class="home211-side"><button class="home211-action" id="homeSpots211"><b>📍 找景點</b><span>搜尋、收藏、直接加入今天或指定 Day。</span></button><button class="home211-action" id="homeExpense211"><b>💰 記一筆消費</b><span>旅行中快速新增分帳紀錄。</span></button><div class="home211-metrics"><div class="home211-metric"><b id="homeWish211">0</b><span>想去</span></div><div class="home211-metric"><b id="homeItin211">0</b><span>已排行程</span></div></div></aside>
    </div>
-   <div class="home211-tools"><button id="homeSaved211"><span class="home-tool-ico">♥</span><span class="home-tool-copy"><b>收藏景點</b><small>查看已收藏、想去與自行加入的景點</small></span></button><button id="homeAirport211"><span class="home-tool-ico">✈️</span><span class="home-tool-copy"><b>出國資訊</b><small>行李、入境、機場流程與刷卡提醒</small></span></button><button id="homePayment211"><span class="home-tool-ico">💳</span><span class="home-tool-copy"><b>支付・加值</b><small>信用卡、LINE Pay、悠遊付與換錢資訊</small></span></button><button id="homeLodging2118"><span class="home-tool-ico">🏨</span><span class="home-tool-copy"><b>住宿</b><small>住宿位置、機場巴士與回程交通</small></span></button></div>`;
+   <div class="home211-tools"><button id="homeSaved211"><span class="home-tool-ico">♥</span><span class="home-tool-copy"><b>收藏景點</b><small>查看已收藏、想去與自行加入的景點</small></span></button><button id="homeAirport211"><span class="home-tool-ico">✈️</span><span class="home-tool-copy"><b>出國資訊</b><small>行李、入境、金海機場與往返交通</small></span></button><button id="homePayment211"><span class="home-tool-ico">💳</span><span class="home-tool-copy"><b>換錢與儲值</b><small>換錢所、T-money 與 WOWPASS 機台</small></span></button><button id="homeLodging2118"><span class="home-tool-ico">🏨</span><span class="home-tool-copy"><b>住宿</b><small>住宿位置、機場巴士與回程交通</small></span></button></div>`;
 
   // Desktop trip rail.
   const main=document.querySelector(".main");
@@ -4301,8 +4359,8 @@ function buildShell211(){
 
   // More is grouped; main navigation does not duplicate these tools.
   const moreBody=document.querySelector("#appMoreSheet .app-action-list");
-  if(moreBody){moreBody.innerHTML=`<div class="more-group211"><h4>旅行工具</h4><button id="more211Finance">💰 旅行分帳<small>旅伴、消費、匯率與結算</small></button><button id="more211Share">📤 分享旅行<small>Day 行程圖與分享碼</small></button></div><div class="more-group211"><h4>韓國旅行</h4><button id="more211Lodging">🏨 住宿與機場巴士<small>Marianne Hotel、黃老師海景民宿與機場往返</small></button><button id="more211Airport">✈️ 出國注意事項<small>行李、入境、機場與刷卡指南</small></button><button id="more211Pay">💳 支付・加值<small>換錢、T-money、WOWPASS</small></button></div><div class="more-group211"><h4>景點與 App</h4><button id="more211Manual">📌 手動新增<small>搜尋不到時手動補資料</small></button><button id="more211Theme">🎨 外觀主題<small>主題色與背景</small></button><button id="more211Tutorial">❓ 使用教學<small>重新查看操作方式</small></button></div>`}
-  moreMenu.innerHTML=`<button id="desk211Finance">💰 旅行分帳</button><button id="desk211Share">📤 分享旅行</button><button id="desk211Airport">✈️ 出國注意事項</button><button id="desk211Pay">💳 支付・加值</button><button id="desk211Manual">📌 手動新增</button><button id="desk211Theme">🎨 外觀主題</button><button id="desk211Tutorial">❓ 使用教學</button>`;
+  if(moreBody){moreBody.innerHTML=`<div class="more-group211"><h4>旅行工具</h4><button id="more211Finance">💰 旅行分帳<small>旅伴、消費、匯率與結算</small></button><button id="more211Share">📤 分享旅行<small>Day 行程圖與分享碼</small></button></div><div class="more-group211"><h4>韓國旅行</h4><button id="more211Lodging">🏨 住宿與機場巴士<small>Marianne Hotel、黃老師海景民宿與機場往返</small></button><button id="more211Airport">✈️ 出國注意事項<small>行李、入境、機場與交通資訊</small></button><button id="more211Pay">💱 換錢與儲值<small>換錢、T-money、WOWPASS</small></button></div><div class="more-group211"><h4>景點與 App</h4><button id="more211Manual">📌 手動新增<small>搜尋不到時手動補資料</small></button><button id="more211Theme">🎨 外觀主題<small>主題色與背景</small></button><button id="more211Tutorial">❓ 使用教學<small>重新查看操作方式</small></button></div>`}
+  moreMenu.innerHTML=`<button id="desk211Finance">💰 旅行分帳</button><button id="desk211Share">📤 分享旅行</button><button id="desk211Airport">✈️ 出國注意事項</button><button id="desk211Pay">💱 換錢與儲值</button><button id="desk211Manual">📌 手動新增</button><button id="desk211Theme">🎨 外觀主題</button><button id="desk211Tutorial">❓ 使用教學</button>`;
 
   // Advanced custom-page wording.
   const cp=document.querySelector("#customPlacesModal .custom-page-head h2");if(cp)cp.innerHTML='📌 手動新增／編輯景點 <span class="localfirst-badge">儲存在這台裝置</span>';
@@ -4546,7 +4604,7 @@ function enhanceShell2118(){
  const toolbar=document.querySelector(".toolbar"),more=document.getElementById("moreBtn");
  if(toolbar&&!document.getElementById("desktopQuick2118")){
   const q=document.createElement("div");q.id="desktopQuick2118";q.className="desktop-quick2118";
-  q.innerHTML='<button id="deskLodging2118">🏨 住宿</button><button id="deskAirport2118">✈️ 出國</button><button id="deskPay2118">💳 支付</button><button class="optional2118" id="deskFinance2118">💰 分帳</button>';
+  q.innerHTML='<button id="deskLodging2118">🏨 住宿</button><button id="deskAirport2118">✈️ 出國</button><button id="deskPay2118">💱 換錢與儲值</button><button class="optional2118" id="deskFinance2118">💰 分帳</button>';
   more.insertAdjacentElement("afterend",q);
   document.getElementById("deskLodging2118").onclick=openLodging2118;
   document.getElementById("deskAirport2118").onclick=()=>{hideDashboard();openAirportHub()};
@@ -4715,6 +4773,143 @@ enhanceShell2118=function(){
 const setMapEngine2120Base=setMapEngine;
 setMapEngine=function(engine){const r=setMapEngine2120Base(engine);setTimeout(()=>{if(externalSearchActive2118)renderExternalSearchPins2120({fit:false})},120);return r};
 
+
+
+// ============================================================
+// BETA 2.11.21 — numbered search pins / desktop direct actions /
+// full-app themes / split payment guide from airport information
+// ============================================================
+function shortPlaceName2121(name){
+ const t=String(name||'地點').replace(/\s+/g,' ').trim();
+ return t.length>18?t.slice(0,18)+'…':t;
+}
+function decorateExternalResults2121(){
+ document.querySelectorAll('#placeSearchResults .external-place-card').forEach((card,i)=>{
+  const h=card.querySelector('h4');
+  if(h&&!h.querySelector('.search-rank2121'))h.insertAdjacentHTML('afterbegin',`<span class="search-rank2121" aria-label="搜尋排序 ${i+1}">${i+1}</span>`);
+  card.dataset.searchIndex=String(i);
+  card.title=`搜尋結果 ${i+1}｜${externalPlaceResults?.[i]?.name||''}`;
+  card.onclick=e=>{if(e.target.closest('button,a'))return;highlightExternalResult2120(i);const p=externalPlaceResults?.[i];if(p&&validGeo(Number(p.lat),Number(p.lon))){map.flyTo([Number(p.lat),Number(p.lon)],Math.max(14,map.getZoom()),{duration:.45});showSearchPreviewCard2105(i)}};
+ });
+}
+async function syncKakaoExternalSearchPins2121(){
+ clearKakaoExternalSearchPins2120();
+ if(state.mapEngine!=='kakao'||!externalSearchActive2118||!externalPlaceResults?.length)return;
+ try{
+  await ensureKakaoMap();const bounds=new kakao.maps.LatLngBounds();
+  externalPlaceResults.slice(0,20).forEach((p,i)=>{
+   if(!validGeo(Number(p.lat),Number(p.lon)))return;
+   const pos=new kakao.maps.LatLng(Number(p.lat),Number(p.lon));bounds.extend(pos);
+   const el=document.createElement('button');el.type='button';el.className='kakao-search-pin2121';el.title=`${i+1}. ${p.name||'搜尋結果'}`;el.setAttribute('aria-label',el.title);
+   el.innerHTML=`<span class="pin-num2121">${i+1}</span><span class="pin-name2121">${escapeHTML(shortPlaceName2121(p.name))}</span>`;
+   el.onclick=e=>{e.preventDefault();e.stopPropagation();try{kakao.maps.event.preventMap()}catch(_){}highlightExternalResult2120(i);showSearchPreviewCard2105(i)};
+   const o=new kakao.maps.CustomOverlay({position:pos,content:el,xAnchor:.5,yAnchor:.5,zIndex:12});o.setMap(kakaoMap);kakaoExternalSearchOverlays2120.push(o);
+  });
+  if(externalPlaceResults.length>1)kakaoMap.setBounds(bounds);else if(externalPlaceResults.length===1){const p=externalPlaceResults[0];kakaoMap.setCenter(new kakao.maps.LatLng(Number(p.lat),Number(p.lon)));kakaoMap.setLevel(4)}
+ }catch(e){console.warn('Kakao numbered external search markers',e)}
+}
+syncKakaoExternalSearchPins2120=syncKakaoExternalSearchPins2121;
+renderExternalSearchPins2120=function({fit=true}={}){
+ clearExternalSearchPins2120();decorateExternalResults2121();
+ if(!externalSearchActive2118||!externalPlaceResults?.length)return;
+ const pts=[];
+ externalPlaceResults.slice(0,20).forEach((p,i)=>{
+  if(!validGeo(Number(p.lat),Number(p.lon)))return;
+  const lat=Number(p.lat),lon=Number(p.lon),label=shortPlaceName2121(p.name);pts.push([lat,lon]);
+  const icon=L.divIcon({className:'search-map-icon2121',html:`<div class="search-map-pin2121" title="${escapeAttr(`${i+1}. ${p.name||'搜尋結果'}`)}"><b>${i+1}</b><span>${escapeHTML(label)}</span></div>`,iconSize:[28,28],iconAnchor:[14,14]});
+  const mk=L.marker([lat,lon],{icon,pane:'markerPane',riseOnHover:true}).addTo(externalSearchLayer2120);
+  mk.bindTooltip(`${i+1}. ${escapeHTML(p.name||'搜尋結果')}`,{direction:'top',offset:[0,-16]});
+  mk.on('click',()=>{highlightExternalResult2120(i);showSearchPreviewCard2105(i)});
+ });
+ if(fit&&pts.length){const bounds=L.latLngBounds(pts);if(state.currentLocation&&validGeo(Number(state.currentLocation.lat),Number(state.currentLocation.lon)))bounds.extend([Number(state.currentLocation.lat),Number(state.currentLocation.lon)]);const mobile=window.innerWidth<=900;map.fitBounds(bounds,{paddingTopLeft:[28,28],paddingBottomRight:mobile?[28,Math.min(390,Math.round(window.innerHeight*.42))]:[28,28],maxZoom:15,animate:true})}
+ syncKakaoExternalSearchPins2121();
+};
+
+// Make theme state visible throughout the UI instead of a single primary button.
+const applyTheme2121Base=applyTheme2105;
+applyTheme2105=function(t=themeState2105(),save=false){
+ applyTheme2121Base(t,save);
+ const preset=THEME_PRESETS_2105[t.preset]||THEME_PRESETS_2105.cnblue;
+ document.documentElement.dataset.themePreset=t.preset||'cnblue';
+ document.body.dataset.themePreset=t.preset||'cnblue';
+ const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',t.preset==='custom'?(t.accent||preset.accent):preset.accent);
+};
+
+const AIRPORT_NORMAL_TITLE_2121='✈ 出國注意事項｜金海機場 PUS';
+const AIRPORT_NORMAL_STATUS_2121='重點資訊重新核對至 2026-09-09｜交通班次、櫃檯與營運仍以出發當日官方公告為準';
+const openAirportHub2121Base=openAirportHub;
+const closeAirportHub2121Base=closeAirportHub;
+function resetAirportStandalone2121(){
+ const hub=document.getElementById('airportHub');hub?.classList.remove('payment-guide-standalone2121');
+ const title=hub?.querySelector('.airport-head strong');if(title)title.textContent=AIRPORT_NORMAL_TITLE_2121;
+ const st=document.getElementById('airportDataStatus');if(st)st.textContent=AIRPORT_NORMAL_STATUS_2121;
+}
+function openPaymentGuide2121(){
+ hideDashboard?.();closeAppSheets2104?.();moreMenu?.classList.remove('show');
+ const hub=document.getElementById('airportHub');hub?.classList.add('payment-guide-standalone2121');
+ const title=hub?.querySelector('.airport-head strong');if(title)title.textContent='💳 刷卡與支付方式｜韓國';
+ const st=document.getElementById('airportDataStatus');if(st)st.textContent='信用卡、LINE Pay、TWQR／悠遊付與韓國付款注意事項｜回饋依銀行與活動最終認列為準';
+ openAirportHub2121Base('payguide');
+ hub?.classList.add('payment-guide-standalone2121');
+}
+openAirportHub=function(tab='prep'){
+ if(tab==='payguide')return openPaymentGuide2121();
+ resetAirportStandalone2121();return openAirportHub2121Base(tab);
+};
+closeAirportHub=function(){resetAirportStandalone2121();return closeAirportHub2121Base()};
+
+function relabelMoneyAndPayment2121(){
+ const txt=(id,label)=>{const el=document.getElementById(id);if(el)el.textContent=label};
+ txt('dashExchange','💱 換錢與儲值');txt('exchangeBtn','💱 換錢與儲值');txt('moreExchange','💱 換錢與儲值');txt('appMoreExchange','💱 換錢與儲值');
+ const eh=document.querySelector('#exchangeHub .exchange-head strong');if(eh)eh.textContent='💱 換錢與儲值';
+ const airportTitle=document.querySelector('#airportHub .airport-head strong');if(airportTitle&&!document.getElementById('airportHub')?.classList.contains('payment-guide-standalone2121'))airportTitle.textContent=AIRPORT_NORMAL_TITLE_2121;
+ const airportPayTab=document.querySelector('#airportTabs [data-airtab="payguide"]');if(airportPayTab)airportPayTab.setAttribute('aria-hidden','true');
+ const homeAirport=document.querySelector('#homeAirport211 .home-tool-copy');if(homeAirport)homeAirport.innerHTML='<b>出國資訊</b><small>行李、入境、金海機場與往返交通</small>';
+ const homeMoney=document.querySelector('#homePayment211 .home-tool-copy');if(homeMoney)homeMoney.innerHTML='<b>換錢與儲值</b><small>換錢所、T-money 與 WOWPASS 機台</small>';
+ const homeMoneyIcon=document.querySelector('#homePayment211 .home-tool-ico');if(homeMoneyIcon)homeMoneyIcon.textContent='💱';
+ const mobileMoney=document.getElementById('more211Pay');if(mobileMoney)mobileMoney.innerHTML='💱 換錢與儲值<small>換錢所、T-money 與 WOWPASS。</small>';
+ const appAirport=document.getElementById('appMoreAirport');if(appAirport)appAirport.innerHTML='✈️ 出國注意事項<small>行李、入境與金海機場資訊。</small>';
+ // Tutorial wording follows the split navigation.
+ document.querySelectorAll('.tutorial-section').forEach(sec=>{sec.innerHTML=sec.innerHTML.replaceAll('💳 支付・加值','💱 換錢與儲值').replaceAll('首頁點「💳 支付・加值」','首頁點「💱 換錢與儲值」').replaceAll('首頁「💳 刷卡與支付」','首頁「💳 刷卡與支付」')});
+}
+
+function rebuildDesktopDirectNav2121(){
+ const q=document.getElementById('desktopQuick2118'),more=document.getElementById('moreBtn');if(!q)return;
+ if(more)more.style.display='none';
+ q.innerHTML=`<button id="deskLodging2121">🏨 住宿</button><button id="deskAirport2121">✈️ 出國</button><button id="deskMoney2121">💱 換錢與儲值</button><button id="deskCardPay2121">💳 刷卡與支付</button><button id="deskFinance2121">💰 分帳</button><button id="deskShare2121">📤 分享</button><button id="deskManual2121">📌 新增</button><button id="deskTheme2121">🎨 主題</button><button id="deskTutorial2121">❓ 教學</button>`;
+ document.getElementById('deskLodging2121').onclick=openLodging2118;
+ document.getElementById('deskAirport2121').onclick=()=>{hideDashboard();openAirportHub('prep')};
+ document.getElementById('deskMoney2121').onclick=()=>{hideDashboard();showExchangeHub()};
+ document.getElementById('deskCardPay2121').onclick=openPaymentGuide2121;
+ document.getElementById('deskFinance2121').onclick=()=>{hideDashboard();openFinance()};
+ document.getElementById('deskShare2121').onclick=()=>{openShareHub();setShareTab2104?.('send')};
+ document.getElementById('deskManual2121').onclick=openManualPlace211;
+ document.getElementById('deskTheme2121').onclick=openTheme2105;
+ document.getElementById('deskTutorial2121').onclick=openTutorial;
+}
+function addDirectPaymentEntries2121(){
+ const tools=document.querySelector('.home211-tools');
+ if(tools&&!document.getElementById('homeCardPay2121')){
+  const b=document.createElement('button');b.id='homeCardPay2121';b.innerHTML='<span class="home-tool-ico">💳</span><span class="home-tool-copy"><b>刷卡與支付</b><small>信用卡、LINE Pay、TWQR／悠遊付與回饋</small></span>';
+  const lodging=document.getElementById('homeLodging2118');tools.insertBefore(b,lodging||null);b.onclick=openPaymentGuide2121;
+ }
+ if(tools&&!document.getElementById('homeShare2121')){
+  const b=document.createElement('button');b.id='homeShare2121';b.innerHTML='<span class="home-tool-ico">📤</span><span class="home-tool-copy"><b>分享旅行</b><small>Day 行程圖、分享碼與旅伴資料交換</small></span>';tools.appendChild(b);b.onclick=()=>{openShareHub();setShareTab2104?.('send')};
+ }
+ const morePay=document.getElementById('more211Pay');if(morePay&&!document.getElementById('more211CardPay2121')){
+  const b=document.createElement('button');b.id='more211CardPay2121';b.innerHTML='💳 刷卡與支付<small>信用卡、LINE Pay、TWQR／悠遊付與回饋。</small>';morePay.insertAdjacentElement('afterend',b);b.onclick=openPaymentGuide2121;
+ }
+}
+
+const enhanceShell2121Base=enhanceShell2118;
+enhanceShell2118=function(){
+ enhanceShell2121Base();
+ relabelMoneyAndPayment2121();rebuildDesktopDirectNav2121();addDirectPaymentEntries2121();applyTheme2105();
+ const close=document.getElementById('closeAirportHub');if(close)close.onclick=closeAirportHub;
+ const moneyHome=document.getElementById('homePayment211');if(moneyHome)moneyHome.onclick=()=>{hideDashboard();showExchangeHub()};
+ const airportHome=document.getElementById('homeAirport211');if(airportHome)airportHome.onclick=()=>{hideDashboard();openAirportHub('prep')};
+ const mobilePay=document.getElementById('more211CardPay2121');if(mobilePay)mobilePay.onclick=openPaymentGuide2121;
+};
 
 buildShell211();enhanceShell2118();renderHome211();renderTripRail211();
 
