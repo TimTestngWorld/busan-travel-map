@@ -1,3 +1,12 @@
+# Beta 2.12.5｜2026-09-09
+
+- 修正 2.12.2 舊 Service Worker / HTTP Cache 可能讓 GitHub 已更新、裝置仍停在舊版的更新鎖死。
+- 新增 `reset-pwa.html`：只解除 Service Worker 與 `busan-travel-*` PWA Cache，不刪除 Day、收藏、自訂景點、備註、分帳、localStorage 或 IndexedDB。
+- 新增 `version.json` 與 App 內遠端版本檢查；偵測新版時可直接「立即更新」。
+- Service Worker 安裝改為 best-effort precache，單一資產暫時失敗不再阻止新版 SW 啟用。
+- 在線 navigation 永遠使用 `no-store` 取最新 HTML；只有離線時才回退到快取 App shell。
+- 保留 Beta 2.12.4 手機地圖 recovery 與三段可拖曳景點面板。
+
 # Beta 2.12.4｜PWA 更新鎖定與手機拖曳修正版（2026-09-09）
 
 - 修正 GitHub 已部署新檔，但桌機／手機仍停在舊 Beta 的問題：Service Worker 導航與核心檔改成 network-first + `cache: no-store`，新版本預快取也強制 `cache: reload`，避免舊 HTTP cache 再被灌進新 PWA cache。
