@@ -2,7 +2,15 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=8,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=8,user-scalable=yes,viewport-fit=cover">
+<meta name="theme-color" content="#1769aa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="釜山地圖">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
 <title>釜山旅行地圖</title>
 
 <style>
@@ -1233,6 +1241,21 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
 .search-page-cap2120{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:999px;background:#eef4f8;color:#44687e;font-size:10px;font-weight:850}
 @media(max-width:900px){.search-pager2120{padding:10px 5px 5px}.search-pager2120 button{min-height:44px;font-size:13px}.search-pager2120 small{font-size:11px}}
 
+
+
+/* ===== Beta 2.12.1｜PWA install / offline / standalone ===== */
+.pwa-offline-banner2121{display:none;position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);z-index:12000;width:min(720px,calc(100% - 20px));border:1px solid #e2b95e;border-radius:12px;background:#fff6d8;color:#665021;padding:9px 12px;box-shadow:0 6px 22px #42320f24;font-size:12px;font-weight:850;line-height:1.45;text-align:center}
+.pwa-offline-banner2121.show{display:block}
+.pwa-hub2121{display:none;position:fixed;inset:0;z-index:11500;background:#13212b88;padding:18px;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.pwa-hub2121.show{display:flex}.pwa-card2121{width:min(620px,96vw);max-height:min(88dvh,760px);overflow:auto;background:#fff;border:1px solid #dce5ea;border-radius:22px;box-shadow:0 22px 70px #0b23364d;padding:20px}
+.pwa-head2121{display:flex;align-items:center;gap:12px}.pwa-head2121 img{width:58px;height:58px;border-radius:16px}.pwa-head-copy2121{min-width:0;flex:1}.pwa-head-copy2121 h2{margin:0;color:#243b4a;font-size:21px}.pwa-head-copy2121 p{margin:4px 0 0;color:#71808a;font-size:12px;line-height:1.5}.pwa-close2121{border:0;background:#eef2f4;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer}
+.pwa-status2121{margin:15px 0 10px;border:1px solid #dce7ed;border-radius:14px;background:#f6fafc;padding:12px;font-size:12px;line-height:1.65;color:#48606f}.pwa-status2121 b{color:#203b4d}
+.pwa-grid2121{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pwa-box2121{border:1px solid #e0e5e8;border-radius:14px;padding:12px;background:#fff}.pwa-box2121 b{display:block;font-size:14px;color:#263c49;margin-bottom:5px}.pwa-box2121 span,.pwa-box2121 li{font-size:12px;line-height:1.6;color:#697981}.pwa-box2121 ul,.pwa-box2121 ol{margin:5px 0 0;padding-left:20px}
+.pwa-actions2121{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.pwa-actions2121 button{border:0;border-radius:11px;padding:10px 13px;font-size:13px;font-weight:900;cursor:pointer}.pwa-install2121{background:var(--app-accent,#1769aa);color:#fff}.pwa-secondary2121{background:#edf2f5;color:#365162}.pwa-muted2121{font-size:10px;color:#849097;line-height:1.55;margin-top:10px}
+.pwa-install-entry2121{display:inline-flex!important;align-items:center!important;gap:6px!important}
+@media(max-width:900px){.pwa-hub2121{padding:8px}.pwa-card2121{padding:16px;border-radius:20px}.pwa-grid2121{grid-template-columns:1fr}.pwa-offline-banner2121{top:max(6px,env(safe-area-inset-top));font-size:11px}.app-bottom-nav{bottom:calc(8px + env(safe-area-inset-bottom))!important}.dashboard{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}.mobile-sheet,.app-sheet{padding-bottom:env(safe-area-inset-bottom)}}
+@media(display-mode:standalone){html,body{overscroll-behavior:none}.toolbar{padding-top:max(8px,env(safe-area-inset-top))}.dashboard-shell{padding-top:max(0px,env(safe-area-inset-top))}.pwa-install-entry2121 .pwa-install-label2121:after{content:'（已安裝）';font-size:.78em;opacity:.7}}
+
 </style>
 </head>
 <body>
@@ -1266,6 +1289,7 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
    <button id="dashAirport"><b>✈️ 出國注意事項</b><small>行李、入境、刷卡與金海機場資訊</small></button>
    <button id="dashExchange"><b>💱 換錢與儲值</b><small>換錢、T-money、WOWPASS</small></button>
    <button id="dashTutorial"><b>❓ 使用教學</b><small>第一次使用快速看重點</small></button>
+   <button id="dashInstallPwa2121"><b>📲 安裝 App</b><small>PWA 加到主畫面，核心功能可離線開啟</small></button>
   </div>
  </div>
 </div>
@@ -1412,11 +1436,27 @@ body.spots-saved-mode211 .search-switch2118{display:none!important}
   <button id="appMoreShare">📤 分享旅行<small>Day 行程圖、旅伴分享碼與手機分享。</small></button>
   <button id="appMoreCustom">📌 手動新增<small>一般先用景點搜尋；找不到時再手動補上資料。</small></button>
   <button id="appMoreTheme">🎨 外觀主題<small>CNBLUE 藍色預設，也可自訂主色與背景。</small></button>
+  <button id="appMoreInstallPwa2121">📲 安裝到主畫面<small>PWA App、離線狀態與資料保護。</small></button>
   <button id="appMoreTutorial">❓ 使用教學<small>重新查看手把手操作說明。</small></button>
  </div>
 </div>
 
 
+<div class="pwa-offline-banner2121" id="pwaOfflineBanner2121" role="status">📴 目前離線：已保存的行程／收藏／分帳仍在；即時搜尋、外部地圖底圖與實景照片需要網路。</div>
+<div class="pwa-hub2121" id="pwaHub2121" aria-hidden="true">
+ <section class="pwa-card2121" role="dialog" aria-modal="true" aria-labelledby="pwaTitle2121">
+  <div class="pwa-head2121"><img src="icons/icon-192.png" alt=""><div class="pwa-head-copy2121"><h2 id="pwaTitle2121">📲 安裝釜山旅行地圖</h2><p>Beta 2.12.1 PWA｜加入主畫面、核心離線、資料保護與版本更新。</p></div><button class="pwa-close2121" id="pwaClose2121" type="button" aria-label="關閉">×</button></div>
+  <div class="pwa-status2121" id="pwaStatus2121">正在檢查這台裝置的 PWA 狀態…</div>
+  <div class="pwa-grid2121">
+   <div class="pwa-box2121"><b>✅ 離線仍保留</b><span>App 介面、85 筆基準景點、Day 行程、收藏／已去、自訂景點、備註與分帳資料。資料仍使用原本 IndexedDB＋localStorage，不會因 PWA 更新改掉儲存 Key。</span></div>
+   <div class="pwa-box2121"><b>🌐 仍需網路</b><span>Kakao／OSM 地圖底圖、線上搜尋、Google Places 實景照片、匯率／天氣與官方即時資訊。這些第三方內容不做永久離線快取。</span></div>
+   <div class="pwa-box2121"><b>Android / Chrome / Edge</b><ol><li>按下方「安裝 App」。</li><li>瀏覽器出現安裝視窗後確認。</li><li>之後直接從桌面圖示開啟。</li></ol></div>
+   <div class="pwa-box2121"><b>iPhone / iPad Safari</b><ol><li>用 Safari 開啟本站。</li><li>按「分享」按鈕。</li><li>選「加入主畫面」。</li><li>從主畫面圖示進入即可。</li></ol></div>
+  </div>
+  <div class="pwa-actions2121"><button class="pwa-install2121" id="pwaInstall2121" type="button">📲 安裝 App</button><button class="pwa-secondary2121" id="pwaPersist2121" type="button">🛡️ 檢查本機資料保護</button><button class="pwa-secondary2121" id="pwaRefresh2121" type="button">🔄 檢查 App 更新</button></div>
+  <div class="pwa-muted2121">Service Worker 只快取本站核心檔案與必要程式庫，不會把 Google Places 照片、地圖磚或 Supabase API 回應永久存成離線資料庫。</div>
+ </section>
+</div>
 
 <nav class="app-bottom-nav" id="appBottomNav" aria-label="主要功能">
  <button class="app-nav-btn active" data-nav="home"><span class="nav-ico">🏠</span>首頁</button>
@@ -4336,7 +4376,7 @@ document.getElementById("placeSearchQuery").onkeydown=e=>{if(e.key==="Enter"){e.
 // BETA 2.11.9 — UX POLISH: utility map + airport arrival
 // ============================================================
 let spotsMode211="explore", addTargetDay211=null, spotsExploreQuery211="", spotsSavedQuery211="";
-const beta211Version="2.12.0";
+const beta211Version="2.12.1";
 
 function buildShell211(){
   // Four primary destinations on both desktop and mobile.
@@ -4351,7 +4391,7 @@ function buildShell211(){
   const shell=document.querySelector("#dashboard .dashboard-shell");
   shell.innerHTML=`
    <div class="home211-top">
-    <div class="home211-heading"><div class="home211-kicker">BUSAN TRIP</div><h1 class="home211-title" id="dashboardTitle">釜山旅行</h1><div class="home211-sub" id="dashboardSub">Day 1 · 今天的行程</div><div class="home211-head-actions"><button id="home211Map">🗺️ 查看地圖</button><button class="tutorial" id="homeTutorial21118">❓ 快速教學</button></div></div>
+    <div class="home211-heading"><div class="home211-kicker">BUSAN TRIP</div><h1 class="home211-title" id="dashboardTitle">釜山旅行</h1><div class="home211-sub" id="dashboardSub">Day 1 · 今天的行程</div><div class="home211-head-actions"><button id="home211Map">🗺️ 查看地圖</button><button id="homeInstallPwa2121">📲 安裝 App</button><button class="tutorial" id="homeTutorial21118">❓ 快速教學</button></div></div>
     <section class="home-weather21118" id="homeWeather21118" aria-label="釜山各區即時天氣">
       <div class="home-weather-head21118"><div class="home-weather-title21118"><b>🌤️ 釜山各區即時天氣</b><small id="homeWeatherUpdated21118">各區代表位置 · 載入中</small></div><div class="home-weather-actions21118"><button id="homeWeatherRefresh21118" type="button" title="重新整理天氣">↻ 更新</button><a href="https://open-meteo.com/" target="_blank" rel="noopener">資料來源</a><a href="https://www.weather.go.kr/busan/html/main/" target="_blank" rel="noopener">官方預報</a></div></div>
       <div class="home-weather-stage21118" id="homeWeatherStage21118"><div class="home-weather-loading21118">正在取得各區天氣…</div></div>
@@ -4389,7 +4429,7 @@ function buildShell211(){
 
   // More is grouped; main navigation does not duplicate these tools.
   const moreBody=document.querySelector("#appMoreSheet .app-action-list");
-  if(moreBody){moreBody.innerHTML=`<div class="more-group211"><h4>旅行工具</h4><button id="more211Finance">💰 旅行分帳<small>旅伴、消費、匯率與結算</small></button><button id="more211Share">📤 分享旅行<small>Day 行程圖與分享碼</small></button></div><div class="more-group211"><h4>韓國旅行</h4><button id="more211Lodging">🏨 住宿與機場巴士<small>Marianne Hotel、黃老師海景民宿與機場往返</small></button><button id="more211Airport">✈️ 出國注意事項<small>行李、入境、機場與交通資訊</small></button><button id="more211Pay">💱 換錢與儲值<small>換錢、T-money、WOWPASS</small></button></div><div class="more-group211"><h4>景點與 App</h4><button id="more211Manual">📌 手動新增<small>搜尋不到時手動補資料</small></button><button id="more211Theme">🎨 外觀主題<small>主題色與背景</small></button><button id="more211Tutorial">❓ 使用教學<small>重新查看操作方式</small></button></div>`}
+  if(moreBody){moreBody.innerHTML=`<div class="more-group211"><h4>旅行工具</h4><button id="more211Finance">💰 旅行分帳<small>旅伴、消費、匯率與結算</small></button><button id="more211Share">📤 分享旅行<small>Day 行程圖與分享碼</small></button></div><div class="more-group211"><h4>韓國旅行</h4><button id="more211Lodging">🏨 住宿與機場巴士<small>Marianne Hotel、黃老師海景民宿與機場往返</small></button><button id="more211Airport">✈️ 出國注意事項<small>行李、入境、機場與交通資訊</small></button><button id="more211Pay">💱 換錢與儲值<small>換錢、T-money、WOWPASS</small></button></div><div class="more-group211"><h4>景點與 App</h4><button id="more211Manual">📌 手動新增<small>搜尋不到時手動補資料</small></button><button id="more211Theme">🎨 外觀主題<small>主題色與背景</small></button><button id="more211InstallPwa2121">📲 安裝到主畫面<small>PWA App、離線狀態與資料保護</small></button><button id="more211Tutorial">❓ 使用教學<small>重新查看操作方式</small></button></div>`}
   moreMenu.innerHTML=`<button id="desk211Finance">💰 旅行分帳</button><button id="desk211Share">📤 分享旅行</button><button id="desk211Airport">✈️ 出國注意事項</button><button id="desk211Pay">💱 換錢與儲值</button><button id="desk211Manual">📌 手動新增</button><button id="desk211Theme">🎨 外觀主題</button><button id="desk211Tutorial">❓ 使用教學</button>`;
 
   // Advanced custom-page wording.
@@ -5195,5 +5235,58 @@ if(paymentNearMe2119)paymentNearMe2119.onclick=()=>{if(!navigator.geolocation){t
 
 
 </script>
+
+<script>
+// ===== Beta 2.12.1 PWA shell =====
+(()=>{
+ const PWA_VERSION='2.12.1';
+ const hub=document.getElementById('pwaHub2121'),statusEl=document.getElementById('pwaStatus2121'),offlineBanner=document.getElementById('pwaOfflineBanner2121');
+ let deferredInstallPrompt=null,swRegistration=null;
+ const standalone=()=>window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone===true;
+ const isiOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent||'');
+ const isSafari=()=>/^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(navigator.userAgent||'');
+ const setStatus=(html)=>{if(statusEl)statusEl.innerHTML=html};
+ function closeHub(){hub?.classList.remove('show');hub?.setAttribute('aria-hidden','true')}
+ function openHub(){hub?.classList.add('show');hub?.setAttribute('aria-hidden','false');refreshPwaStatus2121()}
+ window.openPwaHub2121=openHub;
+ function bindEntry(id){const el=document.getElementById(id);if(el){el.classList.add('pwa-install-entry2121');el.onclick=()=>{try{closeAppSheets2104?.();closeAppSheets?.()}catch(_){ } openHub()}}}
+ ['dashInstallPwa2121','appMoreInstallPwa2121','homeInstallPwa2121','more211InstallPwa2121'].forEach(bindEntry);
+ const desktop=document.getElementById('desktopQuick2118');
+ if(desktop&&!document.getElementById('deskInstallPwa2121')){const b=document.createElement('button');b.id='deskInstallPwa2121';b.className='pwa-install-entry2121';b.innerHTML='📲 <span class="pwa-install-label2121">安裝 App</span>';b.onclick=openHub;desktop.appendChild(b)}
+ document.getElementById('pwaClose2121')?.addEventListener('click',closeHub);hub?.addEventListener('click',e=>{if(e.target===hub)closeHub()});
+ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;refreshPwaStatus2121()});
+ window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;localStorage.setItem('busan_pwa_installed_2121','1');refreshPwaStatus2121();try{toast('釜山旅行地圖已安裝到裝置')}catch(_){}});
+ function connectionStatus(){return navigator.onLine?'🟢 目前有網路':'🟠 目前離線'}
+ async function refreshPwaStatus2121(){
+  let storage='';
+  try{if(navigator.storage?.persisted){const ok=await navigator.storage.persisted();storage=ok?'｜本機儲存：已要求持久保護':'｜本機儲存：一般瀏覽器模式'}}catch(_){ }
+  if(standalone())setStatus(`<b>✅ 已以 App 模式開啟</b>｜${connectionStatus()}${storage}<br>核心離線快取版本：Beta ${PWA_VERSION}`);
+  else if(deferredInstallPrompt)setStatus(`<b>✅ 這台裝置可以直接安裝</b>｜${connectionStatus()}${storage}<br>按「安裝 App」即可加入主畫面。`);
+  else if(isiOS())setStatus(`<b>iPhone／iPad：</b>請使用 Safari 的「分享 → 加入主畫面」。｜${connectionStatus()}${storage}`);
+  else setStatus(`<b>瀏覽器尚未提供安裝提示</b>｜${connectionStatus()}${storage}<br>若使用 Chrome／Edge，可從瀏覽器選單找「安裝應用程式／加入主畫面」。`);
+ }
+ window.refreshPwaStatus2121=refreshPwaStatus2121;
+ document.getElementById('pwaInstall2121')?.addEventListener('click',async()=>{
+  if(standalone()){try{toast('目前已經是 PWA App 模式')}catch(_){ }return}
+  if(deferredInstallPrompt){const p=deferredInstallPrompt;deferredInstallPrompt=null;await p.prompt();try{await p.userChoice}catch(_){ }refreshPwaStatus2121();return}
+  if(isiOS()){setStatus(`<b>iPhone／iPad 安裝方式：</b><br>Safari 底部／上方「分享」 → 向下找到「加入主畫面」 → 右上角「加入」。`);return}
+  setStatus(`<b>目前沒有可直接呼叫的安裝視窗。</b><br>請開啟 Chrome／Edge 的瀏覽器選單，選「安裝應用程式」或「加入主畫面」。`)
+ });
+ document.getElementById('pwaPersist2121')?.addEventListener('click',async()=>{
+  if(!navigator.storage?.persist){setStatus('<b>此瀏覽器沒有 StorageManager 持久儲存介面。</b><br>行程仍會照原本 IndexedDB＋localStorage 儲存；請保留「分享旅行／備份」作為換手機備援。');return}
+  try{const granted=await navigator.storage.persist();setStatus(granted?'<b>🛡️ 已取得持久儲存保護。</b><br>瀏覽器會降低自動清理本站 IndexedDB／快取的機率；換手機前仍建議另外備份。':'<b>本次沒有取得持久儲存授權。</b><br>這不影響正常使用；資料仍存在 IndexedDB＋localStorage。重要行程建議另做分享碼／JSON 備份。')}catch(e){setStatus(`<b>資料保護檢查失敗：</b>${String(e?.message||e)}`)}
+ });
+ document.getElementById('pwaRefresh2121')?.addEventListener('click',async()=>{
+  try{if(!swRegistration)swRegistration=await navigator.serviceWorker?.getRegistration();if(swRegistration){await swRegistration.update();setStatus(`<b>🔄 已向伺服器檢查更新。</b><br>目前頁面 Beta ${PWA_VERSION}；若 GitHub 有更新，下一次開啟／重新整理會取得新核心檔案。`)}else setStatus('<b>尚未註冊 Service Worker。</b><br>請確認目前是 HTTPS GitHub Pages，而不是 file:// 本機檔案。')}catch(e){setStatus(`<b>更新檢查失敗：</b>${String(e?.message||e)}`)}
+ });
+ function updateOnlineUI(){if(offlineBanner)offlineBanner.classList.toggle('show',!navigator.onLine);refreshPwaStatus2121();if(navigator.onLine){try{toast('網路已恢復，即時地圖與搜尋可以繼續使用')}catch(_){}}}
+ window.addEventListener('online',updateOnlineUI);window.addEventListener('offline',updateOnlineUI);if(!navigator.onLine)offlineBanner?.classList.add('show');
+ if('serviceWorker' in navigator && location.protocol==='https:'){
+  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(reg=>{swRegistration=reg;reg.update().catch(()=>{});refreshPwaStatus2121()}).catch(e=>{console.warn('PWA service worker registration failed',e);setStatus(`<b>PWA Service Worker 註冊失敗：</b>${String(e?.message||e)}`)});
+ }else if(location.hostname==='localhost'&&'serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(reg=>{swRegistration=reg;refreshPwaStatus2121()}).catch(()=>{})}
+ else refreshPwaStatus2121();
+})();
+</script>
+
 </body>
 </html>

@@ -3,8 +3,8 @@
   "id": "busan",
   "name": "釜山",
   "displayTitle": "釜山旅行地圖",
-  "version": "2.12.0",
-  "subtitle": "Paged search 20→40→60・lazy search photos・3-photo gallery・2026-09-09",
+  "version": "2.12.1",
+  "subtitle": "PWA install・core offline shell・storage protection・paged search 20→40→60・2026-09-09",
   "appName": "travel-map.busan",
   "storageKey": "travelmap_busan_trip_state_v4",
   "legacyStoreKeys": [
