@@ -1,0 +1,9 @@
+{
+  "version": "2.12-final",
+  "label": "2.12 Final",
+  "build": "2026-09-10",
+  "channel": "final",
+  "cacheNavigation": "network-first-no-store",
+  "offlineShell": true,
+  "revision": "final-global-regression"
+}
