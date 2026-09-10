@@ -1,0 +1,9 @@
+{
+  "version": "2.12-final-hf2",
+  "label": "2.12 Final HF2",
+  "build": "2026-09-10",
+  "channel": "final",
+  "cacheNavigation": "network-first-no-store",
+  "offlineShell": true,
+  "revision": "final-hf2-day-map-preview-export-fit"
+}
