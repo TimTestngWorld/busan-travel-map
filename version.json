@@ -1,0 +1,9 @@
+{
+  "version": "2.12-final-hf5",
+  "label": "2.12 Final HF5",
+  "build": "2026-09-10",
+  "channel": "final",
+  "cacheNavigation": "network-first-no-store",
+  "offlineShell": true,
+  "revision": "final-hf5-2026-field-guide-53-media-official-refresh"
+}
